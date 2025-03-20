@@ -31,6 +31,22 @@
               </li>
         </ul>
       </li><!-- End Settings Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-gear-wide-connected"></i><span>Master Settings</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="master-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+              <li>
+                <a href="{{ route('create.generalSetting')}}">
+                  <i class="bi bi-circle"></i><span>General Settings</span>
+                </a>
+              </li>
+
+
+        </ul>
+      </li><!-- End Master Setting -->
+
     </ul>
 
   </aside><!-- End Sidebar-->

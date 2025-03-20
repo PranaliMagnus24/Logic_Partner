@@ -15,5 +15,6 @@ use Modules\GeneralSetting\App\Http\Controllers\GeneralSettingController;
 */
 
 Route::group([], function () {
-    Route::resource('generalsetting', GeneralSettingController::class)->names('generalsetting');
+    Route::get('general/settings',[GeneralSettingController::class,'index'])->name('create.generalSetting');
+    Route::post('general/settings',[GeneralSettingController::class,'store'])->name('store.generalSetting');
 });
