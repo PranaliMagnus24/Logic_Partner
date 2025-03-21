@@ -4,6 +4,6 @@
     </div>
     <div class="credits">
 
-      Designed by <a href="https://bootstrapmade.com/">MagnusIdeas</a>
+      Designed by & Developed<a href="https://bootstrapmade.com/">MagnusIdeas</a>
     </div>
   </footer><!-- End Footer -->

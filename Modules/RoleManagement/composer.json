@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/rolemanagement",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\RoleManagement\\": "",
+            "Modules\\RoleManagement\\App\\": "app/",
+            "Modules\\RoleManagement\\Database\\Factories\\": "database/factories/",
+            "Modules\\RoleManagement\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\RoleManagement\\Tests\\": "tests/"
+        }
+    }
+}

@@ -4,7 +4,7 @@
 @endphp
 
 <div class="d-flex align-items-center justify-content-between">
-    <a href="{{ route('dashboard') }}" class="logo d-flex align-items-center">
+    <a href="{{ route('admin.dashboard') }}" class="logo d-flex align-items-center">
         @if($getSetting && $getSetting->header_logo)
             <img src="{{ url('upload/general_setting/' . $getSetting->header_logo) }}" alt="{{ $getSetting->website_name }} Logo" style="max-height: 40px;">
         @endif
@@ -174,7 +174,7 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="{{ asset('admin/assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
-            {{-- <span class="d-none d-md-block dropdown-toggle ps-2"> {{ Auth::user()->name }}</span> --}}
+            <span class="d-none d-md-block dropdown-toggle ps-2"> {{ Auth::user()->name }}</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">

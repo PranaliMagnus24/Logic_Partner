@@ -1,3 +1,5 @@
 {
-    "GeneralSetting": true
+    "GeneralSetting": true,
+    "MasterSetting": true,
+    "RoleManagement": true
 }

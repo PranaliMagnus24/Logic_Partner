@@ -1,0 +1,11 @@
+{
+    "name": "RoleManagement",
+    "alias": "rolemanagement",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RoleManagement\\App\\Providers\\RoleManagementServiceProvider"
+    ],
+    "files": []
+}
