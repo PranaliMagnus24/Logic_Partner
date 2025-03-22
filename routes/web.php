@@ -16,7 +16,7 @@ use App\Http\Controllers\Admin\EnquiryManagement\EnquiryManagementController;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('index');
 });
 
 // Route::get('/dashboard', function () {
@@ -43,5 +43,5 @@ Route::get('/enquiry/{id}/delete',[EnquiryManagementController::class, 'deleteEn
 
 });
 
-Route::get('/index/dashboard', [AdminController::class, 'index'])->name('index.dashboard');
+// Route::get('/', [AdminController::class, 'index'])->name('index.dashboard');
 require __DIR__.'/auth.php';

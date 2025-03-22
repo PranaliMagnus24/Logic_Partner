@@ -18,18 +18,18 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="">Name</label>
-                                <input type="text" name="name" class="form-control">
+                                <input type="text" name="name" class="form-control" value="{{ old('name')}}">
 
                             </div>
                             <div class="col-md-6">
                                 <label for="">Email</label>
-                                <input type="text" name="email" class="form-control">
+                                <input type="email" name="email" class="form-control" value="{{ old('email')}}">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="">Password</label>
-                                <input type="text" name="password" class="form-control">
+                                <input type="password" name="password" class="form-control" value="{{ old('password')}}">
                             </div>
                             <div class="col-md-6">
                                 <label for="roles" class="form-label">Roles</label>

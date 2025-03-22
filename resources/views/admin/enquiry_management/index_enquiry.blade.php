@@ -19,9 +19,22 @@
                                 </button>
                             </div>
                         </form>
-                        @can('create enquiry')
-                        <a href="{{ route('create.enquiry') }}" class="btn btn-primary mb-3">+</a>
-                        @endcan
+                        <div class="filter mb-3">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                @can('create enquiry')
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('create.enquiry') }}">Create Enquiry</a>
+                                </li>
+                                @endcan
+                                {{-- <li>
+                                    <a class="dropdown-item" href="#">This Month</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">This Year</a>
+                                </li> --}}
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body mt-3">

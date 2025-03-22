@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin\EnquiryManagement;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Enquiry;
+use App\Models\User;
 
 class EnquiryManagementController extends Controller
 {
+    ///Enquiry list
    public function index(Request $request)
    {
        $enquiries = Enquiry::query();
@@ -24,14 +26,20 @@ class EnquiryManagementController extends Controller
      return view('admin.enquiry_management.index_enquiry', compact('enquiries'));
    }
 
+   ////Create Enquiry
+
     public function createEnquiry()
     {
-        return view('admin.enquiry_management.create_enquiry');
+         $users = User::all();
+        return view('admin.enquiry_management.create_enquiry', compact('users'));
     }
 
+
+    ////Store Enquiry
     public function storeEnquiry(Request $request)
     {
         $request->validate([
+            'assign_to' => 'required|array',
             'project_name' => 'required|string',
             'project_location' => 'required|string',
             'estimated_budget' => 'required|string',
@@ -51,18 +59,25 @@ class EnquiryManagementController extends Controller
             'customer_email' => $request->customer_email,
             'customer_phone' => $request->customer_phone,
             'customer_address' => $request->customer_address,
+            'assign_to' => json_encode($request->assign_to),
         ]);
 
         return redirect()->route('list.enquiry')->with('success', 'Enquiry created successfully!');
     }
 
+
+    ///Edit Enquiry
     public function editEnquiry($id)
     {
+
         $enquiry = Enquiry::findOrFail($id);
-        return view('admin.enquiry_management.edit_enquiry', compact('enquiry'));
+        $users = User::all();
+        $selectedUsers = json_decode($enquiry->assign_to, true) ?? [];
+
+        return view('admin.enquiry_management.edit_enquiry', compact('enquiry','users','selectedUsers'));
     }
 
-
+/////Update Enquiry
     public function updateEnquiry(Request $request, $id)
     {
         $request->validate([
@@ -85,11 +100,13 @@ class EnquiryManagementController extends Controller
             'customer_email' => $request->customer_email,
             'customer_phone' => $request->customer_phone,
             'customer_address' => $request->customer_address,
+            'assign_to' => json_encode($request->assign_to),
         ]);
         return redirect()->route('list.enquiry')->with('success', 'Enquiry updated successfully!');
     }
 
 
+    ////Delete Enquiry
     public function deleteEnquiry($id)
     {
         $enquiry = Enquiry::findOrFail($id);

@@ -16,6 +16,29 @@
                     <form action="{{ route('store.enquiry')}}" method="POST">
                         @csrf
                         <div class="row mb-3">
+                            <label class="col-md-4 col-lg-3 col-form-label">
+                                Assign To Enquiry <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-8 col-lg-6">
+                                <div class="d-flex flex-wrap gap-3">
+                                    @foreach ($users as $user)
+                                        <div class="form-check">
+                                            <input type="checkbox" name="assign_to[]" value="{{ $user->id }}"
+                                                id="user_{{ $user->id }}" class="form-check-input"
+                                                @if(in_array($user->id, old('assign_to', [auth()->id()]))) checked @endif>
+                                            <label for="user_{{ $user->id }}" class="form-check-label">
+                                                {{ $user->name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                @error('assign_to')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <label for="" class="col-md-4 col-lg-2 col-form-label">Project Name <span class="text-danger">*</span></label>
                             <div class="col-md-8 col-lg-10">
                                 <input type="text" name="project_name" id="project_name" class="form-control" value="{{ old('project_name')}}">
