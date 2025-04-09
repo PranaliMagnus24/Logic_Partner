@@ -43,5 +43,7 @@ Route::get('/enquiry/{id}/delete',[EnquiryManagementController::class, 'deleteEn
 
 });
 
+Route::get('/index', [AdminController::class, 'admin'])->name('admin.index');
+
 // Route::get('/', [AdminController::class, 'index'])->name('index.dashboard');
 require __DIR__.'/auth.php';

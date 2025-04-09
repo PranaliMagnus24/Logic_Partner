@@ -29,6 +29,13 @@ class RoleManagementController extends Controller
         return view('rolemanagement::role.index', compact('roles'));
     }
 
+
+    public function roleList()
+    {
+
+        return view('rolemanagement::role.role_list');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

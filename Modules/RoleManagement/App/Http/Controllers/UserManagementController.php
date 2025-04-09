@@ -30,6 +30,39 @@ class UserManagementController extends Controller
 
         return view('rolemanagement::user.index', compact('users'));
     }
+
+    public function userList(Request $request)
+    {
+        // Fetch roles
+        $roles = Role::pluck('name', 'name')->all();
+
+        // Start building the user query
+        $usersQuery = User::with('roles');
+
+        // Apply search filter if provided
+        if ($request->has('search')) {
+            $usersQuery->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Get the total user count
+        $totalUsers = $usersQuery->count();
+
+        // Paginate the results
+        $users = $usersQuery->orderBy('created_at', 'desc')->paginate(10);
+
+        // Check if the request is an AJAX request
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => $users->items(),
+                'total' => $totalUsers, // Return the total user count
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+            ]);
+        }
+
+        // Return the view with roles, users, and total user count
+        return view('rolemanagement::user.user_list', compact('roles', 'users', 'totalUsers'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -48,12 +81,14 @@ class UserManagementController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|max:20',
-            'roles' => 'required'
+            'roles' => 'required',
+            'phone' => 'required|integer',
         ]);
 
        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
         $user->syncRoles($request->roles);

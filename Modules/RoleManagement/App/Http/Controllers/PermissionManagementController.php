@@ -27,6 +27,12 @@ class PermissionManagementController extends Controller
         return view('rolemanagement::permission.index', compact('permissions'));
     }
 
+
+    public function permissionList()
+    {
+        return view('rolemanagement::permission.permission_list');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

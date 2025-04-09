@@ -43,11 +43,20 @@ Route::group(['middleware' => ['isAdmin']], function() {
      Route::prefix('users')->group(function() {
         Route::get('/', [UserManagementController::class, 'index'])->name('users.list')->middleware('permission:view user');
         Route::get('/create', [UserManagementController::class, 'create'])->name('user.create')->middleware('permission:create user');
-        Route::post('/', [UserManagementController::class, 'store'])->name('user.store');
+
         Route::get('/{id}/edit', [UserManagementController::class, 'edit'])->name('user.edit')->middleware('permission:edit user');
         Route::patch('/{id}', [UserManagementController::class, 'update'])->name('user.update')->middleware('permission:update user');
-        Route::get('/{id}/delete', [UserManagementController::class, 'destroy'])->name('user.delete')->middleware('permission:delete user');
+
     });
 
 
 });
+Route::get('user/list', [UserManagementController::class, 'userList'])->name('usersList');
+Route::post('/users', [UserManagementController::class, 'store'])->name('user.store');
+Route::get('/{id}/delete', [UserManagementController::class, 'destroy'])->name('user.delete');
+
+
+Route::get('role/list', [RoleManagementController::class, 'roleList'])->name('roleList');
+
+
+Route::get('permission/list', [PermissionManagementController::class, 'permissionList'])->name('permissionList');
