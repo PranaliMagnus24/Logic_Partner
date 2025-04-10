@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
       3: { title: 'Inactive', class: 'bg-label-secondary' }
     };
   let dt_User,
-    userView = 'app-user-view-account.html';
+    userView = '';
 
   // Users List datatable
   if (dtUserTable) {
@@ -50,20 +50,19 @@ document.addEventListener('DOMContentLoaded', function (e) {
             return '';
           }
         },
-        {
-          // For Checkboxes
-          targets: 1,
-          orderable: false,
-          searchable: false,
-          responsivePriority: 3,
-          checkboxes: true,
-          render: function () {
-            return '<input type="checkbox" class="dt-checkboxes form-check-input">';
-          },
-          checkboxes: {
-            selectAllRender: '<input type="checkbox" class="form-check-input">'
-          }
-        },
+        // {
+        //   targets: 1,
+        //   orderable: false,
+        //   searchable: false,
+        //   responsivePriority: 3,
+        //   checkboxes: true,
+        //   render: function () {
+        //     return '<input type="checkbox" class="dt-checkboxes form-check-input">';
+        //   },
+        //   checkboxes: {
+        //     selectAllRender: '<input type="checkbox" class="form-check-input">'
+        //   }
+        // },
         {
           targets: 2,
           responsivePriority: 1,
@@ -565,3 +564,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
     });
   }
 });
+
+
+
+
+

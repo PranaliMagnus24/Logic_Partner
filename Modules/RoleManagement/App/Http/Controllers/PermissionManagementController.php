@@ -28,10 +28,35 @@ class PermissionManagementController extends Controller
     }
 
 
-    public function permissionList()
-    {
-        return view('rolemanagement::permission.permission_list');
+    public function permissionList(Request $request)
+{
+    $permissions = Permission::query();
+
+    if ($request->has('search')) {
+        $permissions->where('name', 'like', '%' . $request->search . '%');
     }
+
+    $permissions = $permissions->orderBy('created_at', 'desc')->paginate(10);
+
+    // Transform the permissions data to ensure assigned_to is an array
+    $permissionsData = $permissions->items();
+    foreach ($permissionsData as &$permission) {
+        // Assuming assigned_to is a string, convert it to an array
+        $permission->assigned_to = is_array($permission->assigned_to) ? $permission->assigned_to : [$permission->assigned_to];
+    }
+
+    if ($request->ajax()) {
+        return response()->json([
+            'data' => $permissionsData,
+            'total' => $permissions->total(),
+            'current_page' => $permissions->currentPage(),
+            'last_page' => $permissions->lastPage(),
+            'per_page' => $permissions->perPage(),
+        ]);
+    }
+
+    return view('rolemanagement::permission.permission_list', compact('permissions'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -55,6 +80,21 @@ class PermissionManagementController extends Controller
            ]);
            return redirect('permissions')->with('success','Permission created successfully!');
     }
+
+    public function updatePermission(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        // Add other validation rules as needed
+    ]);
+
+    $permission = Permission::findOrFail($id);
+    $permission->name = $request->name;
+    // Update other fields as necessary
+    $permission->save();
+
+    return response()->json(['success' => true]);
+}
 
     /**
      * Show the specified resource.

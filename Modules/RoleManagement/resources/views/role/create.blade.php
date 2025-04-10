@@ -13,7 +13,7 @@
                     <a href="{{ route('role.list') }}" class="btn btn-primary btn-sm">Back</a>
                 </div>
                 <div class="card-body mt-3">
-                    <form action="{{ route('role.store') }}" method="POST">
+                    <form action="#" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="">Role Name</label>

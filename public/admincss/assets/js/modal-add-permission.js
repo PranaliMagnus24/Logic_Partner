@@ -7,7 +7,7 @@
 // Add permission form validation
 document.addEventListener('DOMContentLoaded', function (e) {
   (function () {
-    FormValidation.formValidation(document.getElementById('addPermissionForm'), {
+    FormValidation.formValidation(document.getElementById('addPermissionForm1'), {
       fields: {
         modalPermissionName: {
           validators: {

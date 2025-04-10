@@ -12,7 +12,6 @@
             <th></th>
             <th></th>
             <th>Name</th>
-            <th>Assigned To</th>
             <th>Created Date</th>
             <th>Actions</th>
           </tr>
@@ -37,13 +36,14 @@
             <h3>Add New Permission</h3>
             <p class="text-body-secondary">Permissions you may use and assign to your users.</p>
           </div>
-          <form id="addPermissionForm" class="row" onsubmit="return false">
+          <form id="addPermissionForm" class="row" action="{{ route('permission.store') }}" method="POST">
+            @csrf
             <div class="col-12 form-control-validation mb-4">
               <label class="form-label" for="modalPermissionName">Permission Name</label>
               <input
                 type="text"
                 id="modalPermissionName"
-                name="modalPermissionName"
+                name="name"
                 class="form-control"
                 placeholder="Permission Name"
                 autofocus />
@@ -92,15 +92,10 @@
               ensure you're absolutely certain before proceeding.
             </p>
           </div>
-          <form id="editPermissionForm" class="row" onsubmit="return false">
+          <form id="editPermissionForm" class="row">
             <div class="col-sm-9 form-control-validation">
               <label class="form-label" for="editPermissionName">Permission Name</label>
-              <input
-                type="text"
-                id="editPermissionName"
-                name="editPermissionName"
-                class="form-control"
-                placeholder="Permission Name"
+              <input type="text" id="editPermissionName" name="name" class="form-control"placeholder="Permission Name"
                 tabindex="-1" />
             </div>
             <div class="col-sm-3 mb-4">
@@ -121,13 +116,30 @@
   <!--/ Edit Permission Modal -->
 
 @endsection
+
 <script src="{{ asset('admincss/assets/vendor/libs/jquery/jquery.js') }}"></script>
+
+    <script src="{{ asset('admincss/assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('admincss/assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('admincss/assets/vendor/libs/node-waves/node-waves.js') }}"></script>
+
+    <script src="{{ asset('admincss/assets/vendor/libs/@algolia/autocomplete-js.js') }}"></script>
+
+    <script src="{{ asset('admincss/assets/vendor/libs/pickr/pickr.js') }}"></script>
+
+    <script src="{{ asset('admincss/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+
+    <script src="{{ asset('admincss/assets/vendor/libs/hammer/hammer.js') }}"></script>
+
+    <script src="{{ asset('admincss/assets/vendor/libs/i18n/i18n.js') }}"></script>
+
+    <script src="{{ asset('admincss/assets/vendor/js/menu.js') }}"></script>
  <!-- Vendors JS -->
- <script src="{{ asset('admincss/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
 
  <script src="{{ asset('admincss/assets/vendor/libs/@form-validation/popular.js') }}"></script>
  <script src="{{ asset('admincss/assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
  <script src="{{ asset('admincss/assets/vendor/libs/@form-validation/auto-focus.js') }}"></script>
+ <script src="{{ asset('admincss/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
 
     <!-- Page JS -->
     <script src="{{ asset('admincss/assets/js/app-access-permission.js') }}"></script>

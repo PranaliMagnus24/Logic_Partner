@@ -22,9 +22,8 @@ Route::group(['middleware' => ['isAdmin']], function() {
     Route::prefix('permissions')->group(function() {
         Route::get('/', [PermissionManagementController::class, 'index'])->name('permission.list')->middleware('permission:view permission');
         Route::get('/create', [PermissionManagementController::class, 'create'])->name('permission.create')->middleware('permission:create permission');
-        Route::post('/', [PermissionManagementController::class, 'store'])->name('permission.store');
         Route::get('/{id}/edit', [PermissionManagementController::class, 'edit'])->name('permission.edit')->middleware('permission:edit permission');
-        Route::patch('/{id}', [PermissionManagementController::class, 'update'])->name('permission.update')->middleware('permission:update permission');
+        // Route::patch('/{id}', [PermissionManagementController::class, 'update'])->name('permission.update')->middleware('permission:update permission');
         Route::get('/{id}/delete', [PermissionManagementController::class, 'destroy'])->name('permission.delete')->middleware('permission:delete permission');
     });
 
@@ -57,6 +56,11 @@ Route::get('/{id}/delete', [UserManagementController::class, 'destroy'])->name('
 
 
 Route::get('role/list', [RoleManagementController::class, 'roleList'])->name('roleList');
+Route::patch('/role/{id}', [RoleManagementController::class, 'updateRole'])->name('roleUpdate');
+Route::delete('/role/{role}', [RoleManagementController::class, 'destroyRole'])->name('roleDestroy');
 
 
 Route::get('permission/list', [PermissionManagementController::class, 'permissionList'])->name('permissionList');
+Route::post('/permission', [PermissionManagementController::class, 'store'])->name('permission.store');
+
+Route::post('/permission/update/{id}', [PermissionManagementController::class, 'updatePermission'])->name('permission.update');
