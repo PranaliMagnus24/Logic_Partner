@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/cmspages",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\CMSPages\\": "",
+            "Modules\\CMSPages\\App\\": "app/",
+            "Modules\\CMSPages\\Database\\Factories\\": "database/factories/",
+            "Modules\\CMSPages\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\CMSPages\\Tests\\": "tests/"
+        }
+    }
+}

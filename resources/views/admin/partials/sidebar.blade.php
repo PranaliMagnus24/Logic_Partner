@@ -14,7 +14,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#enquiry-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-question-circle"></i><span>Enquiry Management</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="bi bi-journal-text"></i><span>Enquiry Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="enquiry-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li>
@@ -59,10 +59,23 @@
                   <i class="bi bi-circle"></i><span>General Settings</span>
                 </a>
               </li>
-
-
         </ul>
       </li><!-- End Master Setting -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('page.index')}}">
+          <i class="bi bi-file-earmark"></i>
+          <span>CMS Pages</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('faq.index')}}">
+            <i class="bi bi-question-circle"></i>
+          <span>FAQ</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
 
     </ul>
 

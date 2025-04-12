@@ -1,0 +1,11 @@
+{
+    "name": "CMSPages",
+    "alias": "cmspages",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\CMSPages\\App\\Providers\\CMSPagesServiceProvider"
+    ],
+    "files": []
+}

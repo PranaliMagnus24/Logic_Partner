@@ -1,5 +1,7 @@
 {
     "GeneralSetting": true,
     "MasterSetting": true,
-    "RoleManagement": true
+    "RoleManagement": true,
+    "FAQ": true,
+    "CMSPages": true
 }

@@ -95,7 +95,7 @@
                         <p class="text-body-secondary">Set role permissions</p>
                       </div>
                       <!-- Add role form -->
-                      <form id="addRoleForm1" class="row g-3" method="POST" action="{{ route('role.store') }}">
+                      <form id="addRoleForm1" class="row g-3" method="POST" action="#">
                         @csrf
                         <input type="hidden" name="_method" id="formMethod" value="POST">
                         <input type="hidden" name="role_id" id="roleId">

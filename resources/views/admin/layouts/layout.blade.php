@@ -28,6 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   @livewireStyles
 <style>
@@ -92,6 +93,7 @@
   <!-- Vendor JS Files -->
 
   @livewireScripts
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="{{ asset('admin/assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
   <script src="{{ asset('admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('admin/assets/vendor/chart.js/chart.umd.js') }}"></script>
@@ -100,10 +102,13 @@
   <script src="{{ asset('admin/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
   <script src="{{ asset('admin/assets/vendor/tinymce/tinymce.min.js') }}"></script>
   <script src="{{ asset('admin/assets/vendor/php-email-form/validate.js') }}"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+
 
   <!-- Template Main JS File -->
 
   <script src="{{ asset('admin/assets/js/main.js') }}"></script>
+  <script src="{{ asset('admin/assets/js/datatable.js') }}"></script>
 
 </body>
 
