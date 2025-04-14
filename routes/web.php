@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\EnquiryManagement\EnquiryManagementController;
+use App\Http\Controllers\Admin\EnquiryManagement\QuotationManagementController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,6 +42,10 @@ Route::post('/enquiry',[EnquiryManagementController::class, 'storeEnquiry'])->na
 Route::get('/enquiry/{id}/edit',[EnquiryManagementController::class, 'editEnquiry'])->name('edit.enquiry');
 Route::post('/enquiry/{id}/update',[EnquiryManagementController::class, 'updateEnquiry'])->name('update.enquiry');
 Route::get('/enquiry/{id}/delete',[EnquiryManagementController::class, 'deleteEnquiry'])->name('delete.enquiry');
+
+Route::get('/quotation',[QuotationManagementController::class, 'index'])->name('list.quotation');
+Route::get('/create/quotation',[QuotationManagementController::class, 'create'])->name('create.quotation');
+Route::post('/store/quotation',[QuotationManagementController::class, 'store'])->name('store.quotation');
 
 });
 

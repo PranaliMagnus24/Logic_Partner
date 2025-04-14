@@ -33,15 +33,16 @@
 
                 <!---------forgot password------------>
 
-                <div class="flex items-center justify-end mt-4">
+                <div class="flex items-center justify-end mt-4 gap-3">
                     @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">{{ __('Forgot your password?') }}
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                        {{ __('Forgot your password?') }}
                     </a>
                     @endif
                     <input type="submit" value="Login" class="btn solid" />
                 </div>
 
-                <p class="social-text">Or Sign in with social platforms</p>
+                {{-- <p class="social-text">Or Sign in with social platforms</p>
                 <div class="social-media">
                     <a href="#" class="social-icon">
                         <i class="fab fa-facebook-f"></i>
@@ -55,7 +56,7 @@
                     <a href="#" class="social-icon">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
-                </div>
+                </div> --}}
             </form>
 
             <!--------------------Sign up form------------------>

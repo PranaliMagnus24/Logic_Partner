@@ -196,7 +196,7 @@ public function updatePermissionToRole(Request $request, $id)
     $role = Role::findOrFail($id);
     $role->syncPermissions($request->permission);
 
-    return redirect()->back()->with('success', 'Permissions added to role successfully!');
+    return redirect('roles')->with('success', 'Permissions added to role successfully!');
 }
 
 }

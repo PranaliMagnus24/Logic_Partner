@@ -19,7 +19,12 @@
         <ul id="enquiry-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li>
                 <a href="{{ route('list.enquiry')}}">
-                  <i class="bi bi-circle"></i><span>List Enquiry</span>
+                  <i class="bi bi-circle"></i><span>Enquiry</span>
+                </a>
+              </li>
+              <li>
+                <a href="{{ route('list.quotation')}}">
+                  <i class="bi bi-circle"></i><span>Quotation</span>
                 </a>
               </li>
         </ul>

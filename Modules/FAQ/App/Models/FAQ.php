@@ -5,10 +5,11 @@ namespace Modules\FAQ\App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\FAQ\Database\factories\FAQFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FAQ extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

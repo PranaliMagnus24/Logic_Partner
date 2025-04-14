@@ -28,7 +28,9 @@
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> --}}
+<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.bootstrap5.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   @livewireStyles
 <style>
@@ -102,7 +104,17 @@
   <script src="{{ asset('admin/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
   <script src="{{ asset('admin/assets/vendor/tinymce/tinymce.min.js') }}"></script>
   <script src="{{ asset('admin/assets/vendor/php-email-form/validate.js') }}"></script>
-  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script> --}}
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+  <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
+  <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.bootstrap5.js"></script>
+
+
+
+
+
 
 
   <!-- Template Main JS File -->

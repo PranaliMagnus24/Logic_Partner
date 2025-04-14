@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('team_title')->nullable();
             $table->text('team_body')->nullable();
             $table->string('slug')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('status', ['active', 'inactive','draft'])->default('active');
             $table->timestamps();
         });
     }

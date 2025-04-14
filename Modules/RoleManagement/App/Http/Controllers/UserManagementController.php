@@ -82,13 +82,11 @@ class UserManagementController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|max:20',
             'roles' => 'required',
-            'phone' => 'required|integer',
         ]);
 
        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
         $user->syncRoles($request->roles);

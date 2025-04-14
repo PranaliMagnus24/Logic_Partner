@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\CMSPages\App\Models\Pages;
+use Illuminate\Support\Str;
 
 class CMSPagesController extends Controller
 {
@@ -30,7 +31,49 @@ class CMSPagesController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        $request->validate([
+            'title' => 'required|string',
+            'summary' => 'required|string',
+            'description' => 'required|string',
+            'image' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'meta_title' => 'nullable|string',
+            'meta_keyword' => 'nullable|string',
+            'meta_description' => 'nullable|string',
+            'og_title' => 'nullable|string',
+            'og_description' => 'nullable|string',
+            'og_img' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'status' => 'nullable|string',
+        ]);
+
+        $page = Pages::create([
+            'title' => $request->title,
+            'summary' => $request->summary,
+            'description' => $request->description,
+            'meta_title' => $request->meta_title,
+            'meta_keyword' => $request->meta_keyword,
+            'meta_description' => $request->meta_description,
+            'og_title' => $request->og_title,
+            'og_description' => $request->og_description,
+            'status' => $request->status,
+        ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
+            $file->move('upload/pages/', $filename);
+            $page->image = $filename;
+        }
+
+        // Handle OG image upload
+        if ($request->hasFile('og_img')) {
+            $file = $request->file('og_img');
+            $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
+            $file->move('upload/pages/', $filename);
+            $page->og_img = $filename;
+        }
+
+        $page->save();
+        return redirect()->back()->with('success', 'Page created successfully.');
     }
 
     /**
@@ -59,7 +102,50 @@ class CMSPagesController extends Controller
      */
     public function update(Request $request, $id): RedirectResponse
     {
-        //
+        $request->validate([
+            'title' => 'required|string',
+            'summary' => 'required|string',
+            'description' => 'required|string',
+            'image' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'meta_title' => 'nullable|string',
+            'meta_keyword' => 'nullable|string',
+            'meta_description' => 'nullable|string',
+            'og_title' => 'nullable|string',
+            'og_description' => 'nullable|string',
+            'og_img' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'status' => 'nullable|string',
+        ]);
+
+        $page = Pages::findOrFail($id);
+        $page->update([
+            'title' => $request->title,
+            'summary' => $request->summary,
+            'description' => $request->description,
+            'meta_title' => $request->meta_title,
+            'meta_keyword' => $request->meta_keyword,
+            'meta_description' => $request->meta_description,
+            'og_title' => $request->og_title,
+            'og_description' => $request->og_description,
+            'status' => $request->status,
+        ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
+            $file->move('upload/pages/', $filename);
+            $page->image = $filename;
+        }
+
+        // Handle OG image upload
+        if ($request->hasFile('og_img')) {
+            $file = $request->file('og_img');
+            $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
+            $file->move('upload/pages/', $filename);
+            $page->og_img = $filename;
+        }
+
+        $page->save();
+        return redirect()->route('page.index')->with('success', 'Page created successfully.');
     }
 
     /**
@@ -67,6 +153,9 @@ class CMSPagesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $page = Pages::findOrFail($id);
+        $page->delete();
+
+        return redirect()->back()->with('success', 'Page deleted successfully!');
     }
 }

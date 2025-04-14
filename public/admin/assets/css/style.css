@@ -1262,5 +1262,21 @@
     color: white;
   }
 
+/*----------------------offcanvas----------------*/
+@media (max-width: 576px) {
+    .offcanvas-body .form-label {
+        font-size: 0.9rem;
+    }
 
+    .offcanvas-body input,
+    .offcanvas-body textarea,
+    .offcanvas-body select {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.75rem;
+    }
+}
 

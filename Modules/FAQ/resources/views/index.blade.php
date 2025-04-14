@@ -4,7 +4,10 @@
 @section('admin')
 @section('pagetitle', 'FAQ')
 <div class="container">
-    <a href="#" class="btn btn-primary" id="create-faq" data-bs-toggle="modal" data-bs-target="#faqModal">+</a>
+    <div class="text-end">
+        <a href="#" class="btn btn-primary" id="create-faq" data-bs-toggle="modal" data-bs-target="#faqModal">+</a>
+    </div>
+
     <table id="example" class="display bg-white" style="width:100%">
         <thead>
             <tr>
