@@ -6,10 +6,27 @@
 // });
 
 new DataTable('#example', {
-    responsive: true
+    responsive: true,
 });
 
+$(document).ready(function(){
+    $('.datatable').DataTable({
+        serverSide: true,
+        processing: true,
+        responsive: true,
+        ajax: {
+            url: quotationUrl
+        },
+        columns:[
+                { data: 'DT_RowIndex', name:'DT_RowIndex', orderable: false, searchable: false },
+                { data: 'name', name: 'name' },
+                { data: 'email', name: 'email' },
+                { data: 'created_at', name: 'created_at' },
+                { data: 'action', name: 'action', orderable: false, searchable: false },
 
+        ]
+    });
+})
 // Delete confirmation
 document.addEventListener('DOMContentLoaded', function () {
     const deleteLinks = document.querySelectorAll('.delete-confirm');

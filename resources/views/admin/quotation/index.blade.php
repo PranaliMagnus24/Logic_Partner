@@ -3,49 +3,31 @@
 @section('title', 'Quotation Management')
 @section('admin')
 @section('pagetitle', 'Quotation Management')
-<div class="container p-3 my-5 bg-white border border-gray">
-    <div class="text-end">
-        <a href="{{ route('create.quotation')}}" class="btn btn-primary">+</a>
+<div class="container">
+    <div class="card">
+        <div class="card-body mt-5">
+            <div class="text-end">
+                <a href="{{ route('create.quotation')}}" class="btn btn-success">+</a>
+            </div>
+            <table class="table table-bordered table-striped datatable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Created At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
     </div>
-    <table id="example" class="table table-striped nowrap" style="width:100%">
-        <thead>
-            <tr>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-                <th>Extn.</th>
-                <th>E-mail</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Michael</td>
-                <td>Bruce</td>
-                <td>Javascript Developer</td>
-                <td>Singapore</td>
-                <td>29</td>
-                <td>2011-06-27</td>
-                <td>$183,000</td>
-                <td>5384</td>
-                <td>m.bruce@datatables.net</td>
-            </tr>
-            <tr>
-                <td>Donna</td>
-                <td>Snider</td>
-                <td>Customer Support</td>
-                <td>New York</td>
-                <td>27</td>
-                <td>2011-01-25</td>
-                <td>$112,000</td>
-                <td>4226</td>
-                <td>d.snider@datatables.net</td>
-            </tr>
-        </tbody>
-    </table>
 </div>
 
 @endsection
+<script>
+    const quotationUrl = "{{ route('list.quotation') }}";
+</script>

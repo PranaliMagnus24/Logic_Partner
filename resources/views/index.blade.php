@@ -103,7 +103,7 @@
                     <input type="submit" class="btn" value="Sign up" />
                 </div>
 
-                <p class="social-text">Or Sign up with social platforms</p>
+                {{-- <p class="social-text">Or Sign up with social platforms</p>
                 <div class="social-media">
                     <a href="#" class="social-icon">
                         <i class="fab fa-facebook-f"></i>
@@ -117,7 +117,7 @@
                     <a href="#" class="social-icon">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
-                </div>
+                </div> --}}
             </form>
         </div>
     </div>
