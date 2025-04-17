@@ -6,10 +6,10 @@
 <div class="container">
     <div class="card">
         <div class="card-body mt-5">
-            <div class="text-end">
+            <div class="text-end mb-2">
                 <a href="{{ route('create.quotation')}}" class="btn btn-success">+</a>
             </div>
-            <table class="table table-bordered table-striped datatable">
+            <table class="table table-bordered table-striped datatable nowrap">
                 <thead>
                     <tr>
                         <th>ID</th>

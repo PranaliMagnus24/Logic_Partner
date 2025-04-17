@@ -10,6 +10,8 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class RoleManagementController extends Controller
 {
@@ -17,44 +19,35 @@ class RoleManagementController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index(Request $request)
-    {
-        $roles = Role::query();
+     public function index(Request $request)
+     {
+         if ($request->ajax()) {
+             $roles = Role::query();
 
-        if (request()->has('search')) {
-            $roles->where('name', 'like', '%' . request('search') . '%');
-        }
+             return DataTables::eloquent($roles)
+                 ->addIndexColumn()
+                 ->addColumn('action', function ($role) {
+                     $editUrl = route('role.edit', $role->id);
+                     $deleteUrl = route('role.delete', $role->id);
+                     $permUrl = route('role.permissions', $role->id);
 
-        $roles = $roles->orderBy('created_at', 'desc')->paginate(10);
+                     $buttons = '<a href="' . $permUrl . '" class="btn btn-primary btn-sm">Add / Edit Role Permission</a> ';
 
-        return view('rolemanagement::role.index', compact('roles'));
-    }
+                     if (Auth::user()->can('update role')) {
+                         $buttons .= '<a href="' . $editUrl . '" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a> ';
+                     }
 
+                     if (Auth::user()->can('delete role')) {
+                         $buttons .= '<a href="' . $deleteUrl . '" class="btn btn-danger btn-sm delete-confirm"><i class="bi bi-trash3-fill"></i></a>';
+                     }
 
-    public function roleList(Request $request)
-    {
-        $query = Role::query();
-
-        if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        $roles = $query->orderBy('created_at', 'desc')->withCount('users')->get();
-
-        $roles->map(function ($role) {
-            $role->users_preview = User::role($role->name)->take(4)->get();
-            $role->extra_user_count = max(0, $role->users_count - 4);
-            return $role;
-        });
-
-        $permissions = Permission::all()->groupBy(function ($permission) {
-            return explode('_', $permission->name)[0];
-        });
-
-        $rolePermissions = [];
-
-        return view('rolemanagement::role.role_list', compact('roles', 'permissions', 'rolePermissions'));
-    }
+                     return $buttons;
+                 })
+                 ->rawColumns(['action'])
+                 ->make(true);
+         }
+         return view('rolemanagement::role.index');
+     }
 
 
     /**
@@ -101,15 +94,6 @@ class RoleManagementController extends Controller
     }
 
 
-    public function destroyRole(Role $role)
-{
-    // Check if the role can be deleted (optional)
-    // $this->authorize('delete', $role);
-
-    $role->delete();
-
-    return response()->json(['success' => 'Role deleted successfully!']);
-}
 
 
     /**
@@ -132,34 +116,21 @@ class RoleManagementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, $id): RedirectResponse
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string|unique:roles,name,' . $id,
-    //     ]);
-
-    //     $role = Role::findOrFail($id);
-    //     $role->update([
-    //         'name' => $request->name,
-    //     ]);
-
-    //     return redirect('roles')->with('success', 'Role updated successfully!');
-    // }
-
-    public function updateRole(Request $request, Role $role)
+    public function update(Request $request, $id): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|unique:roles,name,' . $role->id,
-            'permission' => 'nullable|array'
+            'name' => 'required|string|unique:roles,name,' . $id,
         ]);
 
-        $role->name = $request->name;
-        $role->save();
+        $role = Role::findOrFail($id);
+        $role->update([
+            'name' => $request->name,
+        ]);
 
-        $role->syncPermissions($request->permission ?? []);
-
-        return redirect()->route('role.list')->with('success', 'Role updated successfully!');
+        return redirect('roles')->with('success', 'Role updated successfully!');
     }
+
+
 
 
     /**

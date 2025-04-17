@@ -33,7 +33,7 @@
   }
 
   /**
-   * Easy on scroll event listener 
+   * Easy on scroll event listener
    */
   const onscroll = (el, listener) => {
     el.addEventListener('scroll', listener)
@@ -315,5 +315,15 @@
       }).observe(mainContainer);
     }, 200);
   }
+
+
+
+  $(document).ready(function() {
+    $('#assign_to').select2({
+        placeholder: "Select users to assign",
+        width: '100%'
+    });
+});
+
 
 })();

@@ -10,21 +10,13 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">Permission</h4>
-                    <div class="d-flex align-items-center">
-                        <form class="d-flex me-2" method="GET" action="{{ route('permission.list') }}">
-                            <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Search" value="{{ request('search') }}">
-                                <button type="submit" class="btn btn-primary" title="Search">
-                                    <i class="bi bi-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                        <a href="{{ route('permission.create') }}" class="btn btn-primary mb-3">+</a>
-                    </div>
                 </div>
                 <div class="card-body mt-3">
+                    <div class="text-end mb-2">
+                        <a href="{{ route('permission.create') }}" class="btn btn-primary mb-3">+</a>
+                    </div>
                     {{-- @livewire('permission-table') --}}
-                  <table class="table table-bordered table-striped">
+                  <table class="table table-bordered table-striped permissionList nowrap">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -33,7 +25,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($permissions as $permission)
+                        {{-- @foreach($permissions as $permission)
                         <tr>
                             <td>{{ $permissions->firstItem() + $loop->index }}</td>
                             <td>{{ $permission->name}}</td>
@@ -47,13 +39,10 @@
                             </td>
                         </tr>
 
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
 
                   </table>
-                <div class="d-flex justify-content-center">
-               {{$permissions->links()}}
-                </div>
                 </div>
             </div>
         </div>
@@ -61,4 +50,6 @@
 </div>
 
 @endsection
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    const permissionUrl = "{{ route('permission.list') }}";
+</script>

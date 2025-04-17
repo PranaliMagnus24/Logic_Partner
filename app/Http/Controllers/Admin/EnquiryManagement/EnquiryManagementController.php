@@ -6,26 +6,46 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Enquiry;
 use App\Models\User;
+use Yajra\DataTables\Facades\DataTables;
 
 class EnquiryManagementController extends Controller
 {
     ///Enquiry list
-   public function index(Request $request)
-   {
-       $enquiries = Enquiry::query();
+//    public function index1(Request $request)
+//    {
+//        $enquiries = Enquiry::query();
 
-       if (request()->has('search')) {
-        $searchTerm = request('search');
-        $enquiries->where(function($query) use ($searchTerm) {
-            $query->where('project_name', 'like', '%' . $searchTerm . '%')
-                  ->orWhere('customer_name', 'like', '%' . $searchTerm . '%')
-                  ->orWhere('customer_email', 'like', '%' . $searchTerm . '%');
-        });
-    }
-       $enquiries = $enquiries->orderBy('created_at', 'desc')->paginate(10);
-     return view('admin.enquiry_management.index_enquiry', compact('enquiries'));
+//        if (request()->has('search')) {
+//         $searchTerm = request('search');
+//         $enquiries->where(function($query) use ($searchTerm) {
+//             $query->where('project_name', 'like', '%' . $searchTerm . '%')
+//                   ->orWhere('customer_name', 'like', '%' . $searchTerm . '%')
+//                   ->orWhere('customer_email', 'like', '%' . $searchTerm . '%');
+//         });
+//     }
+//        $enquiries = $enquiries->orderBy('created_at', 'desc')->paginate(10);
+//      return view('admin.enquiry_management.index_enquiry', compact('enquiries'));
+//    }
+
+
+   public function index(Request $request){
+
+    if ($request->ajax()){
+        $enquiries = Enquiry::query();
+        return DataTables::eloquent($enquiries)
+        ->addIndexColumn()
+        ->addColumn('action', function($enquiry){
+           return '
+                 <a href="'.route('edit.enquiry', $enquiry->id).'" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                 <a href="'.route('delete.enquiry', $enquiry->id).'" class="btn btn-danger delete-confirm"><i class="bi bi-trash3-fill"></i></a>
+           ';
+        })
+        ->rawColumns(['action'])
+        ->make(true);
+       };
+       return view("admin.enquiry_management.index_enquiry");
+
    }
-
    ////Create Enquiry
 
     public function createEnquiry()

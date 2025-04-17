@@ -11,6 +11,8 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserManagementController extends Controller
@@ -20,49 +22,40 @@ class UserManagementController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::query();
-
-        if (request()->has('search')) {
-            $users->where('name', 'like', '%' . request('search') . '%');
-        }
-
-        $users = $users->orderBy('created_at', 'desc')->paginate(10);
-
-        return view('rolemanagement::user.index', compact('users'));
-    }
-
-    public function userList(Request $request)
-    {
-        // Fetch roles
-        $roles = Role::pluck('name', 'name')->all();
-
-        // Start building the user query
-        $usersQuery = User::with('roles');
-
-        // Apply search filter if provided
-        if ($request->has('search')) {
-            $usersQuery->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        // Get the total user count
-        $totalUsers = $usersQuery->count();
-
-        // Paginate the results
-        $users = $usersQuery->orderBy('created_at', 'desc')->paginate(10);
-
-        // Check if the request is an AJAX request
         if ($request->ajax()) {
-            return response()->json([
-                'data' => $users->items(),
-                'total' => $totalUsers, // Return the total user count
-                'current_page' => $users->currentPage(),
-                'last_page' => $users->lastPage(),
-            ]);
+            $users = User::with('roles');
+
+            return DataTables::eloquent($users)
+                ->addIndexColumn()
+                ->addColumn('roles', function ($user) {
+                    return $user->getRoleNames()
+                                ->map(function ($role) {
+                                    return '<span class="badge bg-primary mx-1 text-white">' . $role . '</span>';
+                                })->implode(' ');
+                })
+                ->addColumn('action', function ($user) {
+                    $editUrl = route('user.edit', $user->id);
+                    $deleteUrl = route('user.delete', $user->id);
+
+                    $buttons = '';
+
+                    if (Auth::user()->can('update user')) {
+                        $buttons .= '<a href="' . $editUrl . '" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a> ';
+                    }
+
+                    if (Auth::user()->can('delete user')) {
+                        $buttons .= '<a href="' . $deleteUrl . '" class="btn btn-danger btn-sm delete-confirm"><i class="bi bi-trash3-fill"></i></a>';
+                    }
+
+                    return $buttons;
+                })
+                ->rawColumns(['roles', 'action'])
+                ->make(true);
         }
 
-        // Return the view with roles, users, and total user count
-        return view('rolemanagement::user.user_list', compact('roles', 'users', 'totalUsers'));
+        return view('rolemanagement::user.index');
     }
+
     /**
      * Show the form for creating a new resource.
      */

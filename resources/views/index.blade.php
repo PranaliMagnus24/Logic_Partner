@@ -130,9 +130,9 @@
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
                     ex ratione. Aliquid!
                 </p>
-                <button class="btn transparent" id="sign-up-btn">
+                {{-- <button class="btn transparent" id="sign-up-btn">
                     Sign up
-                </button>
+                </button> --}}
             </div>
             <img  src="https://i.ibb.co/6HXL6q1/Privacy-policy-rafiki.png" class="image" alt="" />
         </div>

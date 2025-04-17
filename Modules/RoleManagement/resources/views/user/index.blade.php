@@ -9,22 +9,16 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">Users</h4>
-                    <div class="d-flex align-items-center">
-                        <form class="d-flex me-2" method="GET" action="{{ route('users.list') }}">
-                            <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Search" value="{{ request('search') }}">
-                                <button type="submit" class="btn btn-primary" title="Search">
-                                    <i class="bi bi-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                        <a href="{{ route('user.create') }}" class="btn btn-primary">+</a>
-                    </div>
+
 
                 </div>
                 <div class="card-body mt-3">
+                    <div class="text-end mb-2">
+                        <a href="{{ route('user.create') }}" class="btn btn-primary">+</a>
+                    </div>
+
                     {{-- @livewire('permission-table') --}}
-                  <table class="table table-bordered table-striped">
+                  <table class="table table-bordered table-striped userList nowrap">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -35,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($users as $user)
+                        {{-- @foreach($users as $user)
                         <tr>
                             <td>{{ $users->firstItem() + $loop->index }}</td>
                             <td>{{ $user->name}}</td>
@@ -57,13 +51,10 @@
                             </td>
                         </tr>
 
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
 
                   </table>
-                  <div class="d-flex justify-content-center">
-                    {{$users->links()}}
-                  </div>
                 </div>
             </div>
         </div>
@@ -71,3 +62,6 @@
 </div>
 
 @endsection
+<script>
+    const userUrl = "{{ route('users.list') }}";
+</script>

@@ -1280,3 +1280,19 @@
     }
 }
 
+
+div.dataTables_length {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+div.dt-buttons .btn {
+    margin-left: 10px;
+}
+
+div.dt-buttons .btn-light {
+    border: 1px solid #ccc;
+}
+
+

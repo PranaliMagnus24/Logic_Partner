@@ -52,14 +52,3 @@ Route::group(['middleware' => ['isAdmin']], function() {
 
 });
 
-
-
-
-Route::get('user/list', [UserManagementController::class, 'userList'])->name('usersList');
-Route::get('role/list', [RoleManagementController::class, 'roleList'])->name('roleList');
-Route::patch('/role/{id}', [RoleManagementController::class, 'updateRole'])->name('roleUpdate');
-Route::delete('/role/{role}', [RoleManagementController::class, 'destroyRole'])->name('roleDestroy');
-Route::get('permission/list', [PermissionManagementController::class, 'permissionList'])->name('permissionList');
-Route::post('/permission', [PermissionManagementController::class, 'store'])->name('permission.store');
-
-// Route::post('/permission/update/{id}', [PermissionManagementController::class, 'updatePermission'])->name('permission.update');

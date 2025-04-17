@@ -8,14 +8,27 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\CMSPages\App\Models\Pages;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class CMSPagesController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $pages = Pages::all();
-        return view('cmspages::index', compact('pages'));
+        if ($request->ajax()){
+            $pages = Pages::query();
+            return DataTables::eloquent($pages)
+            ->addIndexColumn()
+            ->addColumn('action', function($page){
+               return '
+                     <a href="'.route('page.edit', $page->id).'" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                     <a href="'.route('page.destroy', $page->id).'" class="btn btn-danger delete-confirm"><i class="bi bi-trash3-fill"></i></a>
+               ';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+           };
+        return view('cmspages::index');
     }
 
     /**

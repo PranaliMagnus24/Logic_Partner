@@ -3,43 +3,53 @@
 @section('title', 'CMS Page')
 @section('admin')
 @section('pagetitle', 'CMS Page')
-<div class="container p-3 my-5 bg-white border border-gray">
-    <div class="text-end mb-3">
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+</button>
-    </div>
-        <table id="example" class="table table-striped nowrap" style="width:100%">
-            <thead class="table-light">
-                <tr>
-                    <th><input type="checkbox" id="select-all"></th>
-                    <th>ID</th>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">CMS Pages</h4>
+                </div>
+                <div class="card-body mt-3">
+                  <div class="text-end mb-2">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+</button>
+                  </div>
+                  <table class="table table-bordered table-striped pageList nowrap">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
                     <th>Title</th>
                     <th>Summary</th>
                     <th>Description</th>
                     <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($pages as $index => $page)
-                <tr>
-                    <td><input type="checkbox" class="row-select"></td>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ ucfirst($page->title) }}</td>
-                    <td>{{ $page->summary }}</td>
-                    <td>{{ $page->description }}</td>
-                    <td>
-                        <a href="{{ route('page.edit', $page->id) }}" class="btn btn-sm btn-primary mb-1">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <a href="{{ route('page.destroy', $page->id) }}" class="btn btn-sm btn-danger delete-confirm mb-1">
-                            <i class="bi bi-trash3-fill"></i>
-                        </a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{-- @foreach($roles as $role)
+                        <tr>
+                            <td>{{ $roles->firstItem() + $loop->index }}</td>
+                            <td>{{ $role->name}}</td>
+                            <td>
+                                <a href="{{ route('role.permissions', $role->id) }}" class="btn btn-primary btn-sm">Add / Edit role permission</a>
+                                @can('update role')
+                                <a href="{{ route('role.edit', $role->id) }}" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a>
+                                @endcan
+                                @can('delete role')
+                                <a href="{{ route('role.delete', $role->id) }}" class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i></a>
+                                @endcan
+                            </td>
+                        </tr>
 
+                        @endforeach --}}
+                    </tbody>
+
+                  </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 <!-----------------Offcanvas form---------------->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
@@ -126,6 +136,7 @@
 @endsection
 <script>
     window.editMode = {{ isset($editPages) ? 'true' : 'false' }};
+    const pageUrl = "{{ route('page.index') }}";
 </script>
 
 

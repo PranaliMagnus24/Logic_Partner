@@ -3,43 +3,41 @@
 @section('title', 'FAQ')
 @section('admin')
 @section('pagetitle', 'FAQ')
-<div class="container">
-    <div class="text-end">
-        <a href="#" class="btn btn-primary" id="create-faq" data-bs-toggle="modal" data-bs-target="#faqModal">+</a>
-    </div>
+<style>
 
-    <table id="example" class="display bg-white" style="width:100%">
-        <thead>
-            <tr>
-                <th><input type="checkbox" id="select-all"></th>
-                <th>ID</th>
-                <th>Question</th>
-                <th>Answer</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($faqs as $index => $faq)
-            <tr>
-                <td><input type="checkbox" class="row-select" value="{{ $faq->id }}"></td>
-                <td>{{ $index + 1 }}</td>
-                <td>{{$faq->question}}</td>
-                <td>{{$faq->answer}}</td>
-                <td>{{$faq->status}}</td>
-                <td>
-                    <a href="{{ route('faq.edit', $faq->id) }}" class="btn btn-primary">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
-                    <a href="{{ route('faq.destroy', $faq->id) }}" class="btn btn-danger delete-confirm">
-                        <i class="bi bi-trash3-fill"></i>
-                    </a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+</style>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">FAQ</h4>
+                </div>
+                <div class="card-body mt-3">
+                  <div class="text-end mb-2">
+                    <a href="#" class="btn btn-primary" id="create-faq" data-bs-toggle="modal" data-bs-target="#faqModal">+</a>
+                  </div>
+                  <table class="table table-bordered table-striped faqList nowrap">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Question</th>
+                            <th>Answer</th>
+                            <th>Status</th>
+                    <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+
+                  </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 <div class="modal fade {{ isset($editFaq) ? 'show d-block' : '' }}" id="faqModal" tabindex="-1" aria-labelledby="faqModalLabel" aria-hidden="{{ isset($editFaq) ? 'false' : 'true' }}" style="{{ isset($editFaq) ? 'background-color: rgba(0,0,0,0.5);' : '' }}">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -79,6 +77,8 @@
   </div>
 
 @endsection
-
+<script>
+    const faqUrl = "{{ route('faq.index') }}";
+</script>
 
 
