@@ -9,41 +9,34 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">CMS Pages</h4>
+                    <div class="text-end mb-2">
+                        <button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+</button>
+                    </div>
                 </div>
                 <div class="card-body mt-3">
-                  <div class="text-end mb-2">
-                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+</button>
-                  </div>
-                  <table class="table table-bordered table-striped pageList nowrap">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                    <th>Title</th>
-                    <th>Summary</th>
-                    <th>Description</th>
-                    <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{-- @foreach($roles as $role)
-                        <tr>
-                            <td>{{ $roles->firstItem() + $loop->index }}</td>
-                            <td>{{ $role->name}}</td>
-                            <td>
-                                <a href="{{ route('role.permissions', $role->id) }}" class="btn btn-primary btn-sm">Add / Edit role permission</a>
-                                @can('update role')
-                                <a href="{{ route('role.edit', $role->id) }}" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a>
-                                @endcan
-                                @can('delete role')
-                                <a href="{{ route('role.delete', $role->id) }}" class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i></a>
-                                @endcan
-                            </td>
-                        </tr>
+                    <table class="table table-bordered table-striped pageList nowrap">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Summary</th>
+                                <th>Description</th>
+                                <th>Image</th>
+                                <th>Meta Title</th>
+                                <th>Meta Keyword</th>
+                                <th>Meta Description</th>
+                                <th>OG Title</th>
+                                <th>OG Description</th>
+                                <th>OG Image</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                        @endforeach --}}
-                    </tbody>
 
-                  </table>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

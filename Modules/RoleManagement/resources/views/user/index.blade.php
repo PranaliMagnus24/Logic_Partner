@@ -9,14 +9,12 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">Users</h4>
-
+                    <div class="text-end mb-2">
+                        <a href="{{ route('user.create') }}" class="btn btn-success">+</a>
+                    </div>
 
                 </div>
                 <div class="card-body mt-3">
-                    <div class="text-end mb-2">
-                        <a href="{{ route('user.create') }}" class="btn btn-primary">+</a>
-                    </div>
-
                     {{-- @livewire('permission-table') --}}
                   <table class="table table-bordered table-striped userList nowrap">
                     <thead>

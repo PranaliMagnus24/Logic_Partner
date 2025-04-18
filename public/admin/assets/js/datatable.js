@@ -28,22 +28,22 @@ $(document).ready(function() {
                         {
                             extend: 'csv',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4, 5] }
                         },
                         {
                             extend: 'excel',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4, 5] }
                         },
                         {
                             extend: 'pdf',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4, 5] }
                         },
                         {
                             extend: 'print',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4, 5] }
                         }
                     ]
                 }
@@ -53,9 +53,11 @@ $(document).ready(function() {
             },
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                { data: 'name', name: 'name' },
-                { data: 'email', name: 'email' },
-                { data: 'created_at', name: 'created_at' },
+                { data: 'enquiry_name', name: 'enquiry_name' },
+                { data: 'project_name', name: 'project_name' },
+                { data: 'project_location', name: 'project_location' },
+                { data: 'build_up_area', name: 'build_up_area' },
+                { data: 'total_cost', name: 'total_cost' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
@@ -79,22 +81,22 @@ $(document).ready(function() {
                         {
                             extend: 'csv',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4] }
                         },
                         {
                             extend: 'excel',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4] }
                         },
                         {
                             extend: 'pdf',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4] }
                         },
                         {
                             extend: 'print',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4] }
                         }
                     ]
                 }
@@ -108,10 +110,6 @@ $(document).ready(function() {
                 { data: 'project_location', name: 'project_location' },
                 { data: 'estimated_budget', name: 'estimated_budget' },
                 { data: 'estimated_timeline', name: 'estimated_timeline' },
-                { data: 'customer_name', name: 'customer_name' },
-                { data: 'customer_email', name: 'customer_email' },
-                { data: 'customer_phone', name: 'customer_phone' },
-                { data: 'customer_address', name: 'customer_address' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
@@ -286,22 +284,22 @@ $(document).ready(function() {
                         {
                             extend: 'csv',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }
                         },
                         {
                             extend: 'excel',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }
                         },
                         {
                             extend: 'pdf',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }
                         },
                         {
                             extend: 'print',
                             className: 'dropdown-item',
-                            exportOptions: { columns: [0, 1, 2, 3] }
+                            exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }
                         }
                     ]
                 }
@@ -314,6 +312,14 @@ $(document).ready(function() {
                 { data: 'title', name: 'title' },
                 { data: 'summary', name: 'summary' },
                 { data: 'description', name: 'description' },
+                { data: 'image', name: 'image', orderable: false, searchable: false },
+                { data: 'meta_title', name: 'meta_title' },
+                { data: 'meta_keyword', name: 'meta_keyword' },
+                { data: 'meta_description', name: 'meta_description' },
+                { data: 'meta_title', name: 'meta_title' },
+                { data: 'og_description', name: 'og_description' },
+                { data: 'og_img', name: 'og_img', orderable: false, searchable: false },
+                { data: 'status', name: 'status' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
 
@@ -426,6 +432,46 @@ $(document).on('click', '.delete-confirm', function (e) {
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.href = url;
+        }
+    });
+});
+
+////Show enquiry details
+$(document).on('click', '.view-enquiry', function(e) {
+    e.preventDefault();
+    let id = $(this).data('id');
+
+    $('#enquiry-details').html('<div class="text-center"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...</div>');
+    $('#viewEnquiryModal').modal('show');
+
+    $.ajax({
+        url: '/admin/enquiry/show/' + id,
+        method: 'GET',
+        success: function(response) {
+            $('#enquiry-details').html(response.html);
+        },
+        error: function() {
+            $('#enquiry-details').html('<p class="text-danger">Failed to load enquiry details.</p>');
+        }
+    });
+});
+
+////Show Quotation details
+$(document).on('click', '.view-quotation', function(e) {
+    e.preventDefault();
+    let id = $(this).data('id');
+
+    $('#quotation-details').html('<div class="text-center"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...</div>');
+    $('#viewquotationModal').modal('show');
+
+    $.ajax({
+        url: '/admin/quotation/show/' + id,
+        method: 'GET',
+        success: function(response) {
+            $('#quotation-details').html(response.html);
+        },
+        error: function() {
+            $('#quotation-details').html('<p class="text-danger">Failed to load quotation details.</p>');
         }
     });
 });

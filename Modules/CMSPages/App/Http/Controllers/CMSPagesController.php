@@ -19,13 +19,21 @@ class CMSPagesController extends Controller
             $pages = Pages::query();
             return DataTables::eloquent($pages)
             ->addIndexColumn()
+            ->addColumn('image', function ($page) {
+                $url = asset('upload/pages/' . $page->image);
+                return $page->image ? '<img src="'.$url.'" style="width: 60px; height: auto; border-radius: 5px;">' : '';
+            })
+            ->addColumn('og_img', function ($page) {
+                $url = asset('upload/pages/' . $page->og_img);
+                return $page->og_img ? '<img src="'.$url.'" style="width: 60px; height: auto; border-radius: 5px;">' : '';
+            })
             ->addColumn('action', function($page){
                return '
                      <a href="'.route('page.edit', $page->id).'" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
                      <a href="'.route('page.destroy', $page->id).'" class="btn btn-danger delete-confirm"><i class="bi bi-trash3-fill"></i></a>
                ';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'image', 'og_img'])
             ->make(true);
            };
         return view('cmspages::index');

@@ -10,11 +10,11 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">Roles</h4>
+                    <div class="text-end mb-2">
+                        <a href="{{ route('role.create') }}" class="btn btn-success mt-0">+</a>
+                      </div>
                 </div>
                 <div class="card-body mt-3">
-                  <div class="text-end mb-2">
-                    <a href="{{ route('role.create') }}" class="btn btn-primary mt-0">+</a>
-                  </div>
                   <table class="table table-bordered table-striped rolesList nowrap">
                     <thead>
                         <tr>

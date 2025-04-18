@@ -12,11 +12,11 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">FAQ</h4>
+                    <div class="text-end mb-2">
+                        <a href="#" class="btn btn-success" id="create-faq" data-bs-toggle="modal" data-bs-target="#faqModal">+</a>
+                      </div>
                 </div>
                 <div class="card-body mt-3">
-                  <div class="text-end mb-2">
-                    <a href="#" class="btn btn-primary" id="create-faq" data-bs-toggle="modal" data-bs-target="#faqModal">+</a>
-                  </div>
                   <table class="table table-bordered table-striped faqList nowrap">
                     <thead>
                         <tr>

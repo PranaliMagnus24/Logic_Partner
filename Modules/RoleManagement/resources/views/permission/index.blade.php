@@ -10,11 +10,11 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">Permission</h4>
+                    <div class="text-end mb-2">
+                        <a href="{{ route('permission.create') }}" class="btn btn-success mb-3">+</a>
+                    </div>
                 </div>
                 <div class="card-body mt-3">
-                    <div class="text-end mb-2">
-                        <a href="{{ route('permission.create') }}" class="btn btn-primary mb-3">+</a>
-                    </div>
                     {{-- @livewire('permission-table') --}}
                   <table class="table table-bordered table-striped permissionList nowrap">
                     <thead>

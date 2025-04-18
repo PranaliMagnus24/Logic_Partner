@@ -121,7 +121,6 @@
 
 
   <!-- Template Main JS File -->
-
   <script src="{{ asset('admin/assets/js/main.js') }}"></script>
   <script src="{{ asset('admin/assets/js/datatable.js') }}"></script>
 

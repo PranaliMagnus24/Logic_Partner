@@ -1,0 +1,6 @@
+ALTER TABLE `enquiry` ADD `second_customer_name` VARCHAR(255) NULL DEFAULT NULL AFTER `customer_name`, ADD `enquiry_name` VARCHAR(255) NULL DEFAULT NULL AFTER `second_customer_name`, ADD `stage` VARCHAR(255) NULL DEFAULT NULL AFTER `enquiry_name`, ADD `status` VARCHAR(255) NULL DEFAULT NULL AFTER `stage`, ADD `follow_up_date` DATE NULL DEFAULT NULL AFTER `status`, ADD `follow_up_time` TIME NULL DEFAULT NULL AFTER `follow_up_date`, ADD `report_name` VARCHAR(255) NULL DEFAULT NULL AFTER `follow_up_time`, ADD `current_stage_date` DATE NULL DEFAULT NULL AFTER `report_name`, ADD `enquiry_type` VARCHAR(255) NULL DEFAULT NULL AFTER `current_stage_date`, ADD `enquiry_source` VARCHAR(255) NULL DEFAULT NULL AFTER `enquiry_type`, ADD `best_time_to_call` VARCHAR(255) NULL DEFAULT NULL AFTER `enquiry_source`;
+
+
+
+ALTER TABLE `enquiry`
+ADD `created_date` date NULL AFTER `customer_address`;

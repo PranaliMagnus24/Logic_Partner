@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Admin\EnquiryManagement\EnquiryManagementController;
 use App\Http\Controllers\Admin\EnquiryManagement\QuotationManagementController;
 
@@ -17,9 +18,10 @@ use App\Http\Controllers\Admin\EnquiryManagement\QuotationManagementController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+
+Route::get('/', [HomeController::class,'index'])->name('home.index');
+Route::get('/password-reset', [HomeController::class,'forgotPassword'])->name('home.forgot.password');
+
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -42,10 +44,17 @@ Route::post('/enquiry',[EnquiryManagementController::class, 'storeEnquiry'])->na
 Route::get('/enquiry/{id}/edit',[EnquiryManagementController::class, 'editEnquiry'])->name('edit.enquiry');
 Route::post('/enquiry/{id}/update',[EnquiryManagementController::class, 'updateEnquiry'])->name('update.enquiry');
 Route::get('/enquiry/{id}/delete',[EnquiryManagementController::class, 'deleteEnquiry'])->name('delete.enquiry');
+Route::get('/enquiry/show/{id}',[EnquiryManagementController::class, 'showEnquiry'])->name('show.enquiry');
 
 Route::get('/quotation',[QuotationManagementController::class, 'index'])->name('list.quotation');
 Route::get('/create/quotation',[QuotationManagementController::class, 'create'])->name('create.quotation');
 Route::post('/store/quotation',[QuotationManagementController::class, 'store'])->name('store.quotation');
+
+Route::get('/quotation/{id}/edit',[QuotationManagementController::class, 'edit'])->name('edit.quotation');
+Route::post('/quotation/{id}/update',[QuotationManagementController::class, 'update'])->name('update.quotation');
+Route::get('/quotation/{id}/delete',[QuotationManagementController::class, 'destroy'])->name('delete.quotation');
+Route::get('/quotation/show/{id}',[QuotationManagementController::class, 'show'])->name('show.quotation');
+
 
 });
 

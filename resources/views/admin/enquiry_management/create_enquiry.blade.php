@@ -182,33 +182,15 @@
                                 @enderror
                             </div>
                         </div>
-                        {{-- <div class="row mb-3">
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Email <span class="text-danger">*</span></label>
+                        <div class="row mb-3">
+                            <label for="" class="col-md-4 col-lg-2 col-form-label">Best time to call<span class="text-danger">*</span></label>
                             <div class="col-md-8 col-lg-4">
-                                <input type="text" name="customer_email" id="email" class="form-control" value="{{ old('customer_email')}}">
-                                @error('customer_email')
+                              <input type="text" name="best_time_to_call" class="form-control" value="{{ old('best_time_to_call')}}">
+                                @error('best_time_to_call')
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
                             </div>
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Phone <span class="text-danger">*</span></label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="text" name="customer_phone" id="phone" class="form-control" value="{{ old('customer_phone')}}">
-                                @error('customer_phone')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                        </div> --}}
-
-                        {{-- <div class="row mb-3">
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Address <span class="text-danger">*</span></label>
-                            <div class="col-md-8 col-lg-10">
-                                <textarea name="customer_address" id="address" cols="10" rows="5" class="form-control">{{ old('customer_address') }}</textarea>
-                                @error('customer_address')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                        </div> --}}
-
+                        </div>
                         <div class="mb-3 text-center">
                             <button type="submit" class="btn btn-primary btn-sm">Save</button>
                             <button type="submit" class="btn btn-primary btn-sm">Archive</button>
@@ -224,5 +206,8 @@
     </div>
 
 </div>
+
+
+
 @endsection
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -11,41 +11,41 @@ use Yajra\DataTables\Facades\DataTables;
 class EnquiryManagementController extends Controller
 {
     ///Enquiry list
-//    public function index1(Request $request)
-//    {
-//        $enquiries = Enquiry::query();
-
-//        if (request()->has('search')) {
-//         $searchTerm = request('search');
-//         $enquiries->where(function($query) use ($searchTerm) {
-//             $query->where('project_name', 'like', '%' . $searchTerm . '%')
-//                   ->orWhere('customer_name', 'like', '%' . $searchTerm . '%')
-//                   ->orWhere('customer_email', 'like', '%' . $searchTerm . '%');
-//         });
-//     }
-//        $enquiries = $enquiries->orderBy('created_at', 'desc')->paginate(10);
-//      return view('admin.enquiry_management.index_enquiry', compact('enquiries'));
-//    }
-
-
-   public function index(Request $request){
-
-    if ($request->ajax()){
-        $enquiries = Enquiry::query();
-        return DataTables::eloquent($enquiries)
-        ->addIndexColumn()
-        ->addColumn('action', function($enquiry){
-           return '
-                 <a href="'.route('edit.enquiry', $enquiry->id).'" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
-                 <a href="'.route('delete.enquiry', $enquiry->id).'" class="btn btn-danger delete-confirm"><i class="bi bi-trash3-fill"></i></a>
-           ';
-        })
-        ->rawColumns(['action'])
-        ->make(true);
-       };
-       return view("admin.enquiry_management.index_enquiry");
-
-   }
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $enquiries = Enquiry::query();
+            return DataTables::eloquent($enquiries)
+                ->addIndexColumn()
+                ->addColumn('action', function($enquiry) {
+                    return '
+                        <div class="d-flex align-items-center nowrap">
+                            <a href="'.route('edit.enquiry', $enquiry->id).'" class="btn btn-primary me-1"><i class="bi bi-pencil-square"></i></a>
+                            <a href="'.route('delete.enquiry', $enquiry->id).'" class="btn btn-danger delete-confirm me-1"><i class="bi bi-trash3-fill"></i></a>
+                            <div class="dropdown">
+                                <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item view-enquiry" href="#" data-id="'.$enquiry->id.'">View Enquiry</a></li>
+                                    <li><a class="dropdown-item" href="'.route('create.quotation', [
+                                        'enquiry_id' => $enquiry->id,
+                                        'project_name' => $enquiry->project_name,
+                                        'project_location' => $enquiry->project_location
+                                        ]).'">Create Quotation
+                                        </a>
+                                        </li>
+                                </ul>
+                            </div>
+                        </div>
+                    ';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        $enquiry = null;
+        return view("admin.enquiry_management.index_enquiry", compact("enquiry"));
+    }
    ////Create Enquiry
 
     public function createEnquiry()
@@ -65,9 +65,19 @@ class EnquiryManagementController extends Controller
             'estimated_budget' => 'required|string',
             'estimated_timeline' => 'required|string',
             'customer_name' => 'required|string',
-            'customer_email' => 'required|string|email|max:255|unique:users,email',
-            'customer_phone' => 'required|integer|digits:10',
-            'customer_address' => 'required|string',
+            'second_customer_name' => 'nullable|string',
+            'enquiry_name' => 'required|string',
+            'stage' => 'required|string',
+            'status' => 'required|string',
+            'follow_up_date' => 'required|date',
+            'follow_up_time' => 'required',
+            'report_name' => 'required|string',
+            'current_stage_date' => 'required|date',
+            'created_date' => 'required|date',
+            'enquiry_type' => 'required|string',
+            'enquiry_source' => 'required|string',
+            'best_time_to_call' => 'required|string',
+
         ]);
 
         $enquiry = Enquiry::create([
@@ -76,9 +86,18 @@ class EnquiryManagementController extends Controller
             'estimated_budget' => $request->estimated_budget,
             'estimated_timeline' => $request->estimated_timeline,
             'customer_name' => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'customer_phone' => $request->customer_phone,
-            'customer_address' => $request->customer_address,
+            'second_customer_name' => $request->second_customer_name,
+            'enquiry_name' => $request->enquiry_name,
+            'stage' => $request->stage,
+            'status' => $request->status,
+            'follow_up_date' => $request->follow_up_date,
+            'follow_up_time' => $request->follow_up_time,
+            'report_name' => $request->report_name,
+            'current_stage_date' => $request->current_stage_date,
+            'created_date' => $request->created_date,
+            'enquiry_type' => $request->enquiry_type,
+            'enquiry_source' => $request->enquiry_source,
+            'best_time_to_call' => $request->best_time_to_call,
             'assign_to' => json_encode($request->assign_to),
         ]);
 
@@ -101,25 +120,45 @@ class EnquiryManagementController extends Controller
     public function updateEnquiry(Request $request, $id)
     {
         $request->validate([
+            'assign_to' => 'required|array',
             'project_name' => 'required|string',
             'project_location' => 'required|string',
             'estimated_budget' => 'required|string',
             'estimated_timeline' => 'required|string',
             'customer_name' => 'required|string',
-            'customer_email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'customer_phone' => 'required|integer|digits:10',
-            'customer_address' => 'required|string',
+            'second_customer_name' => 'nullable|string',
+            'enquiry_name' => 'required|string',
+            'stage' => 'required|string',
+            'status' => 'required|string',
+            'follow_up_date' => 'required|date',
+            'follow_up_time' => 'required',
+            'report_name' => 'required|string',
+            'current_stage_date' => 'required|date',
+            'created_date' => 'required|date',
+            'enquiry_type' => 'required|string',
+            'enquiry_source' => 'required|string',
+            'best_time_to_call' => 'required|string',
+
         ]);
         $enquiry = Enquiry::findOrFail($id);
         $enquiry->update([
-            'project_name' => $request->project_name,
+           'project_name' => $request->project_name,
             'project_location' => $request->project_location,
             'estimated_budget' => $request->estimated_budget,
             'estimated_timeline' => $request->estimated_timeline,
             'customer_name' => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'customer_phone' => $request->customer_phone,
-            'customer_address' => $request->customer_address,
+            'second_customer_name' => $request->second_customer_name,
+            'enquiry_name' => $request->enquiry_name,
+            'stage' => $request->stage,
+            'status' => $request->status,
+            'follow_up_date' => $request->follow_up_date,
+            'follow_up_time' => $request->follow_up_time,
+            'report_name' => $request->report_name,
+            'current_stage_date' => $request->current_stage_date,
+            'created_date' => $request->created_date,
+            'enquiry_type' => $request->enquiry_type,
+            'enquiry_source' => $request->enquiry_source,
+            'best_time_to_call' => $request->best_time_to_call,
             'assign_to' => json_encode($request->assign_to),
         ]);
         return redirect()->route('list.enquiry')->with('success', 'Enquiry updated successfully!');
@@ -133,5 +172,17 @@ class EnquiryManagementController extends Controller
         $enquiry->delete();
         return redirect()->route('list.enquiry')->with('success', 'Enquiry deleted successfully!');
     }
+
+
+    public function showEnquiry($id)
+    {
+        $enquiry = Enquiry::findOrFail($id);
+
+        return response()->json([
+            'html' => view('admin.enquiry_management.view_enquiry', compact('enquiry'))->render()
+        ]);
+    }
+
+
 
 }
