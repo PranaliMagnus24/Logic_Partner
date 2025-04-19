@@ -13,7 +13,7 @@
                     <a href="{{ route('list.enquiry')}}" class="btn btn-primary btn-sm">Back</a>
                 </div>
                 <div class="card-body mt-3">
-                    <form action="{{ route('store.enquiry')}}" method="POST">
+                    <form action="{{ route('store.enquiry')}}" method="POST" id="enquiryForm" target="_self">
                         @csrf
                         <div class="row mb-3">
                             <label class="col-md-4 col-lg-2 col-form-label">
@@ -191,11 +191,11 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="mb-3 text-center">
-                            <button type="submit" class="btn btn-primary btn-sm">Save</button>
-                            <button type="submit" class="btn btn-primary btn-sm">Archive</button>
-                            <button type="submit" class="btn btn-primary btn-sm">Pending</button>
-                            <button type="submit" class="btn btn-primary btn-sm">Generate</button>
+                        <input type="hidden" name="submission_type" id="submission_type" value="">
+                        <div class="mb-3 text-center d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary btn-sm me-2" onclick="setSubmissionType('draft')">Save as Draft</button>
+                            <button type="submit" class="btn btn-primary btn-sm me-2" onclick="setSubmissionType('final')">Save</button>
+                            <button type="button" class="btn btn-primary btn-sm me-2" onclick="submitPreview()">Preview</button>
                         </div>
                     </form>
 
@@ -206,8 +206,39 @@
     </div>
 
 </div>
-
-
-
 @endsection
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function submitPreview() {
+    const form = document.getElementById('enquiryForm');
+
+    const previewForm = document.createElement('form');
+    previewForm.action = "{{ route('enquiry.preview') }}";
+    previewForm.method = 'POST';
+    previewForm.target = '_blank';
+
+    // Add CSRF token
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = '_token';
+    csrfInput.value = "{{ csrf_token() }}";
+    previewForm.appendChild(csrfInput);
+
+    // Copy form values into the new form
+    const formData = new FormData(form);
+    for (let [name, value] of formData.entries()) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        previewForm.appendChild(input);
+    }
+
+    document.body.appendChild(previewForm);
+    previewForm.submit();
+    document.body.removeChild(previewForm);
+}
+
+function setSubmissionType(type) {
+        document.getElementById('submission_type').value = type;
+    }
+</script>

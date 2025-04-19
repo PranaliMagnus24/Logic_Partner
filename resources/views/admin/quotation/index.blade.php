@@ -18,11 +18,10 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Enquiry Name</th>
-                            <th>Project Name</th>
-                            <th>Project Location</th>
-                            <th>Build up area</th>
-                            <th>Total cost</th>
+                            <th>Report Name</th>
+                            <th>Property</th>
+                            <th>Contract Type</th>
+                            <th>Purchase price</th>
                             <th>Action</th>
                         </tr>
                     </thead>

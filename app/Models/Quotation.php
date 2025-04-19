@@ -10,7 +10,7 @@ class Quotation extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'quotations';
-    protected $fillable = ['enquiry_id','project_name','project_location','build_up_area','num_floors','labor_cost','material_cost','equipment_cost','misc_expenses','total_cost','start_date','completion_date','status','approval','created_by','approved_by','extra_costs'];
+    protected $fillable = ['is_draft','enquiry_id','summary', 'property','contract_type','land_purchase_cost','building_cost','purchase_price','eoi_deposite_land','eoi_deposite_build','land_deposite_percent','land_deposite_price','building_deposite_percent','building_deposite_price','cash_deposite','bank_interest_rate','contigency_purchase_price','capital_growth_pa','state','stamp_duty','trans','soliditor_price','misc_purchase_cost','eoi_date','unconditional_days','titles','estimate_titled_date','settlement_days','estimate_settlement_date','site_start_week','handover_amount','handover_days','total_time_month','payment_template'];
 
 
     // Quotation.php

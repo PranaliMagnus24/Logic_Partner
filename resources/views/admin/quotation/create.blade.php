@@ -3,225 +3,413 @@
 @section('title', 'Quotation Management')
 @section('admin')
 @section('pagetitle', 'Quotation Management')
+
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
             <div class="card mt-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">Create Quotation</h4>
-                    <a href="{{ route('list.quotation')}}" class="btn btn-primary btn-sm">Back</a>
+                    <a href="{{ route('list.quotation') }}" class="btn btn-primary btn-sm">Back</a>
                 </div>
                 <div class="card-body mt-3">
-                    <form action="{{ route('store.quotation')}}" method="POST">
+                    <form action="{{ route('store.quotation') }}" method="POST" enctype="multipart/form-data" id="quotationForm">
                         @csrf
-                        <input type="hidden" name="enquiry_id" value="{{ $enquiryId }}">
-                        <div class="row mb-3">
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Project Name<span class="text-danger">*</span>
-                            </label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="text" name="project_name" class="form-control" value="{{ $projectName }}" readonly>
-                                @error('project_name')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
+                        <div class="row">
+                            <!-- Left Column: Tabs inside a card -->
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Sections</h6>
+                                    </div>
+                                    <div class="card-body p-2">
+                                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+                                            <button class="nav-link active" id="v-pills-details-tab" data-bs-toggle="pill" data-bs-target="#v-pills-details" type="button" role="tab">Property Details</button>
+                                            <button class="nav-link" id="v-pills-funding-tab" data-bs-toggle="pill" data-bs-target="#v-pills-funding" type="button" role="tab">Funding & Performance</button>
+                                            <button class="nav-link" id="v-pills-purchase-tab" data-bs-toggle="pill" data-bs-target="#v-pills-purchase" type="button" role="tab">Purchase Estimates</button>
+                                            <button class="nav-link" id="v-pills-timeline-tab" data-bs-toggle="pill" data-bs-target="#v-pills-timeline" type="button" role="tab">Timeline Dates</button>
+                                            <button class="nav-link" id="v-pills-payment-tab" data-bs-toggle="pill" data-bs-target="#v-pills-payment" type="button" role="tab">Payment Milestones</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Project Location <span class="text-danger">*</span>
-                            </label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="text" name="project_location" class="form-control" value="{{ $projectLocation }}" readonly>
-                                @error('project_location')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
+
+                            <!-- Right Column: Tab Content (All in ONE form) -->
+                            <div class="col-md-9">
+                                <div class="tab-content" id="v-pills-tabContent">
+                                    <!-- Property Details -->
+                                    <div class="tab-pane fade show active" id="v-pills-details" role="tabpanel">
+                                        <div class="card mb-3">
+                                            <div class="card-header"><strong>Property Details</strong></div>
+                                            <div class="card-body mt-3">
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">PIFA Report Name <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <select name="enquiry_id" id="" class="form-control">
+                                                            @foreach ($enquiries as $enquiry)
+                                                            <option value="{{$enquiry->id}}">{{$enquiry->report_name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('enquiry_id')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Summary<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                      <textarea name="summary" id="" class="form-control" rows="5" placeholder="summary">{{old('summary')}}</textarea>
+                                                      @error('summary')
+                                                      <span class="text-danger">{{$message}}</span>
+                                                      @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Property<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                     <input type="text" class="form-control" name="property" value="{{ old('property')}}">
+                                                     @error('property')
+                                                     <span class="text-danger">{{$message}}</span>
+                                                     @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Contract Type<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                     <select name="contract_type" id="" class="form-control">
+                                                        <option value="two_part_contract">2 Part Contract</option>
+                                                     </select>
+                                                     @error('contract_type')
+                                                     <span class="text-danger">{{$message}}</span>
+                                                     @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Land Purchase Cost<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                     <input type="text" class="form-control land-purchase-cost" name="land_purchase_cost" id="land-purchase-cost" value="{{old('land_purchase_cost')}}">
+                                                     @error('land_purchase_cost')
+                                                     <span class="text-danger">{{$message}}</span>
+                                                     @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Building Cost<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                      <input type="text" class="form-control building-cost" name="building_cost" id="building-cost" value="{{ old('building_cost')}}">
+                                                      @error('building_cost')
+                                                      <span class="text-danger">{{$message}}</span>
+                                                      @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Purchase price<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                     <input type="text" class="form-control purchase-price" name="purchase_price" id="purchase-price" value="{{ old('purchase_price')}}" readonly>
+                                                     @error('purchase_price')
+                                                     <span class="text-danger">{{$message}}</span>
+                                                     @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">EOI Deposite land<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                      <input type="text" class="form-control" name="eoi_deposite_land" value="{{ old('eoi_deposite_land')}}">
+                                                      @error('eoi_deposite_land')
+                                                      <span class="text-danger">{{$message}}</span>
+                                                      @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">EOI Deposite Build<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                      <input type="text" class="form-control" name="eoi_deposite_build" value="{{ old('eoi_deposite_build')}}">
+                                                      @error('eoi_deposite_build')
+                                                      <span class="text-danger">{{$message}}</span>
+                                                      @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Land Deposite<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-4">
+                                                      <input type="text" class="form-control land-deposite-percent" name="land_deposite_percent" placeholder="%" id="land-deposite-percent" value="{{ old('land_deposite_percent')}}">
+                                                      @error('land_deposite_percent')
+                                                      <span class="text-danger">{{$message}}</span>
+                                                      @enderror
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" class="form-control land-deposite-price" name="land_deposite_price" id="land-deposite-price" value="{{ old('land_deposite_price')}}">
+                                                        @error('land_deposite_price')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                      </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Building Deposite<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-4">
+                                                      <input type="text" class="form-control building-deposite-percent" name="building_deposite_percent" placeholder="%" id="building-deposite-percent" value="{{ old('building_deposite_percent')}}">
+                                                      @error('building_deposite_percent')
+                                                      <span class="text-danger">{{$message}}</span>
+                                                      @enderror
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" class="form-control building-deposite-price" name="building_deposite_price" id="building-deposite-price" value="{{ old('building_deposite_price')}}">
+                                                        @error('building_deposite_price')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                      </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Funding -->
+                                    <div class="tab-pane fade" id="v-pills-funding" role="tabpanel">
+                                        <div class="card mb-3">
+                                            <div class="card-header"><strong>Funding & Performance</strong></div>
+                                            <div class="card-body mt-3">
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Cash Deposite $<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                      <input type="text" class="form-control" name="cash_deposite" value="{{ old('cash_deposite')}}">
+                                                      @error('cash_deposite')
+                                                      <span class="text-danger">{{$message}}</span>
+                                                      @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Bank Interest Rate<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="bank_interest_rate" class="form-control" value="6" readonly>
+                                                        @error('bank_interest_rate')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Contigency allowance as % of the purchase price<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                      <input type="text" class="form-control" name="contigency_purchase_price" value="{{ old('contigency_purchase_price')}}">
+                                                      @error('contigency_purchase_price')
+                                                      <span class="text-danger">{{$message}}</span>
+                                                      @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Capital Growth PA<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                      <input type="text" class="form-control" name="capital_growth_pa" value="{{ old('capital_growth_pa')}}">
+                                                      @error('capital_growth_pa')
+                                                      <span class="text-danger">{{$message}}</span>
+                                                      @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Purchase -->
+                                    <div class="tab-pane fade" id="v-pills-purchase" role="tabpanel">
+                                        <div class="card mb-3">
+                                            <div class="card-header"><strong>Purchase Expense Estimates</strong></div>
+                                            <div class="card-body mt-3">
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">State<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                      <select name="state" id="" class="form-control">
+                                                        <option value="NA">NA</option>
+                                                      </select>
+                                                      @error('state')
+                                                      <span class="text-danger">{{$message}}</span>
+                                                      @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Stamp Duty<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="stamp_duty" class="form-control" value="{{ old('stamp_duty')}}">
+                                                        @error('stamp_duty')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Trans<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="trans" class="form-control" value="{{ old('trans')}}">
+                                                        @error('trans')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Soliditor Price<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="soliditor_price" class="form-control" value="{{ old('soliditor_price')}}">
+                                                        @error('soliditor_price')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Misc Purchase Cost<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="misc_purchase_cost" class="form-control" value="{{ old('misc_purchase_cost')}}">
+                                                        @error('misc_purchase_cost')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Timeline -->
+                                    <div class="tab-pane fade" id="v-pills-timeline" role="tabpanel">
+                                        <div class="card mb-3">
+                                            <div class="card-header"><strong>Timeline Key Dates</strong></div>
+                                            <div class="card-body mt-3">
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">EOI Dates<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="date" name="eoi_date" class="form-control" value="{{ old('eoi_date')}}">
+                                                        @error('eoi_date')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Unconditional days estimates<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="unconditional_days" class="form-control" value="{{ old('unconditional_days')}}">
+                                                        @error('unconditional_days')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Titles<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <select name="titles" id="" class="form-control">
+                                                            <option value="yes">Yes</option>
+                                                            <option value="no">No</option>
+                                                        </select>
+                                                        @error('titles')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Estimates Titled Date<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="date" name="estimate_titled_date" class="form-control" value="{{ old('estimate_titled_date')}}">
+                                                        @error('estimate_titled_date')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Settlement Days<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="settlement_days" class="form-control" value="{{ old('settlement_days')}}">
+                                                        @error('settlement_days')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Estimate Settlement Date<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="date" name="estimate_settlement_date" class="form-control" value="{{ old('estimate_settlement_date')}}">
+                                                        @error('estimate_settlement_date')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Site Start(weeks)<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="site_start_week" class="form-control" value="{{ old('site_start_week')}}">
+                                                        @error('site_start_week')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Handover(Amount Due)<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="handover_amount" class="form-control" value="{{ old('handover_amount')}}">
+                                                        @error('handover_amount')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Handover(Days)<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="handover_days" class="form-control" value="{{ old('handover_days')}}">
+                                                        @error('handover_days')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Total Time(months)<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="total_time_month" class="form-control" value="{{ old('total_time_month')}}">
+                                                        @error('total_time_month')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Payment -->
+                                    <div class="tab-pane fade" id="v-pills-payment" role="tabpanel">
+                                        <div class="card mb-3">
+                                            <div class="card-header"><strong>Payment Milestones</strong></div>
+                                            <div class="card-body mt-3">
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Template<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-6">
+                                                        <select name="payment_template" id="" class="form-control">
+                                                            <option value="WA">WA</option>
+                                                        </select>
+                                                        @error('payment_template')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                       <button class="btn btn-secondary">Re-Apply</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <input type="hidden" name="submission_type" id="submission_type" value="">
+                                <div class="mb-3 text-center d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary btn-sm me-2" onclick="setSubmissionType('draft')">Save as Draft</button>
+                                    <button type="submit" class="btn btn-primary btn-sm me-2" onclick="setSubmissionType('final')">Save</button>
+                                    <button type="button" class="btn btn-primary btn-sm me-2" onclick="submitPreview()">Preview</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Build Up Area <span class="text-danger">*</span>
-                            </label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="number" name="build_up_area" class="form-control" value="{{ old('build_up_area') }}">
-                                @error('build_up_area')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Number of Floors <span class="text-danger">*</span>
-                            </label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="number" name="num_floors" class="form-control" value="{{ old('num_floors')}}">
-                                @error('num_floors')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Labor Cost <span class="text-danger">*</span></label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="number" name="labor_cost" class="form-control" value="{{ old('labor_cost')}}">
-                                @error('labor_cost')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Material Cost <span class="text-danger">*</span></label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="number" name="material_cost" class="form-control" value="{{ old('material_cost')}}">
-                                @error('material_cost')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Equipment Cost <span class="text-danger">*</span></label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="number" name="equipment_cost" class="form-control" value="{{ old('equipment_cost')}}">
-                                @error('equipment_cost')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Miscellaneous Expenses <span class="text-danger">*</span></label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="number" name="misc_expenses" class="form-control" value="{{ old('misc_expenses')}}">
-                                @error('misc_expenses')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div id="extraCostsContainer"></div>
-                        <div class="mb-3 text-end">
-                            <button type="button" class="btn btn-secondary" id="addExtraCost">Add New Row</button>
-                        </div><!--  extra costs -->
-                        <div class="row mb-3">
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Total Cost <span class="text-danger">*</span>
-                            </label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="number" name="total_cost" class="form-control" value="{{ old('total_cost')}}">
-                                @error('total_cost')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Start Date <span class="text-danger">*</span>
-                            </label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="date" name="start_date" class="form-control" value="{{ old('start_date')}}">
-                                @error('start_date')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Completion Date <span class="text-danger">*</span>
-                            </label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="date" name="completion_date" class="form-control" value="{{ old('completion_date')}}">
-                                @error('completion_date')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Status <span class="text-danger">*</span>
-                            </label>
-                            <div class="col-md-8 col-lg-4">
-                                <select name="status" class="form-select">
-                                    <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
-                                    </option>
-                                    <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive
-                                    </option>
-                                </select>
-                                @error('status')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <input type="hidden" name="action" id="formAction" value="">
-                        <div class="mb-3 text-center d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary btn-sm me-2" onclick="setAction('draft')">Save as Draft</button>
-                            <button type="submit" class="btn btn-primary btn-sm me-2" onclick="setAction('continue')">Save & Continue</button>
-                            <button type="submit" class="btn btn-primary btn-sm" onclick="setAction('new')">Save & New</button>
-                        </div>
-                    </div>
-                </form>
+                        </div> <!-- .row -->
+                    </form>
+                </div> <!-- .card-body -->
             </div>
         </div>
     </div>
 </div>
-</div>
 @endsection
+
 <script>
-     document.addEventListener('DOMContentLoaded', function() {
-        let extraCostIndex = 0; // To keep track of the number of extra cost fields
-
-        // Function to calculate total cost
-        function calculateTotalCost() {
-            const laborCost = parseFloat(document.getElementById('labor_cost').value) || 0;
-            const materialCost = parseFloat(document.getElementById('material_cost').value) || 0;
-            const equipmentCost = parseFloat(document.getElementById('equipment_cost').value) || 0;
-            const miscExpenses = parseFloat(document.getElementById('misc_expenses').value) || 0;
-
-            let totalExtraCost = 0;
-
-            // Calculate total extra costs
-            const extraCostInputs = document.querySelectorAll('.extra-cost-value');
-            extraCostInputs.forEach(input => {
-                totalExtraCost += parseFloat(input.value) || 0;
-            });
-
-            // Calculate total cost
-            const totalCost = laborCost + materialCost + equipmentCost + miscExpenses + totalExtraCost;
-
-            // Update the total cost input field
-            document.getElementById('total_cost').value = totalCost.toFixed(2); // Format to 2 decimal places
-        }
-
-        document.getElementById('addExtraCost').addEventListener('click', function() {
-            // Create a new div to hold the input fields
-            const newCostDiv = document.createElement('div');
-            newCostDiv.classList.add('mb-3', 'd-flex', 'align-items-center');
-
-            // Create a new input field for the name (description) of the extra cost
-            const nameInput = document.createElement('input');
-            nameInput.type = 'text';
-            nameInput.name = `extra_costs[${extraCostIndex}][name]`;
-            nameInput.classList.add('form-control', 'me-2');
-            nameInput.placeholder = 'Enter cost description';
-
-            // Create a new input field for the value of the extra cost
-            const valueInput = document.createElement('input');
-            valueInput.type = 'number';
-            valueInput.name = `extra_costs[${extraCostIndex}][value]`;
-            valueInput.classList.add('form-control', 'me-2', 'extra-cost-value'); // Add a class for easy selection
-            valueInput.placeholder = 'Enter extra cost';
-            valueInput.addEventListener('input', calculateTotalCost); // Recalculate total cost on input
-
-            // Create a button to remove the input field
-            const removeButton = document.createElement('button');
-            removeButton.type = 'button';
-            removeButton.classList.add('btn', 'btn-danger', 'btn-sm', 'removeExtraCost');
-            removeButton.innerText = 'Remove';
-            removeButton.addEventListener('click', function() {
-                newCostDiv.remove(); // Remove the input field when the button is clicked
-                calculateTotalCost(); // Recalculate total cost after removal
-            });
-
-            // Append the name input, value input, and remove button to the new div
-            newCostDiv.appendChild(nameInput);
-            newCostDiv.appendChild(valueInput);
-            newCostDiv.appendChild(removeButton);
-
-            // Append the new div to the container
-            document.getElementById('extraCostsContainer').appendChild(newCostDiv);
-
-            // Increment the index for the next input field
-            extraCostIndex++;
-
-            // Recalculate total cost after adding a new row
-            calculateTotalCost();
-        });
-
-        // Initial calculation of total cost on page load
-        calculateTotalCost();
-    });
-
-
-
-    // save and draft button script
-
-    function setAction(action) {
-        document.getElementById('formAction').value = action;
-    }
+    window.quotationPreviewRoute = "{{ route('quotation.preview') }}";
+    window.csrfToken = "{{ csrf_token() }}";
 </script>
+

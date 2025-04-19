@@ -80,6 +80,7 @@ class EnquiryManagementController extends Controller
 
         ]);
 
+        $isDraft = $request->submission_type === 'draft' ? 1 : 0;
         $enquiry = Enquiry::create([
             'project_name' => $request->project_name,
             'project_location' => $request->project_location,
@@ -99,6 +100,7 @@ class EnquiryManagementController extends Controller
             'enquiry_source' => $request->enquiry_source,
             'best_time_to_call' => $request->best_time_to_call,
             'assign_to' => json_encode($request->assign_to),
+            'is_draft' => $isDraft,
         ]);
 
         return redirect()->route('list.enquiry')->with('success', 'Enquiry created successfully!');
@@ -119,6 +121,7 @@ class EnquiryManagementController extends Controller
 /////Update Enquiry
     public function updateEnquiry(Request $request, $id)
     {
+        $enquiry = Enquiry::findOrFail($id);
         $request->validate([
             'assign_to' => 'required|array',
             'project_name' => 'required|string',
@@ -140,7 +143,8 @@ class EnquiryManagementController extends Controller
             'best_time_to_call' => 'required|string',
 
         ]);
-        $enquiry = Enquiry::findOrFail($id);
+
+        $isDraft = $request->submission_type === 'draft' ? 1 : 0;
         $enquiry->update([
            'project_name' => $request->project_name,
             'project_location' => $request->project_location,
@@ -160,6 +164,7 @@ class EnquiryManagementController extends Controller
             'enquiry_source' => $request->enquiry_source,
             'best_time_to_call' => $request->best_time_to_call,
             'assign_to' => json_encode($request->assign_to),
+            'is_draft' => $isDraft,
         ]);
         return redirect()->route('list.enquiry')->with('success', 'Enquiry updated successfully!');
     }
@@ -181,6 +186,13 @@ class EnquiryManagementController extends Controller
         return response()->json([
             'html' => view('admin.enquiry_management.view_enquiry', compact('enquiry'))->render()
         ]);
+    }
+
+
+    public function preview(Request $request)
+    {
+        $data = $request->all();
+        return view('admin.enquiry_management.preview_enquiry', compact('data',));
     }
 
 

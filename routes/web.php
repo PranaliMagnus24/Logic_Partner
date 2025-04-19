@@ -18,7 +18,7 @@ use App\Http\Controllers\Admin\EnquiryManagement\QuotationManagementController;
 |
 */
 
-
+////////Home Controller
 Route::get('/', [HomeController::class,'index'])->name('home.index');
 Route::get('/password-reset', [HomeController::class,'forgotPassword'])->name('home.forgot.password');
 
@@ -37,7 +37,10 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
 
+    /////Admin Controller
 Route::get('/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
+
+///////Enquiry Management Controller
 Route::get('/enquiries',[EnquiryManagementController::class, 'index'])->name('list.enquiry');
 Route::get('/enquiry',[EnquiryManagementController::class, 'createEnquiry'])->name('create.enquiry');
 Route::post('/enquiry',[EnquiryManagementController::class, 'storeEnquiry'])->name('store.enquiry');
@@ -45,15 +48,18 @@ Route::get('/enquiry/{id}/edit',[EnquiryManagementController::class, 'editEnquir
 Route::post('/enquiry/{id}/update',[EnquiryManagementController::class, 'updateEnquiry'])->name('update.enquiry');
 Route::get('/enquiry/{id}/delete',[EnquiryManagementController::class, 'deleteEnquiry'])->name('delete.enquiry');
 Route::get('/enquiry/show/{id}',[EnquiryManagementController::class, 'showEnquiry'])->name('show.enquiry');
+Route::post('/enquiry/preview', [EnquiryManagementController::class, 'preview'])->name('enquiry.preview');
 
+
+//////Quotation Management Controller
 Route::get('/quotation',[QuotationManagementController::class, 'index'])->name('list.quotation');
 Route::get('/create/quotation',[QuotationManagementController::class, 'create'])->name('create.quotation');
 Route::post('/store/quotation',[QuotationManagementController::class, 'store'])->name('store.quotation');
-
 Route::get('/quotation/{id}/edit',[QuotationManagementController::class, 'edit'])->name('edit.quotation');
 Route::post('/quotation/{id}/update',[QuotationManagementController::class, 'update'])->name('update.quotation');
 Route::get('/quotation/{id}/delete',[QuotationManagementController::class, 'destroy'])->name('delete.quotation');
 Route::get('/quotation/show/{id}',[QuotationManagementController::class, 'show'])->name('show.quotation');
+Route::post('/quotation/preview', [QuotationManagementController::class, 'preview'])->name('quotation.preview');
 
 
 });

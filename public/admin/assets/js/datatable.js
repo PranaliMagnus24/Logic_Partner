@@ -53,11 +53,10 @@ $(document).ready(function() {
             },
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                { data: 'enquiry_name', name: 'enquiry_name' },
-                { data: 'project_name', name: 'project_name' },
-                { data: 'project_location', name: 'project_location' },
-                { data: 'build_up_area', name: 'build_up_area' },
-                { data: 'total_cost', name: 'total_cost' },
+                { data: 'report_name', name: 'report_name' },
+                { data: 'property', name: 'property' },
+                { data: 'contract_type', name: 'contract_type' },
+                { data: 'purchase_price', name: 'purchase_price' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
@@ -475,3 +474,5 @@ $(document).on('click', '.view-quotation', function(e) {
         }
     });
 });
+
+
