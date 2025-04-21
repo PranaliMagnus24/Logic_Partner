@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Artisan;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -45,4 +46,17 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    public function clearCache()
+{
+    // Clear application cache
+    Artisan::call('cache:clear');
+    // Optionally clear other caches too
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return response()->json([
+        'message' => 'All caches cleared successfully.'
+    ]);
+}
 }

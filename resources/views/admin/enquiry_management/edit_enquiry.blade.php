@@ -13,7 +13,7 @@
                     <a href="{{ route('list.enquiry')}}" class="btn btn-primary btn-sm">Back</a>
                 </div>
                 <div class="card-body mt-3">
-                    <form action="{{ route('update.enquiry', $enquiry->id)}}" method="POST" id="enquiryForm" target="_self">
+                    <form action="{{ route('update.enquiry', $enquiry->id)}}" method="POST" id="enquiryForm" target="_self" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-3">
                             <label class="col-md-4 col-lg-2 col-form-label">
@@ -190,6 +190,35 @@
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
                             </div>
+
+                            <label for="" class="col-md-4 col-lg-2 col-form-label">Attachments</label>
+                            <div class="col-md-8 col-lg-4">
+                                <input type="file" name="attachments" class="form-control">
+
+                                {{-- Show the existing attachment --}}
+                                @if(!empty($enquiry->attachments))
+                                    <div class="mt-2">
+                                        <strong>Uploaded File:</strong>
+                                        <br>
+                                        @php
+                                            $ext = pathinfo($enquiry->attachments, PATHINFO_EXTENSION);
+                                        @endphp
+
+                                        @if(in_array($ext, ['jpg', 'jpeg', 'png']))
+                                            <img src="{{ asset('upload/attachments/' . $enquiry->attachments) }}" alt="Attachment" class="img-thumbnail mt-1" style="max-width: 150px;">
+                                        @elseif($ext === 'pdf')
+                                            <a href="{{ asset('upload/attachments/' . $enquiry->attachments) }}" target="_blank" class="btn btn-sm btn-primary mt-1">View PDF</a>
+                                        @else
+                                            <a href="{{ asset('upload/attachments/' . $enquiry->attachments) }}" target="_blank" class="btn btn-sm btn-secondary mt-1">Download File</a>
+                                        @endif
+                                    </div>
+                                @endif
+
+                                @error('attachments')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
                         </div>
                         <div class="mb-3 text-center">
                             <div class="mb-3 text-center">

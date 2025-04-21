@@ -410,7 +410,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row align-items-center">
-                                                    <label class="col-sm-4 col-form-label">Soliditor Price<span class="text-danger">*</span></label>
+                                                    <label class="col-sm-4 col-form-label">Solicitor Price<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="soliditor_price" class="form-control" value="{{ old('soliditor_price', $quotation->soliditor_price)}}">
                                                         @error('soliditor_price')
@@ -423,6 +423,27 @@
                                                     <div class="col-sm-8">
                                                         <input type="text" name="misc_purchase_cost" class="form-control" value="{{ old('misc_purchase_cost', $quotation->misc_purchase_cost)}}">
                                                         @error('misc_purchase_cost')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="mb-3 row align-items-center">
+                                                    <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other" name="other_one_label" value="{{ old('other_one_label', $quotation->other_one_label)}}" style="width: 240px;">
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="other_one_input" class="form-control" placeholder="0.00" value="{{ old('other_one_input', $quotation->other_one_input)}}">
+                                                        @error('other_one_input')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3 row align-items-center">
+                                                    <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other" name="other_two_label" value="{{ old('other_two_label', $quotation->other_two_label)}}" style="width: 240px;">
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="other_two_input" class="form-control" placeholder="0.00" value="{{ old('other_two_input', $quotation->other_two_input)}}">
+                                                        @error('other_two_input')
                                                         <span class="text-danger">{{$message}}</span>
                                                         @enderror
                                                     </div>
@@ -562,7 +583,8 @@
                                 <input type="hidden" name="submission_type" id="submission_type" value="">
                                 <div class="mb-3 text-center d-flex justify-content-center">
                                     <button type="submit" class="btn btn-primary btn-sm me-2">Update</button>
-                                    <button type="submit" class="btn btn-primary btn-sm" onclick="submitPreview()">Preview</button>
+                                    <button type="submit" class="btn btn-primary btn-sm me-2" onclick="submitPreview()">Preview</button>
+                                    <button type="button" class="btn btn-primary btn-sm me-2" onclick="generatePDF({{ $quotation->id }})">Generate PDF</button>
                                 </div>
                             </div>
                         </div> <!-- .row -->
@@ -577,5 +599,10 @@
 <script>
     window.quotationPreviewRoute = "{{ route('quotation.preview') }}";
     window.csrfToken = "{{ csrf_token() }}";
+
+    function generatePDF(id) {
+    window.open(`/generate-pdf/${id}`, '_blank');
+}
+
 </script>
 

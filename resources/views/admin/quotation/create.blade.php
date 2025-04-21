@@ -24,11 +24,11 @@
                                     </div>
                                     <div class="card-body p-2">
                                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
-                                            <button class="nav-link active" id="v-pills-details-tab" data-bs-toggle="pill" data-bs-target="#v-pills-details" type="button" role="tab">Property Details</button>
-                                            <button class="nav-link" id="v-pills-funding-tab" data-bs-toggle="pill" data-bs-target="#v-pills-funding" type="button" role="tab">Funding & Performance</button>
-                                            <button class="nav-link" id="v-pills-purchase-tab" data-bs-toggle="pill" data-bs-target="#v-pills-purchase" type="button" role="tab">Purchase Estimates</button>
-                                            <button class="nav-link" id="v-pills-timeline-tab" data-bs-toggle="pill" data-bs-target="#v-pills-timeline" type="button" role="tab">Timeline Dates</button>
-                                            <button class="nav-link" id="v-pills-payment-tab" data-bs-toggle="pill" data-bs-target="#v-pills-payment" type="button" role="tab">Payment Milestones</button>
+                                            <button class="nav-link text-start active" id="v-pills-details-tab" data-bs-toggle="pill" data-bs-target="#v-pills-details" type="button" role="tab">Property Details</button>
+                                            <button class="nav-link text-start" id="v-pills-funding-tab" data-bs-toggle="pill" data-bs-target="#v-pills-funding" type="button" role="tab">Funding & Performance</button>
+                                            <button class="nav-link text-start" id="v-pills-purchase-tab" data-bs-toggle="pill" data-bs-target="#v-pills-purchase" type="button" role="tab">Purchase Estimates</button>
+                                            <button class="nav-link text-start" id="v-pills-timeline-tab" data-bs-toggle="pill" data-bs-target="#v-pills-timeline" type="button" role="tab">Timeline Dates</button>
+                                            <button class="nav-link text-start" id="v-pills-payment-tab" data-bs-toggle="pill" data-bs-target="#v-pills-payment" type="button" role="tab">Payment Milestones</button>
                                         </div>
                                     </div>
                                 </div>
@@ -244,7 +244,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row align-items-center">
-                                                    <label class="col-sm-4 col-form-label">Soliditor Price<span class="text-danger">*</span></label>
+                                                    <label class="col-sm-4 col-form-label">Solicitor Price<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="soliditor_price" class="form-control" value="{{ old('soliditor_price')}}">
                                                         @error('soliditor_price')
@@ -261,6 +261,27 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+
+                                                <div class="mb-3 row align-items-center">
+                                                    <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other" name="other_one_label" value="{{ old('other_one_label')}}" style="width: 240px;">
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="other_one_input" class="form-control" placeholder="0.00" value="{{ old('other_one_input')}}">
+                                                        @error('other_one_input')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3 row align-items-center">
+                                                    <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other" name="other_two_label" value="{{ old('other_two_label')}}" style="width: 240px;">
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="other_two_input" class="form-control" placeholder="0.00" value="{{ old('other_two_input')}}">
+                                                        @error('other_two_input')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -397,6 +418,8 @@
                                     <button type="submit" class="btn btn-primary btn-sm me-2" onclick="setSubmissionType('draft')">Save as Draft</button>
                                     <button type="submit" class="btn btn-primary btn-sm me-2" onclick="setSubmissionType('final')">Save</button>
                                     <button type="button" class="btn btn-primary btn-sm me-2" onclick="submitPreview()">Preview</button>
+
+
                                 </div>
                             </div>
                         </div> <!-- .row -->
@@ -411,5 +434,9 @@
 <script>
     window.quotationPreviewRoute = "{{ route('quotation.preview') }}";
     window.csrfToken = "{{ csrf_token() }}";
+
+
 </script>
+
+
 

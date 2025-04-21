@@ -29,6 +29,8 @@
   <!-- Template Main CSS File -->
   <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet">
   <link href="{{ asset('admin/assets/vendor/datatables/dataTables.bootstrap5.css') }}" rel="stylesheet">
+  <link href="{{ asset('admin/assets/vendor/datatables/rowReorder.dataTables.css') }}" rel="stylesheet">
+
   <link href="{{ asset('admin/assets/vendor/datatables/responsive.bootstrap5.css') }}" rel="stylesheet">
   <link href="{{ asset('admin/assets/vendor/datatables/buttons.bootstrap5.min.css') }}" rel="stylesheet">
   <script src="{{ asset('admin/assets/vendor/sweet-alert/sweetalert2@11.js')}}"></script>
@@ -104,6 +106,9 @@
   <script src="{{ asset('admin/assets/vendor/tinymce/tinymce.min.js') }}"></script>
   <script src="{{ asset('admin/assets/vendor/php-email-form/validate.js') }}"></script>
   <script src="{{ asset('admin/assets/vendor/datatables/dataTables.js') }}"></script>
+  <script src="{{ asset('admin/assets/vendor/datatables/dataTables.rowReorder.js') }}"></script>
+  <script src="{{ asset('admin/assets/vendor/datatables/rowReorder.dataTables.js') }}"></script>
+
   <script src="{{ asset('admin/assets/vendor/datatables/dataTables.bootstrap5.js') }}"></script>
   <script src="{{ asset('admin/assets/vendor/datatables/dataTables.responsive.js') }}"></script>
   <script src="{{ asset('admin/assets/vendor/datatables/responsive.bootstrap5.js') }}"></script>

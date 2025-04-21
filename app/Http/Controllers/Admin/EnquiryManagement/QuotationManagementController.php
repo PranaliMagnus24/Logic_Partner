@@ -10,6 +10,7 @@ use App\Models\Enquiry;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 use Str;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class QuotationManagementController extends Controller
 {
@@ -36,6 +37,7 @@ class QuotationManagementController extends Controller
                         </ul>
                         </div>
                         <a href="'.route('delete.quotation', $quotation->id).'" class="btn btn-danger delete-confirm me-1"><i class="bi bi-trash3-fill"></i></a>
+                         <a href="'.route('generate.pdf', $quotation->id).'" class="btn btn-warning me-1" onclick="generatePDF({{ $quotation->id }})">  <i class="bi bi-file-earmark-pdf"></i></a>
                         </div>
                     ';
                 })
@@ -90,6 +92,11 @@ class QuotationManagementController extends Controller
            'handover_days' => 'required|string',
            'total_time_month' => 'required|string',
            'payment_template' => 'nullable|string',
+           'other_one_label' => 'nullable|string',
+           'other_one_input' => 'nullable|string',
+           'other_two_label' => 'nullable|string',
+           'other_two_input' => 'nullable|string',
+
         ]);
 
         $isDraft = $request->submission_type === 'draft' ? 1 : 0;
@@ -117,6 +124,10 @@ class QuotationManagementController extends Controller
              'trans' => $request->trans,
              'soliditor_price' => $request->soliditor_price,
              'misc_purchase_cost' => $request->misc_purchase_cost,
+             'other_one_label' => $request->other_one_label,
+             'other_one_input' => $request->other_one_input,
+             'other_two_label' => $request->other_two_label,
+             'other_two_input' => $request->other_two_input,
              'eoi_date' => $request->eoi_date,
              'unconditional_days' => $request->unconditional_days,
              'titles' => $request->titles,
@@ -180,6 +191,10 @@ class QuotationManagementController extends Controller
         'handover_days' => 'required|string',
         'total_time_month' => 'required|string',
         'payment_template' => 'nullable|string',
+        'other_one_label' => 'nullable|string',
+        'other_one_input' => 'nullable|string',
+        'other_two_label' => 'nullable|string',
+        'other_two_input' => 'nullable|string',
     ]);
 
     $isDraft = $request->submission_type === 'draft' ? 1 : 0;
@@ -207,6 +222,10 @@ class QuotationManagementController extends Controller
         'trans' => $request->trans,
         'soliditor_price' => $request->soliditor_price,
         'misc_purchase_cost' => $request->misc_purchase_cost,
+        'other_one_label' => $request->other_one_label,
+        'other_one_input' => $request->other_one_input,
+        'other_two_label' => $request->other_two_label,
+        'other_two_input' => $request->other_two_input,
         'eoi_date' => $request->eoi_date,
         'unconditional_days' => $request->unconditional_days,
         'titles' => $request->titles,
@@ -249,6 +268,13 @@ class QuotationManagementController extends Controller
 }
 
 
+public function generatePDF($id)
+{
+    $quotation = Quotation::with('enquiry')->findOrFail($id);
 
+    $pdf = Pdf::loadView('admin.pdf.quotation_pdf', compact('quotation'));
+
+    return $pdf->stream('quotation_' . $quotation->id . '.pdf');
+}
 
 }

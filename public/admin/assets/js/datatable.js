@@ -16,6 +16,9 @@ $(document).ready(function() {
             serverSide: true,
             processing: true,
             responsive: true,
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+            },
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
@@ -68,6 +71,9 @@ $(document).ready(function() {
             serverSide: true,
             processing: true,
             responsive: true,
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+            },
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
@@ -120,6 +126,9 @@ $(document).ready(function() {
             serverSide: true,
             processing: true,
             responsive: true,
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+            },
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
@@ -172,6 +181,9 @@ $(document).ready(function() {
             serverSide: true,
             processing: true,
             responsive: true,
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+            },
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
@@ -222,6 +234,9 @@ $(document).ready(function() {
             serverSide: true,
             processing: true,
             responsive: true,
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+            },
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
@@ -271,6 +286,9 @@ $(document).ready(function() {
             serverSide: true,
             processing: true,
             responsive: true,
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+            },
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
@@ -331,6 +349,9 @@ if ($('.faqList').length) {
     serverSide: true,
     processing: true,
     responsive: true,
+    rowReorder: {
+        selector: 'td:nth-child(2)'
+    },
     dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
@@ -474,5 +495,29 @@ $(document).on('click', '.view-quotation', function(e) {
         }
     });
 });
+
+/////Display current stage date is selected
+document.addEventListener("DOMContentLoaded", function () {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+
+    today = `${yyyy}-${mm}-${dd}`;
+
+    var dateInput = document.getElementById('current_stage_date');
+    if (dateInput) {
+        dateInput.value = today;
+    }
+});
+
 
 

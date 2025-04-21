@@ -60,9 +60,8 @@ Route::post('/quotation/{id}/update',[QuotationManagementController::class, 'upd
 Route::get('/quotation/{id}/delete',[QuotationManagementController::class, 'destroy'])->name('delete.quotation');
 Route::get('/quotation/show/{id}',[QuotationManagementController::class, 'show'])->name('show.quotation');
 Route::post('/quotation/preview', [QuotationManagementController::class, 'preview'])->name('quotation.preview');
-
-
 });
+Route::get('/generate-pdf/{id}', [QuotationManagementController::class, 'generatePDF'])->name('generate.pdf');
 
 // Route::get('/index', [AdminController::class, 'admin'])->name('admin.index');
 

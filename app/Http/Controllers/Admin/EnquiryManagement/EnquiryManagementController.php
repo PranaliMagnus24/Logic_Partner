@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Enquiry;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
+use Str;
 
 class EnquiryManagementController extends Controller
 {
@@ -23,7 +24,7 @@ class EnquiryManagementController extends Controller
                             <a href="'.route('edit.enquiry', $enquiry->id).'" class="btn btn-primary me-1"><i class="bi bi-pencil-square"></i></a>
                             <a href="'.route('delete.enquiry', $enquiry->id).'" class="btn btn-danger delete-confirm me-1"><i class="bi bi-trash3-fill"></i></a>
                             <div class="dropdown">
-                                <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="icon btn btn-secondary" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-three-dots-vertical"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -77,6 +78,7 @@ class EnquiryManagementController extends Controller
             'enquiry_type' => 'required|string',
             'enquiry_source' => 'required|string',
             'best_time_to_call' => 'required|string',
+            'attachments' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
 
         ]);
 
@@ -102,6 +104,12 @@ class EnquiryManagementController extends Controller
             'assign_to' => json_encode($request->assign_to),
             'is_draft' => $isDraft,
         ]);
+        if ($request->hasFile('attachments')) {
+            $file = $request->file('attachments');
+            $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('upload/attachments/'), $filename);
+            $enquiry->update(['attachments' => $filename]);
+        }
 
         return redirect()->route('list.enquiry')->with('success', 'Enquiry created successfully!');
     }
@@ -141,6 +149,7 @@ class EnquiryManagementController extends Controller
             'enquiry_type' => 'required|string',
             'enquiry_source' => 'required|string',
             'best_time_to_call' => 'required|string',
+            'attachments' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
 
         ]);
 
@@ -166,6 +175,12 @@ class EnquiryManagementController extends Controller
             'assign_to' => json_encode($request->assign_to),
             'is_draft' => $isDraft,
         ]);
+        if ($request->hasFile('attachments')) {
+            $file = $request->file('attachments');
+            $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('upload/attachments/'), $filename);
+            $enquiry->update(['attachments' => $filename]);
+        }
         return redirect()->route('list.enquiry')->with('success', 'Enquiry updated successfully!');
     }
 

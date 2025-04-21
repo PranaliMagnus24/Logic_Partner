@@ -13,7 +13,7 @@
                     <a href="{{ route('list.enquiry')}}" class="btn btn-primary btn-sm">Back</a>
                 </div>
                 <div class="card-body mt-3">
-                    <form action="{{ route('store.enquiry')}}" method="POST" id="enquiryForm" target="_self">
+                    <form action="{{ route('store.enquiry')}}" method="POST" id="enquiryForm" target="_self" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-3">
                             <label class="col-md-4 col-lg-2 col-form-label">
@@ -190,7 +190,17 @@
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
                             </div>
+
+                            <label for="" class="col-md-4 col-lg-2 col-form-label">Attachments</label>
+                            <div class="col-md-8 col-lg-4">
+                              <input type="file" name="attachments" class="form-control">
+                                @error('attachments')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
                         </div>
+
+
                         <input type="hidden" name="submission_type" id="submission_type" value="">
                         <div class="mb-3 text-center d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary btn-sm me-2" onclick="setSubmissionType('draft')">Save as Draft</button>
@@ -208,6 +218,9 @@
 </div>
 @endsection
 <script>
+
+
+
     function submitPreview() {
     const form = document.getElementById('enquiryForm');
 
@@ -241,4 +254,7 @@
 function setSubmissionType(type) {
         document.getElementById('submission_type').value = type;
     }
+
+
+
 </script>
