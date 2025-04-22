@@ -224,6 +224,7 @@
                             <div class="mb-3 text-center">
                                 <button type="submit" class="btn btn-primary btn-sm me-2">Update</button>
                                 <button type="button" class="btn btn-primary btn-sm me-2" onclick="submitPreview()">Preview</button>
+                                <button type="button" class="btn btn-primary btn-sm me-2" onclick="generatePDF({{ $enquiry->id }})">Generate PDF</button>
                             </div>
                         </div>
                     </form>
@@ -265,5 +266,9 @@
     document.body.appendChild(previewForm);
     previewForm.submit();
     document.body.removeChild(previewForm);
+}
+
+function generatePDF(id) {
+    window.open(`/enquiry-pdf/${id}`, '_blank');
 }
 </script>

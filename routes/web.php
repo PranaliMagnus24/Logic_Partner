@@ -39,6 +39,7 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
 
     /////Admin Controller
 Route::get('/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
+Route::get('/user/profile', [AdminController::class, 'userProfile'])->name('user.profile');
 
 ///////Enquiry Management Controller
 Route::get('/enquiries',[EnquiryManagementController::class, 'index'])->name('list.enquiry');
@@ -62,6 +63,7 @@ Route::get('/quotation/show/{id}',[QuotationManagementController::class, 'show']
 Route::post('/quotation/preview', [QuotationManagementController::class, 'preview'])->name('quotation.preview');
 });
 Route::get('/generate-pdf/{id}', [QuotationManagementController::class, 'generatePDF'])->name('generate.pdf');
+Route::get('/enquiry-pdf/{id}', [EnquiryManagementController::class, 'generatePDF'])->name('enquiry.pdf');
 
 // Route::get('/index', [AdminController::class, 'admin'])->name('admin.index');
 

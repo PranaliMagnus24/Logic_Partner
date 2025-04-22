@@ -8,6 +8,7 @@ use App\Models\Enquiry;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 use Str;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class EnquiryManagementController extends Controller
 {
@@ -38,6 +39,7 @@ class EnquiryManagementController extends Controller
                                         </li>
                                 </ul>
                             </div>
+                             <a href="'.route('enquiry.pdf', $enquiry->id).'" class="btn btn-warning me-1" onclick="generatePDF({{ $enquiry->id }})">  <i class="bi bi-file-earmark-pdf"></i></a>
                         </div>
                     ';
                 })
@@ -210,6 +212,13 @@ class EnquiryManagementController extends Controller
         return view('admin.enquiry_management.preview_enquiry', compact('data',));
     }
 
+    public function generatePDF($id)
+    {
+        $enquiry = Enquiry::with('quotations')->findOrFail($id);
 
+        $pdf = Pdf::loadView('admin.pdf.enquiry_pdf', compact('enquiry'));
+
+        return $pdf->stream('enquiry_' . $enquiry->id . '.pdf');
+    }
 
 }
