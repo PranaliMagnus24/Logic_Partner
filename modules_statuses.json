@@ -3,5 +3,6 @@
     "MasterSetting": true,
     "RoleManagement": true,
     "FAQ": true,
-    "CMSPages": true
+    "CMSPages": true,
+    "StateManagement": true
 }

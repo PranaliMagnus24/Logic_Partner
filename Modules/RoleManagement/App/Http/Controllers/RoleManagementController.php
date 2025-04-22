@@ -22,7 +22,7 @@ class RoleManagementController extends Controller
      public function index(Request $request)
      {
          if ($request->ajax()) {
-             $roles = Role::query();
+             $roles = Role::query()->orderBy('created_at', 'desc');
 
              return DataTables::eloquent($roles)
                  ->addIndexColumn()

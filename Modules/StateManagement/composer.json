@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/statemanagement",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\StateManagement\\": "",
+            "Modules\\StateManagement\\App\\": "app/",
+            "Modules\\StateManagement\\Database\\Factories\\": "database/factories/",
+            "Modules\\StateManagement\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\StateManagement\\Tests\\": "tests/"
+        }
+    }
+}

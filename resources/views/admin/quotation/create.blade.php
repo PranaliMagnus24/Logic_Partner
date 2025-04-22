@@ -214,12 +214,32 @@
                                         <div class="card mb-3">
                                             <div class="card-header"><strong>Purchase Expense Estimates</strong></div>
                                             <div class="card-body mt-3">
+                                                <div class="mb-3 d-none">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label">Country</label>
+                                                            <select name="country" id="country-dropdown" class="form-select form-control">
+                                                                @foreach ($countries as $country)
+                                                                <option value="{{ $country->id }}" {{ $country->id == 14 ? 'selected' : '' }}>{{ $country->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        @error('country')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                                 <div class="mb-3 row align-items-center">
                                                     <label class="col-sm-4 col-form-label">State<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
-                                                      <select name="state" id="" class="form-control">
-                                                        <option value="NA">NA</option>
-                                                      </select>
+                                                        <select name="state" id="state-select" class="form-control">
+                                                            <option value="">-- Select State --</option>
+                                                            @foreach($states as $state)
+                                                                <option value="{{ $state->name }}">{{ $state->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+
                                                       @error('state')
                                                       <span class="text-danger">{{$message}}</span>
                                                       @enderror
@@ -261,26 +281,23 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                <div class="text-end mt-2">
+                                                    <input type="button" class="btn btn-primary" onclick="addTime()" value="Add More" />
+                                                </div>
 
-                                                <div class="mb-3 row align-items-center">
-                                                    <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other" name="other_one_label" value="{{ old('other_one_label')}}" style="width: 240px;">
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="other_one_input" class="form-control" placeholder="0.00" value="{{ old('other_one_input')}}">
-                                                        @error('other_one_input')
-                                                        <span class="text-danger">{{$message}}</span>
-                                                        @enderror
+                                                <div id="add-more-container" class="mt-3">
+                                                    <div class="mb-3 row align-items-center add-more mt-1">
+                                                        <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other"
+                                                            name="other_one_label[]" value="{{ old('other_one_label') }}" style="width: 240px;">
+
+                                                        <div class="col-sm-8">
+                                                            <input type="text" name="other_one_input[]" class="form-control"
+                                                                value="{{ old('other_one_input') }}" placeholder="0.00">
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="mb-3 row align-items-center">
-                                                    <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other" name="other_two_label" value="{{ old('other_two_label')}}" style="width: 240px;">
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="other_two_input" class="form-control" placeholder="0.00" value="{{ old('other_two_input')}}">
-                                                        @error('other_two_input')
-                                                        <span class="text-danger">{{$message}}</span>
-                                                        @enderror
-                                                    </div>
-                                                </div>
+
 
                                             </div>
                                         </div>
@@ -434,8 +451,6 @@
 <script>
     window.quotationPreviewRoute = "{{ route('quotation.preview') }}";
     window.csrfToken = "{{ csrf_token() }}";
-
-
 </script>
 
 

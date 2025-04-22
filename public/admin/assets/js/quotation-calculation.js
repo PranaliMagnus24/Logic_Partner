@@ -74,3 +74,58 @@ function setSubmissionType(type) {
     document.getElementById('submission_type').value = type;
 }
 
+
+/////////Add More input field button
+function addTime() {
+    const container = document.getElementById("add-more-container");
+
+    const html = `
+        <div class="mb-3 row align-items-center add-more mt-1">
+            <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other"
+                name="other_one_label[]" style="width: 240px;">
+
+            <div class="col-sm-8">
+                <input type="text" name="other_one_input[]" class="form-control" placeholder="0.00">
+            </div>
+        </div>
+    `;
+
+    container.insertAdjacentHTML('beforeend', html);
+}
+
+///////Display state wise stamp_duty
+$(document).ready(function() {
+    $('#state-select').on('change', function () {
+        let selectedState = $(this).val();
+        let stampInput = $('input[name="stamp_duty"]');
+
+        stampInput.prop('disabled', true);
+
+        if (selectedState) {
+            $.ajax({
+                url: `/get-stamp-duty/${selectedState}`,
+                type: 'GET',
+                success: function (response) {
+                    if (response.stamp_duty !== null && response.stamp_duty !== '') {
+                        stampInput.val(response.stamp_duty);
+                    } else {
+                        stampInput.val('');
+
+                    }
+                    stampInput.prop('disabled', false);
+                },
+                error: function () {
+                    stampInput.prop('disabled', false);
+                    alert('Failed to fetch stamp duty');
+                }
+            });
+        } else {
+            stampInput.val('');
+            stampInput.prop('disabled', false);
+        }
+    });
+
+    if ($('#state-select').val()) {
+        $('#state-select').trigger('change');
+    }
+});

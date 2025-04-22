@@ -64,6 +64,11 @@
                   <i class="bi bi-circle"></i><span>General Settings</span>
                 </a>
               </li>
+              <li>
+                <a href="{{ route('state.index')}}">
+                  <i class="bi bi-circle"></i><span>State Management</span>
+                </a>
+              </li>
         </ul>
       </li><!-- End Master Setting -->
 

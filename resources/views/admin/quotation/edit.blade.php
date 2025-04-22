@@ -383,9 +383,15 @@
                                                 <div class="mb-3 row align-items-center">
                                                     <label class="col-sm-4 col-form-label">State<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
-                                                      <select name="state" id="" class="form-control">
-                                                        <option value="NA" {{ (old('state', $quotation->state) == 'state') ? 'selected' : '' }}>NA</option>
-                                                      </select>
+                                                        <select name="state" id="state-select" class="form-control">
+                                                            <option value="">-- Select State --</option>
+                                                            @foreach($states as $state)
+                                                            <option value="{{ $state->name }}"
+                                                                {{ old('state', $quotation->state) == $state->name ? 'selected' : '' }}>
+                                                                {{ $state->name }}
+                                                            </option>
+                                                        @endforeach
+                                                        </select>
                                                       @error('state')
                                                       <span class="text-danger">{{$message}}</span>
                                                       @enderror
@@ -428,24 +434,18 @@
                                                     </div>
                                                 </div>
 
-
-                                                <div class="mb-3 row align-items-center">
-                                                    <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other" name="other_one_label" value="{{ old('other_one_label', $quotation->other_one_label)}}" style="width: 240px;">
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="other_one_input" class="form-control" placeholder="0.00" value="{{ old('other_one_input', $quotation->other_one_input)}}">
-                                                        @error('other_one_input')
-                                                        <span class="text-danger">{{$message}}</span>
-                                                        @enderror
-                                                    </div>
+                                                <div class="text-end mt-2">
+                                                    <input type="button" class="btn btn-primary" onclick="addTime()" value="Add More" />
                                                 </div>
+                                                <div id="add-more-container" class="mt-3">
+                                                    <div class="mb-3 row align-items-center add-more mt-1">
+                                                        <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other"
+                                                            name="other_one_label[]" value="{{ old('other_one_label') }}" style="width: 240px;">
 
-                                                <div class="mb-3 row align-items-center">
-                                                    <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other" name="other_two_label" value="{{ old('other_two_label', $quotation->other_two_label)}}" style="width: 240px;">
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="other_two_input" class="form-control" placeholder="0.00" value="{{ old('other_two_input', $quotation->other_two_input)}}">
-                                                        @error('other_two_input')
-                                                        <span class="text-danger">{{$message}}</span>
-                                                        @enderror
+                                                        <div class="col-sm-8">
+                                                            <input type="text" name="other_one_input[]" class="form-control"
+                                                                value="{{ old('other_one_input') }}" placeholder="0.00">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Quotation;
 use App\Models\Enquiry;
 use App\Models\User;
+use App\Models\Country;
+use App\Models\State;
 use Yajra\DataTables\Facades\DataTables;
 use Str;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -17,7 +19,7 @@ class QuotationManagementController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $quotations = Quotation::with('enquiry');
+            $quotations = Quotation::with('enquiry')->orderBy('created_at', 'desc');
 
             return DataTables::eloquent($quotations)
                 ->addIndexColumn()
@@ -51,13 +53,14 @@ class QuotationManagementController extends Controller
     public function create(Request $request)
     {
         $enquiries = Enquiry::all();
-        return view('admin.quotation.create', compact('enquiries'));
+        $countries = Country::get(["name", "id"]);
+        $states = State::where('country_id',14)->get(["name", "id"]);
+        return view('admin.quotation.create', compact('enquiries', 'countries','states'));
     }
 
 
     public function store(Request $request)
     {
-
         $request->validate([
            'enquiry_id' => 'required|string',
            'summary' => 'nullable|string',
@@ -92,11 +95,10 @@ class QuotationManagementController extends Controller
            'handover_days' => 'required|string',
            'total_time_month' => 'required|string',
            'payment_template' => 'nullable|string',
-           'other_one_label' => 'nullable|string',
-           'other_one_input' => 'nullable|string',
-           'other_two_label' => 'nullable|string',
-           'other_two_input' => 'nullable|string',
-
+           'other_one_label' => 'nullable|array',
+           'other_one_label.*' => 'nullable|string',
+           'other_one_input' => 'nullable|array',
+           'other_one_input.*' => 'nullable|string',
         ]);
 
         $isDraft = $request->submission_type === 'draft' ? 1 : 0;
@@ -124,10 +126,8 @@ class QuotationManagementController extends Controller
              'trans' => $request->trans,
              'soliditor_price' => $request->soliditor_price,
              'misc_purchase_cost' => $request->misc_purchase_cost,
-             'other_one_label' => $request->other_one_label,
-             'other_one_input' => $request->other_one_input,
-             'other_two_label' => $request->other_two_label,
-             'other_two_input' => $request->other_two_input,
+             'other_one_label' => json_encode($request->other_one_label),
+             'other_one_input' => json_encode($request->other_one_input),
              'eoi_date' => $request->eoi_date,
              'unconditional_days' => $request->unconditional_days,
              'titles' => $request->titles,
@@ -149,7 +149,9 @@ class QuotationManagementController extends Controller
     {
         $quotation = Quotation::findOrFail($id);
         $enquiries = Enquiry::all();
-        return view('admin.quotation.edit', compact('quotation', 'enquiries'));
+        $countries = Country::get(["name", "id"]);
+        $states = State::where('country_id',14)->get(["name", "id"]);
+        return view('admin.quotation.edit', compact('quotation', 'enquiries','countries','states'));
     }
 
 
@@ -191,10 +193,10 @@ class QuotationManagementController extends Controller
         'handover_days' => 'required|string',
         'total_time_month' => 'required|string',
         'payment_template' => 'nullable|string',
-        'other_one_label' => 'nullable|string',
-        'other_one_input' => 'nullable|string',
-        'other_two_label' => 'nullable|string',
-        'other_two_input' => 'nullable|string',
+        'other_one_label' => 'nullable|array',
+        'other_one_label.*' => 'nullable|string',
+        'other_one_input' => 'nullable|array',
+        'other_one_input.*' => 'nullable|string',
     ]);
 
     $isDraft = $request->submission_type === 'draft' ? 1 : 0;
@@ -222,10 +224,8 @@ class QuotationManagementController extends Controller
         'trans' => $request->trans,
         'soliditor_price' => $request->soliditor_price,
         'misc_purchase_cost' => $request->misc_purchase_cost,
-        'other_one_label' => $request->other_one_label,
-        'other_one_input' => $request->other_one_input,
-        'other_two_label' => $request->other_two_label,
-        'other_two_input' => $request->other_two_input,
+        'other_one_label' => json_encode($request->other_one_label),
+        'other_one_input' => json_encode($request->other_one_input),
         'eoi_date' => $request->eoi_date,
         'unconditional_days' => $request->unconditional_days,
         'titles' => $request->titles,
@@ -276,5 +276,18 @@ public function generatePDF($id)
 
     return $pdf->stream('quotation_' . $quotation->id . '.pdf');
 }
+
+public function getStampDuty($state)
+{
+    $data = State::where('name', $state)->first();
+
+    if ($data) {
+        return response()->json(['stamp_duty' => $data->stamp_duty]);
+    }
+
+    return response()->json(['stamp_duty' => null]);
+}
+
+
 
 }

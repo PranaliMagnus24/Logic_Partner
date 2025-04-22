@@ -19,7 +19,7 @@ class PermissionManagementController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()){
-            $permissions = Permission::query();
+            $permissions = Permission::query()->orderBy('created_at', 'desc');
             return DataTables::eloquent($permissions)
             ->addIndexColumn()
             ->addColumn('action', function ($user) {

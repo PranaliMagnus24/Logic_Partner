@@ -17,7 +17,7 @@ class FAQController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()){
-            $faqs = FAQ::query();
+            $faqs = FAQ::query()->orderBy('created_at', 'desc');
             return DataTables::eloquent($faqs)
             ->addIndexColumn()
             ->addColumn('action', function($faq){

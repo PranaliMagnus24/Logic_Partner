@@ -23,7 +23,7 @@ class UserManagementController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::with('roles');
+            $users = User::with('roles')->orderBy('created_at', 'desc');
 
             return DataTables::eloquent($users)
                 ->addIndexColumn()

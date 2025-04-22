@@ -16,7 +16,7 @@ class CMSPagesController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()){
-            $pages = Pages::query();
+            $pages = Pages::query()->orderBy('created_at', 'desc');
             return DataTables::eloquent($pages)
             ->addIndexColumn()
             ->addColumn('image', function ($page) {

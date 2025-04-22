@@ -16,7 +16,7 @@ class EnquiryManagementController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $enquiries = Enquiry::query();
+            $enquiries = Enquiry::query()->orderBy('created_at', 'desc');
             return DataTables::eloquent($enquiries)
                 ->addIndexColumn()
                 ->addColumn('action', function($enquiry) {
