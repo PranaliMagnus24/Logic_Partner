@@ -114,7 +114,7 @@
                                                 <div class="mb-3 row align-items-center">
                                                     <label class="col-sm-4 col-form-label">EOI Deposite land<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
-                                                      <input type="text" class="form-control" name="eoi_deposite_land" value="{{ old('eoi_deposite_land')}}">
+                                                      <input type="text" class="form-control" name="eoi_deposite_land" value="{{ old('eoi_deposite_land')}}" id="eoiDepositeLand">
                                                       @error('eoi_deposite_land')
                                                       <span class="text-danger">{{$message}}</span>
                                                       @enderror
@@ -123,34 +123,46 @@
                                                 <div class="mb-3 row align-items-center">
                                                     <label class="col-sm-4 col-form-label">EOI Deposite Build<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
-                                                      <input type="text" class="form-control" name="eoi_deposite_build" value="{{ old('eoi_deposite_build')}}">
+                                                      <input type="text" class="form-control" name="eoi_deposite_build" value="{{ old('eoi_deposite_build')}}" id="eoiDepositeBuild">
                                                       @error('eoi_deposite_build')
                                                       <span class="text-danger">{{$message}}</span>
                                                       @enderror
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row align-items-center">
-                                                    <label class="col-sm-4 col-form-label">Land Deposite<span class="text-danger">*</span></label>
+                                                    <label class="col-sm-4 col-form-label">Land Deposit <span class="text-danger">*</span></label>
+
+                                                    <!-- Percent Input -->
                                                     <div class="col-sm-4">
-                                                      <input type="text" class="form-control land-deposite-percent" name="land_deposite_percent" placeholder="%" id="land-deposite-percent" value="{{ old('land_deposite_percent')}}">
-                                                      @error('land_deposite_percent')
-                                                      <span class="text-danger">{{$message}}</span>
-                                                      @enderror
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <input type="text" class="form-control land-deposite-price" name="land_deposite_price" id="land-deposite-price" value="{{ old('land_deposite_price')}}">
-                                                        @error('land_deposite_price')
-                                                        <span class="text-danger">{{$message}}</span>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control land-deposite-percent" name="land_deposite_percent" id="land-deposite-percent" value="{{ old('land_deposite_percent') }}">
+                                                            <span class="input-group-text">%</span>
+                                                        </div>
+                                                        @error('land_deposite_percent')
+                                                            <span class="text-danger">{{ $message }}</span>
                                                         @enderror
-                                                      </div>
+                                                    </div>
+
+                                                    <!-- Price Input -->
+                                                    <div class="col-sm-4">
+                                                        <input type="text" class="form-control land-deposite-price" name="land_deposite_price" id="land-deposite-price" value="{{ old('land_deposite_price') }}">
+                                                        @error('land_deposite_price')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
                                                 </div>
+
                                                 <div class="mb-3 row align-items-center">
                                                     <label class="col-sm-4 col-form-label">Building Deposite<span class="text-danger">*</span></label>
                                                     <div class="col-sm-4">
-                                                      <input type="text" class="form-control building-deposite-percent" name="building_deposite_percent" placeholder="%" id="building-deposite-percent" value="{{ old('building_deposite_percent')}}">
-                                                      @error('building_deposite_percent')
-                                                      <span class="text-danger">{{$message}}</span>
-                                                      @enderror
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control building-deposite-percent" name="building_deposite_percent"  id="building-deposite-percent" value="{{ old('building_deposite_percent')}}">
+                                                            <span class="input-group-text">%</span>
+                                                        </div>
+                                                        @error('building_deposite_percent')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <input type="text" class="form-control building-deposite-price" name="building_deposite_price" id="building-deposite-price" value="{{ old('building_deposite_price')}}">
@@ -288,11 +300,11 @@
                                                 <div id="add-more-container" class="mt-3">
                                                     <div class="mb-3 row align-items-center add-more mt-1">
                                                         <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other"
-                                                            name="other_one_label[]" value="{{ old('other_one_label') }}" style="width: 240px;">
+                                                            name="other_one_label[]"  style="width: 240px;">
 
                                                         <div class="col-sm-8">
                                                             <input type="text" name="other_one_input[]" class="form-control"
-                                                                value="{{ old('other_one_input') }}" placeholder="0.00">
+                                                                 placeholder="0.00">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -426,6 +438,160 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                              Override
+                                            </label>
+                                          </div>
+                                          <div class="card mb-3">
+                                            <div class="card-body mt-3">
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Template Name</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" name="template_name">
+                                                        @error('template_name')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Construction(Calendar days)</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" name="construction_days">
+                                                        @error('construction_days')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">State</label>
+                                                    <div class="col-sm-6">
+                                                        <select name="template_state" id="" class="form-control">
+                                                            @foreach ($states as $state)
+                                                              <option value="{{$state->id}}">{{$state->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('template_state')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">EOI Deposite Land</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" name="template_eoi_deposite_land">
+                                                        @error('template_eoi_deposite_land')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">EOI Deposite Build</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" name="template_eoi_deposite_build">
+                                                        @error('template_eoi_deposite_build')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Land Deposite</label>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" name="template_land_deposite_percent">
+                                                            <span class="input-group-text">%</span>
+                                                        </div>
+                                                        @error('template_land_deposite_percent')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Building Deposite</label>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" name="template_building_deposite_percent">
+                                                            <span class="input-group-text">%</span>
+                                                        </div>
+                                                        @error('template_building_deposite_percent')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3 row align-items-center">
+                                                    <label class="col-sm-4 col-form-label">Builder</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" name="template_builder">
+                                                        @error('template_builder')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+<!--------------Table------------>
+<div class="card mb-3">
+    <div class="card-body">
+        <table class="table table-bordered align-middle text-center mt-3" id="paymentTable">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 10%">Actions</th>
+                    <th>Label</th>
+                    <th style="width: 15%">%</th>
+                    <th>Status Payable</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-light move-up"><i class="bi bi-arrow-up"></i></button>
+                            <button type="button" class="btn btn-sm btn-light move-down"><i class="bi bi-arrow-down"></i></button>
+                            <button type="button" class="btn btn-sm btn-danger delete-row"><i class="bi bi-trash"></i></button>
+                        </div>
+                    </td>
+                    <td><input type="text" name="labels[]" class="form-control"></td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" name="percentages[]" class="form-control">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <select name="statuses[]" class="form-control">
+                            <option value="reserved">reserved</option>
+                            <option value="unconditional contract">unconditional contract</option>
+                            <option value="build deposite paid">build deposite paid</option>
+                            <option value="settlement land">settlement land</option>
+                            <option value="base payment paid">base payment paid</option>
+                            <option value="frame payment paid">frame payment paid</option>
+                            <option value="roof payment paid">roof payment paid</option>
+                            <option value="endclosed payment paid">endclosed payment paid</option>
+                            <option value="practical completion">practical completion</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Add Row Button -->
+        <div class="text-end">
+            <button type="button" class="btn btn-primary btn-sm" id="addRowBtn">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<!----------Table end-------->
+
+
                                     </div>
                                 </div>
 

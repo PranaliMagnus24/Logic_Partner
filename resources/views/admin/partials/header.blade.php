@@ -8,7 +8,7 @@
         @if($getSetting && $getSetting->header_logo)
             <img src="{{ url('upload/general_setting/' . $getSetting->header_logo) }}" alt="{{ $getSetting->website_name }} Logo" style="max-height: 40px;">
         @endif
-        <span class="d-none d-lg-block ms-2">{{ $getSetting->website_name ?? 'Default Website Name' }}</span>
+        {{-- <span class="d-none d-lg-block ms-2">{{ $getSetting->website_name ?? 'Default Website Name' }}</span> --}}
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
 </div><!-- End Logo -->

@@ -10,6 +10,7 @@ use App\Models\Enquiry;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\State;
+use App\Models\QuotationPaymentTable;
 use Yajra\DataTables\Facades\DataTables;
 use Str;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -99,6 +100,20 @@ class QuotationManagementController extends Controller
            'other_one_label.*' => 'nullable|string',
            'other_one_input' => 'nullable|array',
            'other_one_input.*' => 'nullable|string',
+           'labels' => 'nullable|array',
+           'labels.*' => 'nullable|string',
+           'percentages' => 'nullable|array',
+           'percentages.*' => 'nullable|string',
+           'statuses' => 'nullable|array',
+           'statuses.*' => 'nullable|string',
+           'template_name' => 'nullable|string',
+           'construction_days' => 'nullable|string',
+           'template_state' => 'nullable|string',
+           'template_eoi_deposite_land' => 'nullable|string',
+           'template_eoi_deposite_build' => 'nullable|string',
+           'template_land_deposite_percent' => 'nullable|string',
+           'template_building_deposite_percent' => 'nullable|string',
+           'template_builder' => 'nullable|string',
         ]);
 
         $isDraft = $request->submission_type === 'draft' ? 1 : 0;
@@ -139,8 +154,28 @@ class QuotationManagementController extends Controller
              'handover_days' => $request->handover_days,
              'total_time_month' => $request->total_time_month,
              'payment_template' => $request->payment_template,
+             'template_name' => $request->template_name,
+             'construction_days' => $request->construction_days,
+             'template_state' => $request->template_state,
+             'template_eoi_deposite_land' => $request->template_eoi_deposite_land,
+             'template_land_deposite_percent' => $request->template_land_deposite_percent,
+             'template_builder' => $request->template_builder,
+             'template_eoi_deposite_build' => $request->template_eoi_deposite_build,
+             'template_building_deposite_percent' => $request->template_building_deposite_percent,
             'is_draft' => $isDraft,
         ]);
+
+        if ($request->has('labels') && is_array($request->labels)) {
+            foreach ($request->labels as $index => $label) {
+                QuotationPaymentTable::create([
+                    'quotation_id' => $quotation->id,
+                    'labels' => $label,
+                    'percentages' => $request->percentages[$index] ?? null,
+                    'statuses' => $request->statuses[$index] ?? null,
+                ]);
+            }
+        }
+
         return redirect()->route('list.quotation')->with('success', 'Quotation created successfully');
     }
 
@@ -197,6 +232,20 @@ class QuotationManagementController extends Controller
         'other_one_label.*' => 'nullable|string',
         'other_one_input' => 'nullable|array',
         'other_one_input.*' => 'nullable|string',
+        'labels' => 'nullable|array',
+        'labels.*' => 'nullable|string',
+        'percentages' => 'nullable|array',
+        'percentages.*' => 'nullable|string',
+        'statuses' => 'nullable|array',
+        'statuses.*' => 'nullable|string',
+        'template_name' => 'nullable|string',
+        'construction_days' => 'nullable|string',
+        'template_state' => 'nullable|string',
+        'template_eoi_deposite_land' => 'nullable|string',
+        'template_eoi_deposite_build' => 'nullable|string',
+        'template_land_deposite_percent' => 'nullable|string',
+        'template_building_deposite_percent' => 'nullable|string',
+        'template_builder' => 'nullable|string',
     ]);
 
     $isDraft = $request->submission_type === 'draft' ? 1 : 0;
@@ -237,9 +286,27 @@ class QuotationManagementController extends Controller
         'handover_days' => $request->handover_days,
         'total_time_month' => $request->total_time_month,
         'payment_template' => $request->payment_template,
+        'template_name' => $request->template_name,
+        'construction_days' => $request->construction_days,
+        'template_state' => $request->template_state,
+        'template_eoi_deposite_land' => $request->template_eoi_deposite_land,
+        'template_land_deposite_percent' => $request->template_land_deposite_percent,
+        'template_builder' => $request->template_builder,
+        'template_eoi_deposite_build' => $request->template_eoi_deposite_build,
+        'template_building_deposite_percent' => $request->template_building_deposite_percent,
         'is_draft' => $isDraft,
     ]);
 
+    if ($request->has('labels') && is_array($request->labels)) {
+        foreach ($request->labels as $index => $label) {
+            QuotationPaymentTable::update([
+                'quotation_id' => $quotation->id,
+                'labels' => $label,
+                'percentages' => $request->percentages[$index] ?? null,
+                'statuses' => $request->statuses[$index] ?? null,
+            ]);
+        }
+    }
     return redirect()->route('list.quotation')->with('success', 'Quotation updated successfully');
 }
 

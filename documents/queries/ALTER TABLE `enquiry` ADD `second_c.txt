@@ -4,3 +4,8 @@ ALTER TABLE `enquiry` ADD `second_customer_name` VARCHAR(255) NULL DEFAULT NULL 
 
 ALTER TABLE `enquiry`
 ADD `created_date` date NULL AFTER `customer_address`;
+
+
+
+
+ALTER TABLE `quotations` ADD `template_name` VARCHAR(255) NULL DEFAULT NULL AFTER `payment_template`, ADD `construction_days` VARCHAR(255) NULL DEFAULT NULL AFTER `template_name`, ADD `template_state` VARCHAR(255) NULL DEFAULT NULL AFTER `construction_days`, ADD `template_eoi_deposite_land` VARCHAR(255) NULL DEFAULT NULL AFTER `template_state`, ADD `template_eoi_deposite_build` VARCHAR(255) NULL DEFAULT NULL AFTER `template_eoi_deposite_land`, ADD `template_land_deposite_percent` VARCHAR(255) NULL DEFAULT NULL AFTER `template_eoi_deposite_build`, ADD `template_building_deposite_percent` VARCHAR(255) NULL DEFAULT NULL AFTER `template_land_deposite_percent`, ADD `template_builder` VARCHAR(255) NULL DEFAULT NULL AFTER `template_building_deposite_percent`;

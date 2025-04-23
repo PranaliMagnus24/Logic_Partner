@@ -129,3 +129,124 @@ $(document).ready(function() {
         $('#state-select').trigger('change');
     }
 });
+
+
+///////////Template Table
+$(document).ready(function () {
+    $('#addRowBtn').click(function () {
+        let newRow = `
+            <tr>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-sm btn-light move-up"><i class="bi bi-arrow-up"></i></button>
+                        <button type="button" class="btn btn-sm btn-light move-down"><i class="bi bi-arrow-down"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger delete-row"><i class="bi bi-trash"></i></button>
+                    </div>
+                </td>
+                <td><input type="text" name="labels[]" class="form-control"></td>
+                <td>
+                    <div class="input-group">
+                        <input type="text" name="percentages[]" class="form-control">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </td>
+                <td>
+                    <select name="statuses[]" class="form-control">
+                        <option value="reserved">reserved</option>
+                        <option value="unconditional contract">unconditional contract</option>
+                        <option value="build deposite paid">build deposite paid</option>
+                        <option value="settlement land">settlement land</option>
+                        <option value="base payment paid">base payment paid</option>
+                        <option value="frame payment paid">frame payment paid</option>
+                        <option value="roof payment paid">roof payment paid</option>
+                        <option value="enclosed payment paid">enclosed payment paid</option>
+                        <option value="practical completion">practical completion</option>
+                    </select>
+                </td>
+            </tr>
+        `;
+        $('#paymentTable tbody').append(newRow);
+    });
+
+    // Delete row
+    $(document).on('click', '.delete-row', function () {
+        $(this).closest('tr').remove();
+    });
+
+    // Move row up
+    $(document).on('click', '.move-up', function () {
+        let row = $(this).closest('tr');
+        row.prev().before(row);
+    });
+
+    // Move row down
+    $(document).on('click', '.move-down', function () {
+        let row = $(this).closest('tr');
+        row.next().after(row);
+    });
+});
+
+
+/////////Land DEposite value display selected
+document.addEventListener('DOMContentLoaded', function () {
+    const landDepositePercent = document.getElementById('land-deposite-percent');
+    const templateDepositePercent = document.querySelector('input[name="template_land_deposite_percent"]');
+
+    if (landDepositePercent && templateDepositePercent) {
+        // Set initial value
+        templateDepositePercent.value = landDepositePercent.value;
+
+        // Optional: live update on input
+        landDepositePercent.addEventListener('input', function () {
+            templateDepositePercent.value = this.value;
+        });
+    }
+});
+////Building deposite value
+document.addEventListener('DOMContentLoaded', function () {
+    const buildingDepositePercent = document.getElementById('building-deposite-percent');
+    const templateDepositePercent = document.querySelector('input[name="template_building_deposite_percent"]');
+
+    if (buildingDepositePercent && templateDepositePercent) {
+        // Set initial value
+        templateDepositePercent.value = buildingDepositePercent.value;
+
+        // Optional: live update on input
+        buildingDepositePercent.addEventListener('input', function () {
+            templateDepositePercent.value = this.value;
+        });
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const eoiDepositeLand = document.getElementById('eoiDepositeLand');
+    const eoiTemplateLand = document.querySelector('input[name="template_eoi_deposite_land"]');
+
+    if (eoiDepositeLand && eoiTemplateLand) {
+        // Set initial value
+        eoiTemplateLand.value = eoiDepositeLand.value;
+
+        // Optional: live update on input
+        eoiDepositeLand.addEventListener('input', function () {
+            eoiTemplateLand.value = this.value;
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const eoiDepositeBuild = document.getElementById('eoiDepositeBuild');
+    const eoiTemplateBuild = document.querySelector('input[name="template_eoi_deposite_build"]');
+
+    if (eoiDepositeBuild && eoiTemplateBuild) {
+        // Set initial value
+        eoiTemplateBuild.value = eoiDepositeBuild.value;
+
+        // Optional: live update on input
+        eoiDepositeBuild.addEventListener('input', function () {
+            eoiTemplateBuild.value = this.value;
+        });
+    }
+});
+
+
