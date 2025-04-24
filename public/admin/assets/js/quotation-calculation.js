@@ -81,9 +81,9 @@ function addTime() {
 
     const html = `
         <div class="mb-3 row align-items-center add-more mt-1">
-            <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other"
-                name="other_one_label[]" style="width: 240px;">
-
+            <div class="col-sm-4">
+                <input type="text" class="form-control" placeholder="Other" name="other_one_label[]">
+            </div>
             <div class="col-sm-8">
                 <input type="text" name="other_one_input[]" class="form-control" placeholder="0.00">
             </div>
@@ -92,6 +92,7 @@ function addTime() {
 
     container.insertAdjacentHTML('beforeend', html);
 }
+
 
 ///////Display state wise stamp_duty
 $(document).ready(function() {

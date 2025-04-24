@@ -183,11 +183,16 @@ class QuotationManagementController extends Controller
     public function edit(Request $request, $id)
     {
         $quotation = Quotation::findOrFail($id);
+        $quotation->other_one_label = json_decode($quotation->other_one_label, true);
+        $quotation->other_one_input = json_decode($quotation->other_one_input, true);
+
         $enquiries = Enquiry::all();
         $countries = Country::get(["name", "id"]);
-        $states = State::where('country_id',14)->get(["name", "id"]);
-        return view('admin.quotation.edit', compact('quotation', 'enquiries','countries','states'));
+        $states = State::where('country_id', 14)->get(["name", "id"]);
+        $paymentTables = QuotationPaymentTable::where('quotation_id', $quotation->id)->get();
+        return view('admin.quotation.edit', compact('quotation', 'enquiries', 'countries', 'states', 'paymentTables'));
     }
+
 
 
     public function update(Request $request, $id)
@@ -297,15 +302,14 @@ class QuotationManagementController extends Controller
         'is_draft' => $isDraft,
     ]);
 
-    if ($request->has('labels') && is_array($request->labels)) {
-        foreach ($request->labels as $index => $label) {
-            QuotationPaymentTable::update([
-                'quotation_id' => $quotation->id,
-                'labels' => $label,
-                'percentages' => $request->percentages[$index] ?? null,
-                'statuses' => $request->statuses[$index] ?? null,
-            ]);
-        }
+    QuotationPaymentTable::where('quotation_id', $quotation->id)->delete();
+    foreach ($request->labels as $index => $label) {
+        QuotationPaymentTable::create([
+            'quotation_id' => $quotation->id,
+            'labels' => $label,
+            'percentages' => $request->percentages[$index] ?? null,
+            'statuses' => $request->statuses[$index] ?? null,
+        ]);
     }
     return redirect()->route('list.quotation')->with('success', 'Quotation updated successfully');
 }
@@ -344,9 +348,9 @@ public function generatePDF($id)
     return $pdf->stream('quotation_' . $quotation->id . '.pdf');
 }
 
-public function getStampDuty($state)
+public function getStampDuty($stateId)
 {
-    $data = State::where('name', $state)->first();
+    $data = State::find($stateId);
 
     if ($data) {
         return response()->json(['stamp_duty' => $data->stamp_duty]);
@@ -354,6 +358,7 @@ public function getStampDuty($state)
 
     return response()->json(['stamp_duty' => null]);
 }
+
 
 
 

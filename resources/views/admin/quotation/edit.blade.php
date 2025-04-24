@@ -173,7 +173,7 @@
         <div class="col-md-12">
             <div class="card mt-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="mb-0">Create Quotation</h4>
+                    <h4 class="mb-0">Edit Quotation</h4>
                     <a href="{{ route('list.quotation') }}" class="btn btn-primary btn-sm">Back</a>
                 </div>
                 <div class="card-body mt-3">
@@ -386,16 +386,17 @@
                                                         <select name="state" id="state-select" class="form-control">
                                                             <option value="">-- Select State --</option>
                                                             @foreach($states as $state)
-                                                            <option value="{{ $state->name }}"
-                                                                {{ old('state', $quotation->state) == $state->name ? 'selected' : '' }}>
-                                                                {{ $state->name }}
-                                                            </option>
-                                                        @endforeach
+                                                                <option value="{{ $state->id }}"
+                                                                    {{ old('state', $quotation->state) == $state->id ? 'selected' : '' }}>
+                                                                    {{ $state->name }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
-                                                      @error('state')
-                                                      <span class="text-danger">{{$message}}</span>
-                                                      @enderror
+                                                        @error('state')
+                                                            <span class="text-danger">{{$message}}</span>
+                                                        @enderror
                                                     </div>
+
                                                 </div>
                                                 <div class="mb-3 row align-items-center">
                                                     <label class="col-sm-4 col-form-label">Stamp Duty<span class="text-danger">*</span></label>
@@ -438,16 +439,33 @@
                                                     <input type="button" class="btn btn-primary" onclick="addTime()" value="Add More" />
                                                 </div>
                                                 <div id="add-more-container" class="mt-3">
+                                                    @if (!empty($quotation->other_one_label) && is_array($quotation->other_one_label))
+                                                    @foreach ($quotation->other_one_label as $index => $label)
                                                     <div class="mb-3 row align-items-center add-more mt-1">
-                                                        <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other"
-                                                            name="other_one_label[]" value="{{ old('other_one_label') }}" style="width: 240px;">
-
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" name="other_one_label[]" value="{{ $label }}" placeholder="Other">
+                                                        </div>
                                                         <div class="col-sm-8">
                                                             <input type="text" name="other_one_input[]" class="form-control"
-                                                                value="{{ old('other_one_input') }}" placeholder="0.00">
+                                                                value="{{ $quotation->other_one_input[$index] ?? '' }}" placeholder="0.00">
                                                         </div>
                                                     </div>
+                                                @endforeach
+
+                                                    @else
+                                                        {{-- Default one field --}}
+                                                        <div class="mb-3 row align-items-center add-more mt-1">
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" name="other_one_label[]" value="" placeholder="Other">
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" name="other_one_input[]" class="form-control" value="" placeholder="0.00">
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -687,36 +705,73 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-sm btn-light move-up"><i class="bi bi-arrow-up"></i></button>
-                            <button type="button" class="btn btn-sm btn-light move-down"><i class="bi bi-arrow-down"></i></button>
-                            <button type="button" class="btn btn-sm btn-danger delete-row"><i class="bi bi-trash"></i></button>
-                        </div>
-                    </td>
-                    <td><input type="text" name="labels[]" class="form-control"></td>
-                    <td>
-                        <div class="input-group">
-                            <input type="text" name="percentages[]" class="form-control">
-                            <span class="input-group-text">%</span>
-                        </div>
-                    </td>
-                    <td>
-                        <select name="statuses[]" class="form-control">
-                            <option value="reserved">reserved</option>
-                            <option value="unconditional contract">unconditional contract</option>
-                            <option value="build deposite paid">build deposite paid</option>
-                            <option value="settlement land">settlement land</option>
-                            <option value="base payment paid">base payment paid</option>
-                            <option value="frame payment paid">frame payment paid</option>
-                            <option value="roof payment paid">roof payment paid</option>
-                            <option value="endclosed payment paid">endclosed payment paid</option>
-                            <option value="practical completion">practical completion</option>
-                        </select>
-                    </td>
-                </tr>
-            </tbody>
+                @forelse($paymentTables as $payment)
+                    <tr>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-sm btn-light move-up"><i class="bi bi-arrow-up"></i></button>
+                                <button type="button" class="btn btn-sm btn-light move-down"><i class="bi bi-arrow-down"></i></button>
+                                <button type="button" class="btn btn-sm btn-danger delete-row"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </td>
+                        <td><input type="text" name="labels[]" class="form-control" value="{{ $payment->labels }}"></td>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" name="percentages[]" class="form-control" value="{{ $payment->percentages }}">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </td>
+                        <td>
+                            <select name="statuses[]" class="form-control">
+                                @php
+                                    $statuses = [
+                                        "reserved", "unconditional contract", "build deposite paid",
+                                        "settlement land", "base payment paid", "frame payment paid",
+                                        "roof payment paid", "enclosed payment paid", "practical completion"
+                                    ];
+                                @endphp
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status }}" {{ $payment->statuses === $status ? 'selected' : '' }}>
+                                        {{ ucfirst($status) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
+                    </tr>
+                @empty
+                    <!-- Fallback: Render 1 empty row if no data -->
+                    <tr>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-sm btn-light move-up"><i class="bi bi-arrow-up"></i></button>
+                                <button type="button" class="btn btn-sm btn-light move-down"><i class="bi bi-arrow-down"></i></button>
+                                <button type="button" class="btn btn-sm btn-danger delete-row"><i class="bi bi-trash"></i></button>
+                            </div>
+                        </td>
+                        <td><input type="text" name="labels[]" class="form-control"></td>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" name="percentages[]" class="form-control">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </td>
+                        <td>
+                            <select name="statuses[]" class="form-control">
+                                <option value="reserved">reserved</option>
+                                <option value="unconditional contract">unconditional contract</option>
+                                <option value="build deposite paid">build deposite paid</option>
+                                <option value="settlement land">settlement land</option>
+                                <option value="base payment paid">base payment paid</option>
+                                <option value="frame payment paid">frame payment paid</option>
+                                <option value="roof payment paid">roof payment paid</option>
+                                <option value="enclosed payment paid">enclosed payment paid</option>
+                                <option value="practical completion">practical completion</option>
+                            </select>
+                        </td>
+                    </tr>
+                @endforelse
+                </tbody>
+
         </table>
 
         <!-- Add Row Button -->

@@ -247,7 +247,7 @@
                                                         <select name="state" id="state-select" class="form-control">
                                                             <option value="">-- Select State --</option>
                                                             @foreach($states as $state)
-                                                                <option value="{{ $state->name }}">{{ $state->name }}
+                                                                <option value="{{ $state->id }}">{{ $state->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -258,7 +258,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row align-items-center">
-                                                    <label class="col-sm-4 col-form-label">Stamp Duty<span class="text-danger">*</span></label>
+                                                    <label class="col-sm-4 col-form-label">Stamp Duty Est<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="stamp_duty" class="form-control" value="{{ old('stamp_duty')}}">
                                                         @error('stamp_duty')
@@ -267,7 +267,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row align-items-center">
-                                                    <label class="col-sm-4 col-form-label">Trans<span class="text-danger">*</span></label>
+                                                    <label class="col-sm-4 col-form-label">Trans Est<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="trans" class="form-control" value="{{ old('trans')}}">
                                                         @error('trans')
@@ -276,7 +276,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row align-items-center">
-                                                    <label class="col-sm-4 col-form-label">Solicitor Price<span class="text-danger">*</span></label>
+                                                    <label class="col-sm-4 col-form-label">Solicitor & Conveyancing<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="soliditor_price" class="form-control" value="{{ old('soliditor_price')}}">
                                                         @error('soliditor_price')
@@ -299,14 +299,14 @@
 
                                                 <div id="add-more-container" class="mt-3">
                                                     <div class="mb-3 row align-items-center add-more mt-1">
-                                                        <input type="text" class="col-sm-4 col-form-label form-control" placeholder="Other"
-                                                            name="other_one_label[]"  style="width: 240px;">
-
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" placeholder="Other" name="other_one_label[]">
+                                                        </div>
                                                         <div class="col-sm-8">
-                                                            <input type="text" name="other_one_input[]" class="form-control"
-                                                                 placeholder="0.00">
+                                                            <input type="text" name="other_one_input[]" class="form-control" placeholder="0.00">
                                                         </div>
                                                     </div>
+
                                                 </div>
 
 
