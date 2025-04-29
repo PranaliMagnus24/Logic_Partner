@@ -22,10 +22,18 @@ $(document).ready(function() {
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+            language: {
+                lengthMenu: '<select class="form-select">'+
+                                '<option value="10">10</option>'+
+                                '<option value="25">25</option>'+
+                                '<option value="50">50</option>'+
+                                '<option value="100">100</option>'+
+                            '</select>'
+            },
             buttons: [
                 {
                     extend: 'collection',
-                    text: 'Export',
+                    text: '<i class="bi bi-download"></i>',
                     className: 'btn btn-light dropdown-toggle',
                     buttons: [
                         {
@@ -77,10 +85,18 @@ $(document).ready(function() {
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+            language: {
+                lengthMenu: '<select class="form-select">'+
+                                '<option value="10">10</option>'+
+                                '<option value="25">25</option>'+
+                                '<option value="50">50</option>'+
+                                '<option value="100">100</option>'+
+                            '</select>'
+            },
             buttons: [
                 {
                     extend: 'collection',
-                    text: 'Export',
+                    text: '<i class="bi bi-download"></i>',
                     className: 'btn btn-light dropdown-toggle',
                     buttons: [
                         {
@@ -132,10 +148,18 @@ $(document).ready(function() {
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+            language: {
+                lengthMenu: '<select class="form-select">'+
+                                '<option value="10">10</option>'+
+                                '<option value="25">25</option>'+
+                                '<option value="50">50</option>'+
+                                '<option value="100">100</option>'+
+                            '</select>'
+            },
             buttons: [
                 {
                     extend: 'collection',
-                    text: 'Export',
+                    text: '<i class="bi bi-download"></i>',
                     className: 'btn btn-light dropdown-toggle',
                     buttons: [
                         {
@@ -187,10 +211,18 @@ $(document).ready(function() {
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+            language: {
+                lengthMenu: '<select class="form-select">'+
+                                '<option value="10">10</option>'+
+                                '<option value="25">25</option>'+
+                                '<option value="50">50</option>'+
+                                '<option value="100">100</option>'+
+                            '</select>'
+            },
             buttons: [
                 {
                     extend: 'collection',
-                    text: 'Export',
+                    text: '<i class="bi bi-download"></i>',
                     className: 'btn btn-light dropdown-toggle',
                     buttons: [
                         {
@@ -240,10 +272,18 @@ $(document).ready(function() {
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+            language: {
+                lengthMenu: '<select class="form-select">'+
+                                '<option value="10">10</option>'+
+                                '<option value="25">25</option>'+
+                                '<option value="50">50</option>'+
+                                '<option value="100">100</option>'+
+                            '</select>'
+            },
             buttons: [
                 {
                     extend: 'collection',
-                    text: 'Export',
+                    text: '<i class="bi bi-download"></i>',
                     className: 'btn btn-light dropdown-toggle',
                     buttons: [
                         {
@@ -292,10 +332,18 @@ $(document).ready(function() {
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+            language: {
+                lengthMenu: '<select class="form-select">'+
+                                '<option value="10">10</option>'+
+                                '<option value="25">25</option>'+
+                                '<option value="50">50</option>'+
+                                '<option value="100">100</option>'+
+                            '</select>'
+            },
             buttons: [
                 {
                     extend: 'collection',
-                    text: 'Export',
+                    text: '<i class="bi bi-download"></i>',
                     className: 'btn btn-light dropdown-toggle',
                     buttons: [
                         {
@@ -355,10 +403,18 @@ if ($('.faqList').length) {
     dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+    language: {
+        lengthMenu: '<select class="form-select">'+
+                        '<option value="10">10</option>'+
+                        '<option value="25">25</option>'+
+                        '<option value="50">50</option>'+
+                        '<option value="100">100</option>'+
+                    '</select>'
+    },
     buttons: [
         {
             extend: 'collection',
-            text: 'Export',
+            text: '<i class="bi bi-download"></i>',
             className: 'btn btn-light dropdown-toggle',
             buttons: [
                 {
@@ -410,10 +466,18 @@ if ($('.state').length) {
     dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
     "<'row'<'col-sm-12'tr>>" +
     "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+    language: {
+        lengthMenu: '<select class="form-select">'+
+                        '<option value="10">10</option>'+
+                        '<option value="25">25</option>'+
+                        '<option value="50">50</option>'+
+                        '<option value="100">100</option>'+
+                    '</select>'
+    },
     buttons: [
         {
             extend: 'collection',
-            text: 'Export',
+            text: '<i class="bi bi-download"></i>',
             className: 'btn btn-light dropdown-toggle',
             buttons: [
                 {
@@ -447,6 +511,70 @@ if ($('.state').length) {
         { data: 'name', name: 'name' }, // State name
         { data: 'country_name', name: 'country_name' }, // Country name
         { data: 'stamp_duty', name: 'stamp_duty' },
+        { data: 'action', name: 'action', orderable: false, searchable: false }
+    ]
+
+});
+}
+
+//////Property List Table
+if ($('.propertyList').length) {
+    $('.propertyList').DataTable({
+    serverSide: true,
+    processing: true,
+    responsive: true,
+    rowReorder: {
+        selector: 'td:nth-child(2)'
+    },
+    dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+    language: {
+        lengthMenu: '<select class="form-select">'+
+                        '<option value="10">10</option>'+
+                        '<option value="25">25</option>'+
+                        '<option value="50">50</option>'+
+                        '<option value="100">100</option>'+
+                    '</select>'
+    },
+    buttons: [
+        {
+            extend: 'collection',
+            text: '<i class="bi bi-download"></i>',
+            className: 'btn btn-light dropdown-toggle',
+            buttons: [
+                {
+                    extend: 'csv',
+                    className: 'dropdown-item',
+                    exportOptions: { columns: [0, 1, 2, 3] }
+                },
+                {
+                    extend: 'excel',
+                    className: 'dropdown-item',
+                    exportOptions: { columns: [0, 1, 2, 3] }
+                },
+                {
+                    extend: 'pdf',
+                    className: 'dropdown-item',
+                    exportOptions: { columns: [0, 1, 2, 3] }
+                },
+                {
+                    extend: 'print',
+                    className: 'dropdown-item',
+                    exportOptions: { columns: [0, 1, 2, 3] }
+                }
+            ]
+        }
+    ],
+    ajax: {
+        url: propertyUrl
+    },
+    columns: [
+        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+        { data: 'property_id', name: 'property_id' }, // State name
+        { data: 'property_type', name: 'property_type' }, // Country name
+        { data: 'contract_type', name: 'contract_type' },
+        { data: 'status', name: 'status' },
         { data: 'action', name: 'action', orderable: false, searchable: false }
     ]
 

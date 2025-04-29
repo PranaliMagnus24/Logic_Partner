@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Admin\EnquiryManagement\EnquiryManagementController;
 use App\Http\Controllers\Admin\EnquiryManagement\QuotationManagementController;
+use App\Http\Controllers\Admin\PropertyManagement\PropertyManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,15 @@ Route::post('/quotation/{id}/update',[QuotationManagementController::class, 'upd
 Route::get('/quotation/{id}/delete',[QuotationManagementController::class, 'destroy'])->name('delete.quotation');
 Route::get('/quotation/show/{id}',[QuotationManagementController::class, 'show'])->name('show.quotation');
 Route::post('/quotation/preview', [QuotationManagementController::class, 'preview'])->name('quotation.preview');
+
+/////Property Management Controller
+Route::get('/property',[PropertyManagementController::class, 'listProperty'])->name('list.property');
+Route::get('/create/property', [PropertyManagementController::class,'createProperty'])->name('create.property');
+Route::post('/store/property', [PropertyManagementController::class,'storeProperty'])->name('store.property');
+Route::get('/edit/{id}/property', [PropertyManagementController::class,'editProperty'])->name('edit.property');
+Route::post('/update/{id}/property', [PropertyManagementController::class,'updateProperty'])->name('update.property');
+Route::get('/delete/{id}/property', [PropertyManagementController::class,'destroyProperty'])->name('delete.property');
+
 
 
 });

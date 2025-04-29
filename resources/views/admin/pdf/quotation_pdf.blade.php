@@ -168,7 +168,7 @@
     <tbody>
         <tr>
             <td>EOI Dates</td>
-            <td>{{$quotation->eoi_date}}</td>
+            <td>{{ \Carbon\Carbon::parse($quotation->eoi_date)->format('d M Y')}}</td>
         </tr>
         <tr>
             <td>Unconditional Days Estimates</td>
@@ -180,7 +180,7 @@
         </tr>
         <tr>
             <td>Estimated Titled Date</td>
-            <td>{{$quotation->estimate_titled_date}}</td>
+            <td>{{ \Carbon\Carbon::parse($quotation->estimate_titled_date)->format('d M Y')}}</td>
         </tr>
         <tr>
             <td>Settlement Days</td>
@@ -188,7 +188,7 @@
         </tr>
         <tr>
             <td>Estimated Settlement Date</td>
-            <td>{{$quotation->estimate_settlement_date}}</td>
+            <td>{{ \Carbon\Carbon::parse($quotation->estimate_settlement_date)->format('d M Y')}}</td>
         </tr>
         <tr>
             <td>Site Start (weeks)</td>

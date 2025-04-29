@@ -243,7 +243,7 @@
                                                     <label class="col-sm-4 col-form-label">Contract Type<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                      <select name="contract_type" id="" class="form-control">
-                                                        <option value="two_part_contract"  {{ (old('contract_type', $quotation->contract_type) == 'two_part_contract') ? 'selected' : '' }}>2 Part Contract</option>
+                                                        <option value="2 Part Contract"  {{ (old('contract_type', $quotation->contract_type) == '2 Part Contract') ? 'selected' : '' }}>2 Part Contract</option>
                                                      </select>
                                                      @error('contract_type')
                                                      <span class="text-danger">{{$message}}</span>

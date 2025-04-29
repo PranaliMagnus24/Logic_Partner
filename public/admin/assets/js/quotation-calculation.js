@@ -251,3 +251,15 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+////Calculate land price + house price
+$(document).ready(function () {
+    function calculatePrice() {
+        let landPrice = parseFloat($('#landPrice').val()) || 0;
+        let housePrice = parseFloat($('#housePrice').val()) || 0;
+        let totalPrice = landPrice + housePrice;
+
+        $('#totalPrice').val(totalPrice.toFixed(2));
+    }
+
+    $('#landPrice, #housePrice').on('input', calculatePrice);
+});

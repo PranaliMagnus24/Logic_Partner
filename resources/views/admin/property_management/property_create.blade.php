@@ -1,0 +1,343 @@
+@extends('admin.layouts.layout')
+
+@section('title', 'Property Management')
+@section('admin')
+@section('pagetitle', 'Property Management')
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mt-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Create Property</h4>
+                    <a href="{{ route('list.property')}}" class="btn btn-primary btn-sm">Back</a>
+                </div>
+                <div class="card-body mt-3">
+                    <form action="{{ route('store.property')}}" method="POST" id="propertyForm" target="_self" enctype="multipart/form-data">
+                        @csrf
+                        <ul class="nav nav-tabs nav-tabs-bordered d-flex mb-3" id="borderedTabJustified" role="tablist">
+                            <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link w-100 active" id="property-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-property" type="button" role="tab" aria-controls="property" aria-selected="true">Property Details</button>
+                            </li>
+                            <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link w-100" id="project-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-project" type="button" role="tab" aria-controls="project" aria-selected="false">Project Details</button>
+                            </li>
+                            <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link w-100" id="area-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-area" type="button" role="tab" aria-controls="area" aria-selected="false">Area Details</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+
+                            <!-----------------------Property---------------->
+                            <div class="tab-pane fade show active" id="bordered-justified-property" role="tabpanel" aria-labelledby="property-tab">
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Property Type
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="property_type" id="property_type" class="form-control" value="{{ old('property_type') }}">
+                                        @error('property_type')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Contract Type</label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <select name="contract_type" id="contract_type" class="form-control">
+                                            <option value="">--Select Contract Type--</option>
+                                            <option value="1 Part Contract" {{ old('contract_type') == '1 Part Contract' ? 'selected' : '' }}>1 Part Contract</option>
+                                            <option value="2 Part Contract" {{ old('contract_type') == '2 Part Contract' ? 'selected' : '' }}>2 Part Contract</option>
+                                            <option value="3 Part Contract" {{ old('contract_type') == '3 Part Contract' ? 'selected' : '' }}>3 Part Contract</option>
+                                            <option value="4 Part Contract" {{ old('contract_type') == '4 Part Contract' ? 'selected' : '' }}>4 Part Contract</option>
+                                            <option value="5 Part Contract" {{ old('contract_type') == '5 Part Contract' ? 'selected' : '' }}>5 Part Contract</option>
+                                        </select>
+
+                                        @error('contract_type')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Title Type
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="title_type" id="title_type" class="form-control" value="{{ old('title_type') }}">
+                                        @error('title_type')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Titled </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <select name="titled" id="titled" class="form-control">
+                                            <option value="">--Select Titled Type--</option>
+                                            <option value="yes" {{ old('titled') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                            <option value="no" {{ old('titled') == 'no' ? 'selected' : '' }}>No</option>
+                                        </select>
+                                        @error('titled')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Indicative Package</label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <select name="indicative_package" id="indicative_package" class="form-control">
+                                            <option value="">--Select Indicative Package--</option>
+                                            <option value="yes" {{ old('titled') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                            <option value="no" {{ old('titled') == 'no' ? 'selected' : '' }}>No</option>
+                                        </select>
+                                        @error('indicative_package')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Estimated Date
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="date" name="estimated_date" id="estimated_date" class="form-control" value="{{ old('estimated_date') }}">
+                                        @error('estimated_date')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-4 col-lg-2 col-form-label">Rent Yield
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="rent_yield" id="rent_yield" value="{{ old('rent_yield') }}">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                        @error('rent_yield')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">SMSF</label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <select name="smsf" id="smsf" class="form-control">
+                                            <option value="">--Select SMSF--</option>
+                                            <option value="yes" {{ old('titled') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                            <option value="no" {{ old('titled') == 'no' ? 'selected' : '' }}>No</option>
+                                        </select>
+                                        @error('smsf')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">ADDM
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="addm" id="addm" class="form-control" value="{{ old('addm') }}">
+                                        @error('addm')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Approx Weekly Rent
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="approx_weekly_rent" id="approx_weekly_rent" class="form-control" value="{{ old('approx_weekly_rent') }}">
+                                        @error('approx_weekly_rent')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Vacancy Rate
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="vacancy_rate" id="vacancy_rate" class="form-control" value="{{ old('vacancy_rate') }}">
+                                        @error('vacancy_rate')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label class="col-sm-4 col-lg-2 col-form-label">Land Area
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="land_area" id="land_area" value="{{ old('land_area') }}">
+                                            <span class="input-group-text">sqm</span>
+                                        </div>
+                                        @error('land_area')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-4 col-lg-2 col-form-label">House Area
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="house_area" id="house_area" value="{{ old('house_area') }}">
+                                            <span class="input-group-text">sqm</span>
+                                        </div>
+                                        @error('house_area')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Design
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="design" id="design" class="form-control" value="{{ old('design') }}">
+                                        @error('design')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Land Price
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="land_price" id="landPrice" class="form-control" value="{{ old('land_price') }}">
+                                        @error('land_price')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">House Price
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="house_price" id="housePrice" class="form-control" value="{{ old('house_price') }}">
+                                        @error('house_price')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Total Price
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="total_price" id="totalPrice" class="form-control" value="{{ old('total_price') }}">
+                                        @error('total_price')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Stamp Duty EST
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="stamp_duty_est" id="stamp_duty_est" class="form-control" value="{{ old('stamp_duty_est') }}">
+                                        @error('stamp_duty_est')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Gov. Transfer Fee
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="gov_transfer_fee" id="gov_transfer_fee" class="form-control" value="{{ old('stamp_duty_est') }}">
+                                        @error('gov_transfer_fee')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Owners Corp Fee
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="owners_corp_fee" id="owners_corp_fee" class="form-control" value="{{ old('owners_corp_fee') }}">
+                                        @error('owners_corp_fee')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Status</label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <select name="status" id="status" class="form-control">
+                                            <option value="">--Select Status--</option>
+                                            <option value="available" {{ old('status') == 'available' ? 'selected' : '' }}>Available</option>
+                                            <option value="not-available" {{ old('status') == 'not-available' ? 'selected' : '' }}>Not Available</option>
+                                        </select>
+                                        @error('status')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!------------------Project Details----------------->
+                            <div class="tab-pane fade" id="bordered-justified-project" role="tabpanel" aria-labelledby="project-tab">
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Project Name
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="project_name" id="project_name" class="form-control" value="{{ old('project_name') }}">
+                                        @error('project_name')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Prices From
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="prices_from" id="prices_from" class="form-control" value="{{ old('prices_from') }}">
+                                        @error('prices_from')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Number Available
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="number_available" id="number_available" class="form-control" value="{{ old('number_available') }}">
+                                        @error('number_available')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Project Images
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="file" name="project_image[]" id="project_image" class="form-control" multiple>
+                                        @error('project_image')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!---------------------------Area Details----------------->
+                            <div class="tab-pane fade" id="bordered-justified-area" role="tabpanel" aria-labelledby="area-tab">
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Area Name
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="area_name" id="area_name" class="form-control" value="{{ old('area_name') }}">
+                                        @error('area_name')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Total Population
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="total_population" id="total_population" class="form-control" value="{{ old('total_population') }}">
+                                        @error('total_population')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Distance to CBD
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="distance_to_cbd" id="distance_to_cbd" class="form-control" value="{{ old('distance_to_cbd') }}">
+                                        @error('distance_to_cbd')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Area Images
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="file" name="area_image[]" id="area_image" class="form-control" multiple>
+                                        @error('area_image')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="mb-3 text-center d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary btn-sm me-2">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

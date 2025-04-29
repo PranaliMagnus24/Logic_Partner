@@ -100,11 +100,7 @@
         </tr>
         <tr>
             <td>Follow up date</td>
-            <td>{{$enquiry->follow_up_date}}</td>
-        </tr>
-        <tr>
-            <td>Follow up time</td>
-            <td>{{$enquiry->follow_up_time}}</td>
+            <td>{{ \Carbon\Carbon::parse($enquiry->follow_up_date)->format('d M Y')}}</td>
         </tr>
         <tr>
             <td>Follow up time</td>
@@ -116,11 +112,11 @@
         </tr>
         <tr>
             <td>Current Stage</td>
-            <td>{{$enquiry->current_stage_date}}</td>
+            <td>{{ \Carbon\Carbon::parse($enquiry->current_stage_date)->format('d M Y')}}</td>
         </tr>
         <tr>
             <td>Created Date</td>
-            <td>{{$enquiry->created_date}}</td>
+            <td>{{ \Carbon\Carbon::parse($enquiry->created_date)->format('d M Y')}}</td>
         </tr>
         <tr>
             <td>Enquiry Type</td>
@@ -132,7 +128,8 @@
         </tr>
         <tr>
             <td>Best time to call</td>
-            <td>{{$enquiry->best_time_to_call}}</td>
+            <td>{{ \Carbon\Carbon::parse($enquiry->best_time_to_call . ':00')->format('g A') }}
+            </td>
         </tr>
     </tbody>
 </table>
