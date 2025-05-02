@@ -42,7 +42,6 @@ class PropertyManagementController extends Controller
       ////Store Property form
 public function storeProperty(Request $request)
 {
-
     $request->validate([
         'property_type' => 'required|string',
         'project_image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -50,6 +49,7 @@ public function storeProperty(Request $request)
     ]);
 
     DB::beginTransaction();
+    $isDraft = $request->submission_type === 'draft' ? 1 : 0;
 
     try {
         $property = Property::create([
@@ -81,6 +81,8 @@ public function storeProperty(Request $request)
             'land_price' => $request->land_price,
             'house_price' => $request->house_price,
             'total_price' => $request->total_price,
+            'council_rate' => $request->council_rate,
+            'is_draft' => $isDraft,
         ]);
 
         // Upload project images
@@ -135,6 +137,7 @@ public function storeProperty(Request $request)
     ]);
 
     DB::beginTransaction();
+    $isDraft = $request->submission_type === 'draft' ? 1 : 0;
 
     try {
         $property = Property::findOrFail($id);
@@ -168,6 +171,8 @@ public function storeProperty(Request $request)
             'land_price' => $request->land_price,
             'house_price' => $request->house_price,
             'total_price' => $request->total_price,
+            'council_rate' => $request->council_rate,
+            'is_draft' => $isDraft,
         ]);
 
         // Upload new project images
@@ -212,5 +217,12 @@ public function storeProperty(Request $request)
         $property->delete();
         return redirect()->route('list.property')->with('success','Property Deleted Successfully!');
 
+      }
+
+/////Preview Property
+      public function preview(Request $request)
+      {
+          $preview = $request->all();
+          return view('admin.property_management.preview_property', compact('preview',));
       }
 }

@@ -70,7 +70,7 @@ Route::post('/store/property', [PropertyManagementController::class,'storeProper
 Route::get('/edit/{id}/property', [PropertyManagementController::class,'editProperty'])->name('edit.property');
 Route::post('/update/{id}/property', [PropertyManagementController::class,'updateProperty'])->name('update.property');
 Route::get('/delete/{id}/property', [PropertyManagementController::class,'destroyProperty'])->name('delete.property');
-
+Route::post('/property/preview', [PropertyManagementController::class, 'preview'])->name('property.preview');
 
 
 });

@@ -206,6 +206,14 @@
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Stage
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="stage" id="stage" class="form-control" value="{{ old('stage', $property->stage) }}">
+                                        @error('stage')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Stamp Duty EST
@@ -242,6 +250,16 @@
                                             <option value="not-available" {{ old('status', $property->status) == 'not-available' ? 'selected' : '' }}>Not Available</option>
                                         </select>
                                         @error('status')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Council Rate
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="council_rate" id="council_rate" class="form-control" value="{{ old('council_rate', $property->council_rate) }}">
+                                        @error('council_rate')
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>

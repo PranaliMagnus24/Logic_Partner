@@ -205,7 +205,7 @@
                         <div class="mb-3 text-center d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary btn-sm me-2" onclick="setSubmissionType('draft')">Save as Draft</button>
                             <button type="submit" class="btn btn-primary btn-sm me-2" onclick="setSubmissionType('final')">Save</button>
-                            <button type="button" class="btn btn-primary btn-sm me-2" onclick="submitPreview()">Preview</button>
+                            <button type="button" class="btn btn-primary btn-sm me-2" onclick="submitenquiryPreview()">Preview</button>
                         </div>
                     </form>
 
@@ -218,43 +218,9 @@
 </div>
 @endsection
 <script>
-
-
-
-    function submitPreview() {
-    const form = document.getElementById('enquiryForm');
-
-    const previewForm = document.createElement('form');
-    previewForm.action = "{{ route('enquiry.preview') }}";
-    previewForm.method = 'POST';
-    previewForm.target = '_blank';
-
-    // Add CSRF token
-    const csrfInput = document.createElement('input');
-    csrfInput.type = 'hidden';
-    csrfInput.name = '_token';
-    csrfInput.value = "{{ csrf_token() }}";
-    previewForm.appendChild(csrfInput);
-
-    // Copy form values into the new form
-    const formData = new FormData(form);
-    for (let [name, value] of formData.entries()) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = name;
-        input.value = value;
-        previewForm.appendChild(input);
-    }
-
-    document.body.appendChild(previewForm);
-    previewForm.submit();
-    document.body.removeChild(previewForm);
-}
-
-function setSubmissionType(type) {
-        document.getElementById('submission_type').value = type;
-    }
-
-
+    window.appData = {
+        csrfToken: "{{ csrf_token() }}",
+        enquiryPreviewRoute: "{{ route('enquiry.preview') }}"
+    };
 
 </script>

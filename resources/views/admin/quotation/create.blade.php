@@ -13,7 +13,7 @@
                     <a href="{{ route('list.quotation') }}" class="btn btn-primary btn-sm">Back</a>
                 </div>
                 <div class="card-body mt-3">
-                    <form action="{{ route('store.quotation') }}" method="POST" enctype="multipart/form-data" id="quotationForm">
+                    <form action="{{ route('store.quotation') }}" method="POST" target="_self" enctype="multipart/form-data" id="quotationForm">
                         @csrf
                         <div class="row">
                             <!-- Left Column: Tabs inside a card -->

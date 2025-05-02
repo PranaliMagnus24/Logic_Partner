@@ -129,6 +129,7 @@
   <script src="{{ asset('admin/assets/js/main.js') }}"></script>
   <script src="{{ asset('admin/assets/js/datatable.js') }}"></script>
   <script src="{{ asset('admin/assets/js/quotation-calculation.js')}}"></script>
+  <script src="{{ asset('admin/assets/js/property.js')}}"></script>
 
 </body>
 
