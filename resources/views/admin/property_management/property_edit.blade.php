@@ -30,23 +30,91 @@
                             <!-----------Property Details--------->
                             <div class="tab-pane fade show active" id="bordered-justified-property" role="tabpanel" aria-labelledby="property-tab">
                                 <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Property Name
+                                    </label>
+                                    <div class="col-md-8 col-lg-10">
+                                        <input type="text" name="property_name" id="property_name" class="form-control" placeholder="property name" value="{{ old('property_name', $property->property_name) }}">
+                                        @error('property_name')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Property Address
+                                    </label>
+                                    <div class="col-md-8 col-lg-10">
+                                        <input type="text" name="property_address" id="property_address" class="form-control" placeholder="property address" value="{{ old('property_address', $property->property_address) }}">
+                                        @error('property_address')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Property Description</label>
+                                    <div class="col-md-8 col-lg-10">
+                                        <div id="quill-editor-full" class="mb-3" style="height: 200px;"></div>
+
+                                        <textarea rows="3" class="mb-3 d-none" name="property_description" id="quill-editor-full-area">
+                                            {!! old('property_description', $property->property_description) !!}
+                                        </textarea>
+
+                                        @error('property_description')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Rooms
+                                    </label>
+                                    <div class="col-md-8 col-lg-2">
+                                        <input type="text" name="available_rooms" id="available_rooms" class="form-control" placeholder="0" value="{{ old('available_rooms', $property->available_rooms) }}">
+                                        @error('available_rooms')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Bathrooms
+                                    </label>
+                                    <div class="col-md-8 col-lg-2">
+                                        <input type="text" name="available_bathrooms" id="available_bathrooms" class="form-control" placeholder="0" value="{{ old('available_bathrooms', $property->available_bathrooms) }}">
+                                        @error('available_bathrooms')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Parking
+                                    </label>
+                                    <div class="col-md-8 col-lg-2">
+                                        <input type="text" name="available_parking" id="available_parking" class="form-control" placeholder="0" value="{{ old('available_parking', $property->available_parking) }}">
+                                        @error('available_parking')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Property Type
                                     </label>
                                     <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="property_type" id="property_type" class="form-control" value="{{ old('property_type', $property->property_type) }}">
+                                        <select name="property_type" id="" class="form-select">
+                                            <option value="">--Select Property Type--</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}"
+                                                    {{ old('property_type', $property->property_type) == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->category_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                         @error('property_type')
-                                        <span class="text-danger">{{$message}}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Contract Type</label>
                                     <div class="col-md-8 col-lg-4">
                                         <select name="contract_type" id="contract_type" class="form-control">
                                             <option value="">--Select Contract Type--</option>
-                                            <option value="1 Part Contract" {{ old('contract_type',$property->contract_type) == '1 Part Contract' ? 'selected' : '' }}>1 Part Contract</option>
-                                            <option value="2 Part Contract" {{ old('contract_type', $property->contract_type) == '2 Part Contract' ? 'selected' : '' }}>2 Part Contract</option>
-                                            <option value="3 Part Contract" {{ old('contract_type', $property->contract_type) == '3 Part Contract' ? 'selected' : '' }}>3 Part Contract</option>
-                                            <option value="4 Part Contract" {{ old('contract_type', $property->contract_type) == '4 Part Contract' ? 'selected' : '' }}>4 Part Contract</option>
-                                            <option value="5 Part Contract" {{ old('contract_type', $property->contract_type) == '5 Part Contract' ? 'selected' : '' }}>5 Part Contract</option>
+                                            @foreach($contracts as $contract)
+                                            <option value="{{ $contract->id}}" {{ old('contract_type', $property->contract_type) == $contract->id ? 'selected' : '' }}>{{$contract->contract_type_name}}</option>
+                                            @endforeach
                                         </select>
                                         @error('contract_type')
                                         <span class="text-danger">{{$message}}</span>

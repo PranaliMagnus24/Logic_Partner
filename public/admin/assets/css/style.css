@@ -1295,4 +1295,54 @@ div.dt-buttons .btn-light {
     border: 1px solid #ccc;
 }
 
+/*----------------------property card----------------*/
+.property-card {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: #fff;
+  }
+
+  .property-image-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .property-image img {
+    width: 100%;
+    max-width: 280px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  .icon-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+
+  /*-------------------for print-------------*/
+  @media print {
+    body * {
+        visibility: hidden !important;
+    }
+    .print-container, .print-container * {
+        visibility: visible !important;
+    }
+    .print-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+    .print-container .no-print {
+        display: none !important;
+    }
+}
 

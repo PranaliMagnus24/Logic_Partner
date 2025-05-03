@@ -31,3 +31,24 @@ function submitpropertyPreview() {
 function setSubmissionType(type) {
     document.getElementById('submission_type').value = type;
 }
+
+
+////text editor
+document.addEventListener('DOMContentLoaded', function () {
+    var quill = new Quill('#quill-editor-full', {
+      theme: 'snow',
+      placeholder: 'Write here...',
+    });
+
+    var textarea = document.getElementById('quill-editor-full-area');
+    quill.root.innerHTML = textarea.value.trim();
+    quill.on('text-change', function () {
+      textarea.value = quill.root.innerHTML;
+    });
+
+    document.querySelector('form').addEventListener('submit', function () {
+      textarea.value = quill.root.innerHTML;
+    });
+  });
+
+

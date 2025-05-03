@@ -9,6 +9,8 @@ use App\Models\PropertyImage;
 use Yajra\DataTables\Facades\DataTables;
 use Str;
 use Illuminate\Support\Facades\DB;
+use Modules\MasterSetting\App\Models\Category;
+use Modules\MasterSetting\App\Models\Contract;
 
 class PropertyManagementController extends Controller
 {
@@ -24,6 +26,8 @@ class PropertyManagementController extends Controller
                      <div class="d-flex align-items-center nowrap">
                         <a href="'.route('edit.property', $property->id).'" class="btn btn-primary me-1"><i class="bi bi-pencil-square"></i></a>
                         <a href="'.route('delete.property', $property->id).'" class="btn btn-danger delete-confirm me-1"><i class="bi bi-trash3-fill"></i></a>
+                         <a href="'.route('show.property', $property->id).'" class="btn btn-primary me-1"><i class="bi bi-eye"></i></a>
+
                         </div>
                     ';
                 })
@@ -34,10 +38,13 @@ class PropertyManagementController extends Controller
     }
 
     ///Create Property Form
-      public function createProperty()
-      {
-        return view('admin.property_management.property_create');
-      }
+    public function createProperty()
+    {
+        $categories = Category::where('status', 'active')->get();
+        $contracts = Contract::where('status', 'active')->get();
+        return view('admin.property_management.property_create', compact('categories','contracts'));
+    }
+
 
       ////Store Property form
 public function storeProperty(Request $request)
@@ -82,6 +89,13 @@ public function storeProperty(Request $request)
             'house_price' => $request->house_price,
             'total_price' => $request->total_price,
             'council_rate' => $request->council_rate,
+            'property_name' => $request->property_name,
+            'property_address' => $request->property_address,
+            'property_description' => $request->property_description,
+            'available_rooms' => $request->available_rooms,
+            'available_bathrooms' => $request->available_bathrooms,
+            'available_parking' => $request->available_parking,
+            'property_price' => $request->property_price,
             'is_draft' => $isDraft,
         ]);
 
@@ -124,7 +138,9 @@ public function storeProperty(Request $request)
       public function editProperty($id)
       {
         $property = Property::with('propertyImage')->findOrFail($id);
-        return view('admin.property_management.property_edit', compact('property'));
+        $categories = Category::where('status', 'active')->get();
+        $contracts = Contract::where('status', 'active')->get();
+        return view('admin.property_management.property_edit', compact('property','categories','contracts'));
       }
 
      /////Update Property form
@@ -172,34 +188,60 @@ public function storeProperty(Request $request)
             'house_price' => $request->house_price,
             'total_price' => $request->total_price,
             'council_rate' => $request->council_rate,
+            'property_name' => $request->property_name,
+            'property_address' => $request->property_address,
+            'property_description' => $request->property_description,
+            'available_rooms' => $request->available_rooms,
+            'available_bathrooms' => $request->available_bathrooms,
+            'available_parking' => $request->available_parking,
+            'property_price' => $request->property_price,
             'is_draft' => $isDraft,
         ]);
 
-        // Upload new project images
-        if ($request->hasFile('project_image')) {
-            foreach ($request->file('project_image') as $file) {
-                $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('upload/project_images/'), $filename);
-
-                PropertyImage::create([
-                    'properties_id' => $property->id,
-                    'project_image' => $filename,
-                ]);
-            }
+       // Delete old project images
+if ($request->hasFile('project_image')) {
+    $oldProjectImages = PropertyImage::where('properties_id', $property->id)->whereNotNull('project_image')->get();
+    foreach ($oldProjectImages as $image) {
+        $imagePath = public_path('upload/project_images/' . $image->project_image);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
         }
+        $image->delete();
+    }
 
-        // Upload new area images
-        if ($request->hasFile('area_image')) {
-            foreach ($request->file('area_image') as $file) {
-                $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('upload/area_images/'), $filename);
+    foreach ($request->file('project_image') as $file) {
+        $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('upload/project_images/'), $filename);
 
-                PropertyImage::create([
-                    'properties_id' => $property->id,
-                    'area_image' => $filename,
-                ]);
-            }
+        PropertyImage::create([
+            'properties_id' => $property->id,
+            'project_image' => $filename,
+        ]);
+    }
+}
+
+// Delete old area images
+if ($request->hasFile('area_image')) {
+    $oldAreaImages = PropertyImage::where('properties_id', $property->id)->whereNotNull('area_image')->get();
+    foreach ($oldAreaImages as $image) {
+        $imagePath = public_path('upload/area_images/' . $image->area_image);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
         }
+        $image->delete();
+    }
+
+    foreach ($request->file('area_image') as $file) {
+        $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('upload/area_images/'), $filename);
+
+        PropertyImage::create([
+            'properties_id' => $property->id,
+            'area_image' => $filename,
+        ]);
+    }
+}
+
 
         DB::commit();
         return redirect()->route('list.property')->with('success', 'Property Updated Successfully!');
@@ -224,5 +266,12 @@ public function storeProperty(Request $request)
       {
           $preview = $request->all();
           return view('admin.property_management.preview_property', compact('preview',));
+      }
+
+      ////////Display property information
+      public function displayProperty($id)
+      {
+          $property = Property::with('propertyImage')->findOrFail($id);
+          return view('admin.property_management.property_display', compact('property'));
       }
 }

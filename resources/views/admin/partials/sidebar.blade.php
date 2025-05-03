@@ -80,6 +80,16 @@
                   <i class="bi bi-circle"></i><span>State Management</span>
                 </a>
               </li>
+              <li>
+                <a href="{{ route('category.index')}}">
+                    <i class="bi bi-circle"></i><span>Category Management</span>
+                  </a>
+              </li>
+              <li>
+                <a href="{{ route('contract.index')}}">
+                    <i class="bi bi-circle"></i><span>Contract Type Management</span>
+                  </a>
+              </li>
         </ul>
       </li><!-- End Master Setting -->
 
