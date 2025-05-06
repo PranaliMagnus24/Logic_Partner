@@ -65,8 +65,8 @@ $(document).ready(function() {
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'report_name', name: 'report_name' },
-                { data: 'property', name: 'property' },
-                { data: 'contract_type', name: 'contract_type' },
+                { data: 'property_name', name: 'property_name' },
+                { data: 'contract_type_name', name: 'contract_type_name' },
                 { data: 'purchase_price', name: 'purchase_price' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
@@ -129,8 +129,8 @@ $(document).ready(function() {
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'project_name', name: 'project_name' },
                 { data: 'project_location', name: 'project_location' },
-                { data: 'estimated_budget', name: 'estimated_budget' },
-                { data: 'estimated_timeline', name: 'estimated_timeline' },
+                { data: 'enquiry_name', name: 'enquiry_name' },
+                { data: 'report_name', name: 'report_name'},
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
@@ -519,68 +519,69 @@ if ($('.state').length) {
 
 //////Property List Table
 if ($('.propertyList').length) {
-    $('.propertyList').DataTable({
-    serverSide: true,
-    processing: true,
-    responsive: true,
-    rowReorder: {
-        selector: 'td:nth-child(2)'
-    },
-    dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
-    "<'row'<'col-sm-12'tr>>" +
-    "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
-    language: {
-        lengthMenu: '<select class="form-select">'+
-                        '<option value="10">10</option>'+
-                        '<option value="25">25</option>'+
-                        '<option value="50">50</option>'+
-                        '<option value="100">100</option>'+
-                    '</select>'
-    },
-    buttons: [
-        {
-            extend: 'collection',
-            text: '<i class="bi bi-download"></i>',
-            className: 'btn btn-light dropdown-toggle',
-            buttons: [
-                {
-                    extend: 'csv',
-                    className: 'dropdown-item',
-                    exportOptions: { columns: [0, 1, 2, 3] }
-                },
-                {
-                    extend: 'excel',
-                    className: 'dropdown-item',
-                    exportOptions: { columns: [0, 1, 2, 3] }
-                },
-                {
-                    extend: 'pdf',
-                    className: 'dropdown-item',
-                    exportOptions: { columns: [0, 1, 2, 3] }
-                },
-                {
-                    extend: 'print',
-                    className: 'dropdown-item',
-                    exportOptions: { columns: [0, 1, 2, 3] }
+    let table = $('.propertyList').DataTable({
+        serverSide: true,
+        processing: true,
+        responsive: true,
+        rowReorder: { selector: 'td:nth-child(3)' },
+        dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+        language: {
+            lengthMenu: '<select class="form-select">' +
+                '<option value="10">10</option>' +
+                '<option value="25">25</option>' +
+                '<option value="50">50</option>' +
+                '<option value="100">100</option>' +
+                '</select>'
+        },
+        buttons: [
+            {
+                extend: 'collection',
+                text: '<i class="bi bi-download"></i>',
+                className: 'btn btn-light dropdown-toggle',
+                buttons: [
+                    { extend: 'csv', className: 'dropdown-item', exportOptions: { columns: [1, 2, 3, 4] } },
+                    { extend: 'excel', className: 'dropdown-item', exportOptions: { columns: [1, 2, 3, 4] } },
+                    { extend: 'pdf', className: 'dropdown-item', exportOptions: { columns: [1, 2, 3, 4] } },
+                    { extend: 'print', className: 'dropdown-item', exportOptions: { columns: [1, 2, 3, 4] } }
+                ]
+            }
+        ],
+        ajax: {
+            url: propertyUrl
+        },
+        columns: [
+            {
+                data: 'id',
+                orderable: false,
+                searchable: false,
+                render: function (data) {
+                    return `<input type="checkbox" class="form-check-input property-checkbox" value="${data}">`;
                 }
-            ]
+            },
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'property_id', name: 'property_id' },
+            { data: 'category_name', name: 'category_name' },
+            { data: 'contract_type_name', name: 'contract_type_name' },
+            { data: 'status', name: 'status' },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
+        ],
+        drawCallback: function () {
+            $('#selectAll').prop('checked', false);
+            $('#compareSelected').hide();
+        },
+        initComplete: function () {
+            $(".actionDropdown").html(`
+                <select class="form-select w-auto" id="bulkAction">
+                    <option selected disabled>Actions</option>
+                    <option value="compare">Compare Selected</option>
+                    <option value="delete">Delete Selected</option>
+                </select>
+            `);
         }
-    ],
-    ajax: {
-        url: propertyUrl
-    },
-    columns: [
-        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-        { data: 'property_id', name: 'property_id' }, // State name
-        { data: 'property_type', name: 'property_type' }, // Country name
-        { data: 'contract_type', name: 'contract_type' },
-        { data: 'status', name: 'status' },
-        { data: 'action', name: 'action', orderable: false, searchable: false }
-    ]
-
-});
+    });
 }
-
 
 if ($('.categoryList').length) {
     $('.categoryList').DataTable({
@@ -705,33 +706,73 @@ if ($('.contractList').length) {
 });
 }
 
+////Design Table List
+if ($('.designList').length) {
+    $('.designList').DataTable({
+    serverSide: true,
+    processing: true,
+    responsive: true,
+    rowReorder: {
+        selector: 'td:nth-child(2)'
+    },
+    dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
+    "<'row'<'col-sm-12'tr>>" +
+    "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+    language: {
+        lengthMenu: '<select class="form-select">'+
+                        '<option value="10">10</option>'+
+                        '<option value="25">25</option>'+
+                        '<option value="50">50</option>'+
+                        '<option value="100">100</option>'+
+                    '</select>'
+    },
+    buttons: [
+        {
+            extend: 'collection',
+            text: '<i class="bi bi-download"></i>',
+            className: 'btn btn-light dropdown-toggle',
+            buttons: [
+                {
+                    extend: 'csv',
+                    className: 'dropdown-item',
+                    exportOptions: { columns: [0, 1, 2, 3] }
+                },
+                {
+                    extend: 'excel',
+                    className: 'dropdown-item',
+                    exportOptions: { columns: [0, 1, 2, 3] }
+                },
+                {
+                    extend: 'pdf',
+                    className: 'dropdown-item',
+                    exportOptions: { columns: [0, 1, 2, 3] }
+                },
+                {
+                    extend: 'print',
+                    className: 'dropdown-item',
+                    exportOptions: { columns: [0, 1, 2, 3] }
+                }
+            ]
+        }
+    ],
+    ajax: {
+        url: designUrl
+    },
+    columns: [
+        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+        { data: 'design_name', name: 'design_name' }, // State name
+        { data: 'status', name: 'status' },
+        { data: 'action', name: 'action', orderable: false, searchable: false }
+    ]
+
 });
+}
+
+});
+
 
 // Delete confirmation
 document.addEventListener('DOMContentLoaded', function () {
-    // const deleteLinks = document.querySelectorAll('.delete-confirm');
-
-    // deleteLinks.forEach(link => {
-    //     link.addEventListener('click', function (e) {
-    //         e.preventDefault();
-    //         const url = this.getAttribute('href');
-
-    //         Swal.fire({
-    //             title: 'Are you sure?',
-    //             text: "This Data will be deleted!",
-    //             icon: 'warning',
-    //             showCancelButton: true,
-    //             confirmButtonColor: '#3085d6',
-    //             cancelButtonColor: '#d33',
-    //             confirmButtonText: 'Yes, delete it!'
-    //         }).then((result) => {
-    //             if (result.isConfirmed) {
-    //                 window.location.href = url;
-    //             }
-    //         });
-    //     });
-    // });
-
     // Show offcanvas if edit mode is active
     if (window.editMode === true) {
         const offcanvasElement = document.getElementById('offcanvasRight');
@@ -826,4 +867,37 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
+// $(document).ready(function () {
+//     $(document).on('change', '#selectAll', function () {
+//         $('.property-checkbox').prop('checked', this.checked).trigger('change');
+//     });
+//     $(document).on('change', '.property-checkbox', function () {
+//         const total = $('.property-checkbox').length;
+//         const checked = $('.property-checkbox:checked').length;
+
+//         $('#selectAll').prop('checked', total === checked);
+
+//         if (checked >= 3 && checked <= 5) {
+//             $('#compareSelected').show();
+//         } else {
+//             $('#compareSelected').hide();
+//         }
+//     });
+
+//     $('#compareSelected').on('click', function () {
+//         const selectedIds = $('.property-checkbox:checked').map(function () {
+//             return $(this).val();
+//         }).get();
+
+//         if (selectedIds.length < 3 || selectedIds.length > 5) {
+//             alert('Please select between 3 to 5 properties.');
+//             return;
+//         }
+
+//         window.location.href = `${compareUrl}?ids=${selectedIds.join(',')}`;
+//     });
+
+
+// });
 

@@ -20,6 +20,9 @@
                                 <button class="nav-link w-100 active" id="property-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-property" type="button" role="tab" aria-controls="property" aria-selected="true">Property Details</button>
                             </li>
                             <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link w-100" id="prices-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-prices" type="button" role="tab" aria-controls="prices" aria-selected="false">Prices Details</button>
+                            </li>
+                            <li class="nav-item flex-fill" role="presentation">
                                 <button class="nav-link w-100" id="project-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-project" type="button" role="tab" aria-controls="project" aria-selected="false">Project Details</button>
                             </li>
                             <li class="nav-item flex-fill" role="presentation">
@@ -110,7 +113,7 @@
                                     </div>
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Contract Type</label>
                                     <div class="col-md-8 col-lg-4">
-                                        <select name="contract_type" id="contract_type" class="form-control">
+                                        <select name="contract_type" id="contract_type" class="form-select">
                                             <option value="">--Select Contract Type--</option>
                                             @foreach($contracts as $contract)
                                             <option value="{{ $contract->id}}" {{ old('contract_type', $property->contract_type) == $contract->id ? 'selected' : '' }}>{{$contract->contract_type_name}}</option>
@@ -188,14 +191,6 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label for="" class="col-md-4 col-lg-2 col-form-label">ADDM
-                                    </label>
-                                    <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="addm" id="addm" class="form-control" value="{{ old('addm', $property->addm) }}">
-                                        @error('addm')
-                                        <span class="text-danger">{{$message}}</span>
-                                        @enderror
-                                    </div>
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Approx Weekly Rent
                                     </label>
                                     <div class="col-md-8 col-lg-4">
@@ -204,8 +199,39 @@
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Property Images
+                                    </label>
+                                    {{-- Property Images --}}
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="file" name="property_image[]" id="property_image" class="form-control" multiple>
+                                        @if($property->propertyImage->whereNotNull('property_image')->count())
+                                        <div class="row mb-3">
+                                            <div class="col-md-8 col-lg-10 d-flex flex-wrap">
+                                                @foreach($property->propertyImage->whereNotNull('property_image') as $image)
+                                                <div class="me-2 mb-2">
+                                                    <img src="{{ asset('upload/property_images/' . $image->property_image) }}" width="100" class="img-thumbnail">
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @error('property_image')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
                                 </div>
+                            </div>
+                            <!------------------Prices Details----------------->
+                            <div class="tab-pane fade" id="bordered-justified-prices" role="tabpanel" aria-labelledby="prices-tab">
                                 <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Property Price
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="property_price" placeholder="$0.00" id="property_price" class="form-control" value="{{ old('property_price', $property->property_price) }}">
+                                        @error('property_price')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Vacancy Rate
                                     </label>
                                     <div class="col-md-8 col-lg-4">
@@ -214,6 +240,8 @@
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="row mb-3">
                                     <label class="col-sm-4 col-lg-2 col-form-label">Land Area
                                     </label>
                                     <div class="col-md-8 col-lg-4">
@@ -225,8 +253,6 @@
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                </div>
-                                <div class="row mb-3">
                                     <label class="col-sm-4 col-lg-2 col-form-label">House Area
                                     </label>
                                     <div class="col-md-8 col-lg-4">
@@ -238,11 +264,29 @@
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="row mb-3">
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Design
                                     </label>
                                     <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="design" id="design" class="form-control" value="{{ old('design', $property->design) }}">
+                                        <select name="design" id="" class="form-select">
+                                            <option value="">--Select Design--</option>
+                                            @foreach($designs as $design)
+                                                <option value="{{ $design->id }}"
+                                                    {{ old('design', $property->design) == $design->id ? 'selected' : '' }}>
+                                                    {{ $design->design_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                         @error('design')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Council Rate
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="council_rate" id="council_rate" class="form-control" value="{{ old('council_rate', $property->council_rate) }}">
+                                        @error('council_rate')
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>
@@ -312,22 +356,12 @@
                                     </div>
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Status</label>
                                     <div class="col-md-8 col-lg-4">
-                                        <select name="status" id="status" class="form-control">
+                                        <select name="status" id="status" class="form-select">
                                             <option value="">--Select Status--</option>
                                             <option value="available" {{ old('status', $property->status) == 'available' ? 'selected' : '' }}>Available</option>
                                             <option value="not-available" {{ old('status', $property->status) == 'not-available' ? 'selected' : '' }}>Not Available</option>
                                         </select>
                                         @error('status')
-                                        <span class="text-danger">{{$message}}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Council Rate
-                                    </label>
-                                    <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="council_rate" id="council_rate" class="form-control" value="{{ old('council_rate', $property->council_rate) }}">
-                                        @error('council_rate')
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>

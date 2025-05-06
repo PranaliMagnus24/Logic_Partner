@@ -9,6 +9,7 @@ use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 use Str;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Property;
 
 class EnquiryManagementController extends Controller
 {
@@ -16,9 +17,18 @@ class EnquiryManagementController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $enquiries = Enquiry::query()->orderBy('created_at', 'desc');
+            $enquiries = Enquiry::with('properties')->orderBy('created_at', 'desc');
             return DataTables::eloquent($enquiries)
                 ->addIndexColumn()
+                ->addColumn('project_name', function($quotation) {
+                    return $quotation->properties->project_name ?? '-';
+                })
+                // Filter by properties name
+                ->filterColumn('project_name', function($query, $keyword) {
+                    $query->whereHas('properties', function($q) use ($keyword) {
+                        $q->where('project_name', 'like', "%{$keyword}%");
+                    });
+                })
                 ->addColumn('action', function($enquiry) {
                     return '
                         <div class="d-flex align-items-center nowrap">
@@ -54,7 +64,8 @@ class EnquiryManagementController extends Controller
     public function createEnquiry()
     {
          $users = User::all();
-        return view('admin.enquiry_management.create_enquiry', compact('users'));
+         $properties = Property::where('status', 'available')->get();
+        return view('admin.enquiry_management.create_enquiry', compact('users', 'properties'));
     }
 
 
@@ -65,8 +76,6 @@ class EnquiryManagementController extends Controller
             'assign_to' => 'required|array',
             'project_name' => 'required|string',
             'project_location' => 'required|string',
-            'estimated_budget' => 'required|string',
-            'estimated_timeline' => 'required|string',
             'customer_name' => 'required|string',
             'second_customer_name' => 'nullable|string',
             'enquiry_name' => 'required|string',
@@ -88,8 +97,6 @@ class EnquiryManagementController extends Controller
         $enquiry = Enquiry::create([
             'project_name' => $request->project_name,
             'project_location' => $request->project_location,
-            'estimated_budget' => $request->estimated_budget,
-            'estimated_timeline' => $request->estimated_timeline,
             'customer_name' => $request->customer_name,
             'second_customer_name' => $request->second_customer_name,
             'enquiry_name' => $request->enquiry_name,
@@ -124,8 +131,9 @@ class EnquiryManagementController extends Controller
         $enquiry = Enquiry::findOrFail($id);
         $users = User::all();
         $selectedUsers = json_decode($enquiry->assign_to, true) ?? [];
+        $properties = Property::where('status', 'available')->get();
 
-        return view('admin.enquiry_management.edit_enquiry', compact('enquiry','users','selectedUsers'));
+        return view('admin.enquiry_management.edit_enquiry', compact('enquiry','users','selectedUsers', 'properties'));
     }
 
 /////Update Enquiry
@@ -136,8 +144,6 @@ class EnquiryManagementController extends Controller
             'assign_to' => 'required|array',
             'project_name' => 'required|string',
             'project_location' => 'required|string',
-            'estimated_budget' => 'required|string',
-            'estimated_timeline' => 'required|string',
             'customer_name' => 'required|string',
             'second_customer_name' => 'nullable|string',
             'enquiry_name' => 'required|string',
@@ -159,8 +165,6 @@ class EnquiryManagementController extends Controller
         $enquiry->update([
            'project_name' => $request->project_name,
             'project_location' => $request->project_location,
-            'estimated_budget' => $request->estimated_budget,
-            'estimated_timeline' => $request->estimated_timeline,
             'customer_name' => $request->customer_name,
             'second_customer_name' => $request->second_customer_name,
             'enquiry_name' => $request->enquiry_name,
@@ -220,5 +224,19 @@ class EnquiryManagementController extends Controller
 
         return $pdf->stream('enquiry_' . $enquiry->id . '.pdf');
     }
+
+
+    public function getPropertyDetails($id)
+{
+    $property = Property::find($id);
+
+    if ($property) {
+        return response()->json([
+            'property_address' => $property->property_address,
+            'stage' => $property->stage
+        ]);
+    }
+    return response()->json(['error' => 'Property not found'], 404);
+}
 
 }

@@ -51,6 +51,7 @@ Route::post('/enquiry/{id}/update',[EnquiryManagementController::class, 'updateE
 Route::get('/enquiry/{id}/delete',[EnquiryManagementController::class, 'deleteEnquiry'])->name('delete.enquiry');
 Route::get('/enquiry/show/{id}',[EnquiryManagementController::class, 'showEnquiry'])->name('show.enquiry');
 Route::post('/enquiry/preview', [EnquiryManagementController::class, 'preview'])->name('enquiry.preview');
+Route::get('/get-property-details/{id}', [EnquiryManagementController::class, 'getPropertyDetails']);
 
 
 //////Quotation Management Controller
@@ -72,7 +73,8 @@ Route::post('/update/{id}/property', [PropertyManagementController::class,'updat
 Route::get('/delete/{id}/property', [PropertyManagementController::class,'destroyProperty'])->name('delete.property');
 Route::get('/property/show/{id}', [PropertyManagementController::class,'displayProperty'])->name('show.property');
 Route::post('/property/preview', [PropertyManagementController::class, 'preview'])->name('property.preview');
-
+Route::get('/property/compare', [PropertyManagementController::class, 'compare'])->name('property.compare');
+Route::post('/property/bulk-delete', [PropertyManagementController::class, 'bulkDelete'])->name('property.bulkDelete');
 
 });
 Route::get('/generate-pdf/{id}', [QuotationManagementController::class, 'generatePDF'])->name('generate.pdf');

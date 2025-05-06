@@ -90,6 +90,11 @@
                     <i class="bi bi-circle"></i><span>Contract Type Management</span>
                   </a>
               </li>
+              <li>
+                <a href="{{ route('design.index')}}">
+                    <i class="bi bi-circle"></i><span>Design Management</span>
+                  </a>
+              </li>
         </ul>
       </li><!-- End Master Setting -->
 

@@ -153,15 +153,15 @@ $(document).ready(function () {
                 </td>
                 <td>
                     <select name="statuses[]" class="form-control">
-                        <option value="reserved">reserved</option>
-                        <option value="unconditional contract">unconditional contract</option>
-                        <option value="build deposite paid">build deposite paid</option>
-                        <option value="settlement land">settlement land</option>
-                        <option value="base payment paid">base payment paid</option>
-                        <option value="frame payment paid">frame payment paid</option>
-                        <option value="roof payment paid">roof payment paid</option>
-                        <option value="enclosed payment paid">enclosed payment paid</option>
-                        <option value="practical completion">practical completion</option>
+                        <option value="Reserved">Reserved</option>
+                        <option value="Unconditional Contract">Unconditional Contract</option>
+                        <option value="Build Deposite Paid">Build Deposite Paid</option>
+                        <option value="Settlement Land">Settlement Land</option>
+                        <option value="Base Payment Paid">Base Payment Paid</option>
+                        <option value="Frame Payment Paid">Frame Payment Paid</option>
+                        <option value="Roof Payment Paid">Roof Payment Paid</option>
+                        <option value="Enclosed Payment Paid">Enclosed Payment Paid</option>
+                        <option value="Practical Completion">Practical Completion</option>
                     </select>
                 </td>
             </tr>

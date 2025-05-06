@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\MasterSetting\App\Models\Contract;
+use App\Models\Property;
 
 class Quotation extends Model
 {
@@ -17,6 +19,18 @@ class Quotation extends Model
 public function enquiry()
 {
     return $this->belongsTo(Enquiry::class, 'enquiry_id');
+}
+
+public function properties()
+{
+    return $this->belongsTo(Property::class, 'property');
+
+}
+
+public function contractType()
+{
+    return $this->belongsTo(Contract::class, 'contract_type');
+
 }
 
 }

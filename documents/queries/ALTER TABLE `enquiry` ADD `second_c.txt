@@ -17,3 +17,6 @@ ALTER TABLE `properties` ADD `property_price` INT NULL DEFAULT NULL AFTER `avail
 
 
 ALTER TABLE `properties` ADD `is_draft` TINYINT(1) NOT NULL DEFAULT '0' AFTER `distance_to_cbd`;
+
+
+

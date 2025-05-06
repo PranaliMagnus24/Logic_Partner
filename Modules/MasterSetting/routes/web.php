@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\MasterSetting\App\Http\Controllers\MasterSettingController;
 use Modules\MasterSetting\App\Http\Controllers\CategoryController;
 use Modules\MasterSetting\App\Http\Controllers\ContractController;
-
+use Modules\MasterSetting\App\Http\Controllers\DesignController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,3 +33,11 @@ Route::post('/contract/store', [ContractController::class, 'store'])->name('cont
 Route::get('/contract/edit/{id}', [ContractController::class, 'edit'])->name('contract.edit');
 Route::post('/contract/update/{id}', [ContractController::class, 'update'])->name('contract.update');
 Route::get('/contract/destroy/{id}', [ContractController::class, 'destroy'])->name('contract.destroy');
+
+
+/////////Design Controller
+Route::get('/design', [DesignController::class, 'indexDesign'])->name('design.index');
+Route::post('/design/store', [DesignController::class, 'storeDesign'])->name('design.store');
+Route::get('/design/edit/{id}', [DesignController::class, 'editDesign'])->name('design.edit');
+Route::post('/design/update/{id}', [DesignController::class, 'updateDesign'])->name('design.update');
+Route::get('/design/destroy/{id}', [DesignController::class, 'destroyDesign'])->name('design.destroy');

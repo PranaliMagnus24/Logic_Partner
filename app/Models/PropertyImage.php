@@ -9,7 +9,7 @@ class PropertyImage extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'properties_image';
-    protected $fillable = ['properties_id', 'project_image','area_image',];
+    protected $fillable = ['properties_id','project_image','area_image','property_image','floor_plan_image','feature_image','gallery_image',];
 
 
 

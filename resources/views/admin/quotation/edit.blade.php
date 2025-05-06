@@ -70,7 +70,14 @@
                                                 <div class="mb-3 row align-items-center">
                                                     <label class="col-sm-4 col-form-label">Property<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
-                                                     <input type="text" class="form-control" name="property" value="{{ old('property', $quotation->property)}}">
+                                                        <select name="property" id="" class="form-select">
+                                                            <option value="">--Select Property--</option>
+                                                            @foreach($properties as $property)
+                                                                <option value="{{ $property->id }}" {{ (old('property', $quotation->property) == $property->id) ? 'selected' : '' }}>
+                                                                    {{ $property->property_name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
                                                      @error('property')
                                                      <span class="text-danger">{{$message}}</span>
                                                      @enderror
@@ -79,8 +86,13 @@
                                                 <div class="mb-3 row align-items-center">
                                                     <label class="col-sm-4 col-form-label">Contract Type<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
-                                                     <select name="contract_type" id="" class="form-control">
-                                                        <option value="2 Part Contract"  {{ (old('contract_type', $quotation->contract_type) == '2 Part Contract') ? 'selected' : '' }}>2 Part Contract</option>
+                                                     <select name="contract_type" id="" class="form-select">
+                                                        <option value="">--Select Contract Type--</option>
+                                                        @foreach($contracts as $contract)
+                                                            <option value="{{ $contract->id }}" {{ (old('contract_type', $quotation->contract) == $contract->id) ? 'selected' : '' }}>
+                                                                {{ $contract->contract_type_name }}
+                                                            </option>
+                                                        @endforeach
                                                      </select>
                                                      @error('contract_type')
                                                      <span class="text-danger">{{$message}}</span>
@@ -237,9 +249,15 @@
                                                 </div>
                                                 <div class="mb-3 row align-items-center">
                                                     <label class="col-sm-4 col-form-label">Stamp Duty<span class="text-danger">*</span></label>
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-3">
                                                         <input type="text" name="stamp_duty" class="form-control" value="{{ old('stamp_duty', $quotation->stamp_duty)}}">
                                                         @error('stamp_duty')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <input type="text" name="stamp_duty_price" class="form-control" value="{{ old('stamp_duty_price', $quotation->stamp_duty_price)}}">
+                                                        @error('stamp_duty_price')
                                                         <span class="text-danger">{{$message}}</span>
                                                         @enderror
                                                     </div>
@@ -594,15 +612,15 @@
                         </td>
                         <td>
                             <select name="statuses[]" class="form-control">
-                                <option value="reserved">reserved</option>
-                                <option value="unconditional contract">unconditional contract</option>
-                                <option value="build deposite paid">build deposite paid</option>
-                                <option value="settlement land">settlement land</option>
-                                <option value="base payment paid">base payment paid</option>
-                                <option value="frame payment paid">frame payment paid</option>
-                                <option value="roof payment paid">roof payment paid</option>
-                                <option value="enclosed payment paid">enclosed payment paid</option>
-                                <option value="practical completion">practical completion</option>
+                                <option value="Reserved">Reserved</option>
+                                <option value="Unconditional Contract">Unconditional Contract</option>
+                                <option value="Build Deposite Paid">Build Deposite Paid</option>
+                                <option value="Settlement Land">Settlement Land</option>
+                                <option value="Base Payment Paid">Base Payment Paid</option>
+                                <option value="Frame Payment Paid">Frame Payment Paid</option>
+                                <option value="Roof Payment Paid">Roof Payment Paid</option>
+                                <option value="Enclosed Payment Paid">Enclosed Payment Paid</option>
+                                <option value="Practical Completion">Practical Completion</option>
                             </select>
                         </td>
                     </tr>

@@ -21,8 +21,8 @@
                             <th>ID</th>
                             <th>Project Name</th>
                             <th>Project Location</th>
-                            <th>Estimated Budget </th>
-                            <th>Estimated Timeline </th>
+                            <th>Enquiry Name</th>
+                            <th>Report Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>

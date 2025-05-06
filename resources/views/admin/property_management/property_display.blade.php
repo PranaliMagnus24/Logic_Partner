@@ -17,10 +17,10 @@
             @if($property->propertyImage->count())
             <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
               <div class="carousel-inner">
-                @foreach ($property->propertyImage as $key => $image)
-                  @if ($image->project_image)
+                @foreach ($property->propertyImage as $key => $Propertyimage)
+                  @if ($Propertyimage->property_image)
                   <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                    <img src="{{ asset('upload/project_images/' . $image->project_image) }}" class="d-block w-100" alt="Project Image" style="height: 250px; object-fit: cover;">
+                    <img src="{{ asset('upload/property_images/' . $Propertyimage->property_image) }}" class="d-block w-100" alt="Project Image" style="height: 250px; object-fit: cover;">
                   </div>
                   @endif
                 @endforeach
@@ -38,7 +38,7 @@
           <div class="p-3">
             <h5 class="text-primary">{{$property->project_name}}</h5>
             <span class="badge bg-info text-white">INDICATIVE PACKAGE</span>
-            <h4 class="mt-2 text-success">${{ number_format(531000) }}</h4>
+            <h4 class="mt-2 text-success">${{ $property->property_price }}</h4>
 
             <div class="d-flex justify-content-between mt-3">
               <div class="icon-text"><span>🛏️</span>{{ $property->available_rooms }}</div>
@@ -86,7 +86,7 @@
                       </button>
                     </div>
                     @endif
-                    <table class="table table-sm table-bordered mb-2">
+                    <table class="table table-sm table-bordered mb-2 nowrap">
                         <tr><th>Project Name</th><td>{{ $property->project_name }}</td></tr>
                         <tr><th>Prices From</th><td>${{ number_format($property->price_from) }}</td></tr>
                         <tr><th>Number Available</th><td>{{ $property->number_available }}</td></tr>
@@ -107,7 +107,7 @@
               @endif
             @endforeach
 
-                    <table class="table table-sm table-bordered mb-2">
+                    <table class="table table-sm table-bordered mb-2 nowrap">
                         <tr><th>Area Name</th><td>{{ $property->area_name }}</td></tr>
                         <tr><th>Total Population</th><td>{{ $property->total_population }}</td></tr>
                         <tr><th>Distance to CBD</th><td>{{ $property->distance_to_cbd }}</td></tr>
@@ -128,16 +128,16 @@
                         <div class="icon-text"><span>🛁</span>{{ $property->available_bathrooms }}</div>
                         <div class="icon-text"><span>🚗</span>{{ $property->available_parking }}</div>
                       </div>
-                    <table class="table table-sm table-bordered mb-2">
+                    <table class="table table-sm table-bordered mb-2 nowrap">
                         <tr><th>Property Id</th><td>{{ $property->property_id }}</td></tr>
-                        <tr><th>Property Type</th><td>{{ $property->property_type}}</td></tr>
+                        <tr><th>Property Type</th><td>{{ $property->category->category_name}}</td></tr>
                         <tr><th>Status</th><td>{{ $property->status }}</td></tr>
-                        <tr><th>Contract Type</th><td>{{ $property->contract_type }}</td></tr>
+                        <tr><th>Contract Type</th><td>{{ $property->contract->contract_type_name }}</td></tr>
                         <tr><th>Title Type</th><td>{{ $property->title_type }}</td></tr>
                         <tr><th>Titled</th><td>{{ $property->titled }}</td></tr>
                         <tr><th>Indicative Package</th><td>{{ $property->indicative_package }}</td></tr>
                         <tr><th>Estimated Date</th><td>{{ \Carbon\Carbon::parse($property->estimated_date)->format('d M Y') }}</td></tr>
-                        <tr><th>Rent Yield</th><td>{{ $property->rent_yield }}</td></tr>
+                        <tr><th>Rent Yield</th><td>{{ $property->rent_yield }} %</td></tr>
                         <tr><th>Approx. Weekly Rent</th><td>${{ $property->approx_weekly_rent }}</td></tr>
                         <tr><th>Land Area</th><td>{{ $property->land_area }} sqm</td></tr>
                         <tr><th>House Area</th><td>{{ $property->house_area }} sqm</td></tr>

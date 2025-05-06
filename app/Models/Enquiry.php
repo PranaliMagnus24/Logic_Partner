@@ -23,4 +23,11 @@ class Enquiry extends Model
     return $this->hasMany(Quotation::class);
 }
 
+public function properties()
+{
+    return $this->belongsTo(Property::class, 'project_name');
+
+}
+
+
 }

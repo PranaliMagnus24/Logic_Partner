@@ -16,19 +16,30 @@
                     <form action="{{ route('store.property')}}" method="POST" id="propertyForm" target="_self" enctype="multipart/form-data">
                         @csrf
                         <ul class="nav nav-tabs nav-tabs-bordered d-flex mb-3" id="borderedTabJustified" role="tablist">
+                            <!------------------Property Details----------------->
                             <li class="nav-item flex-fill" role="presentation">
                                 <button class="nav-link w-100 active" id="property-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-property" type="button" role="tab" aria-controls="property" aria-selected="true">Property Details</button>
                             </li>
+                            <!------------------Prices Details----------------->
+                            <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link w-100" id="prices-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-prices" type="button" role="tab" aria-controls="prices" aria-selected="false">Prices Details</button>
+                            </li>
+                            <!------------------Project Details----------------->
                             <li class="nav-item flex-fill" role="presentation">
                                 <button class="nav-link w-100" id="project-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-project" type="button" role="tab" aria-controls="project" aria-selected="false">Project Details</button>
                             </li>
+                            <!------------------Area Details----------------->
                             <li class="nav-item flex-fill" role="presentation">
                                 <button class="nav-link w-100" id="area-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-area" type="button" role="tab" aria-controls="area" aria-selected="false">Area Details</button>
+                            </li>
+                            <!------------------Attachments----------------->
+                            <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link w-100" id="attachments-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-attachments" type="button" role="tab" aria-controls="attachments" aria-selected="false">Attachments</button>
                             </li>
                         </ul>
                         <div class="tab-content pt-2" id="borderedTabJustifiedContent">
 
-                            <!-----------------------Property---------------->
+                            <!-----------------------Property Details---------------->
                             <div class="tab-pane fade show active" id="bordered-justified-property" role="tabpanel" aria-labelledby="property-tab">
                                 <div class="row mb-3">
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Property Name
@@ -99,7 +110,7 @@
                                         <select name="property_type" id="" class="form-select">
                                             <option value="">--Select Property Type--</option>
                                             @foreach ($categories as $category)
-                                            <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                            <option value="{{$category->id}}"{{ old('property_type') == $category->id ? 'selected' : '' }}>{{$category->category_name}}</option>
                                             @endforeach
                                         </select>
                                         @error('property_type')
@@ -111,7 +122,7 @@
                                         <select name="contract_type" id="contract_type" class="form-select">
                                             <option value="">--Select Contract Type--</option>
                                             @foreach ($contracts as $contract)
-                                            <option value="{{$contract->id}}">{{$contract->contract_type_name}}</option>
+                                            <option value="{{$contract->id}}"{{ old('contract_type') == $contract->id ? 'selected' : '' }}>{{$contract->contract_type_name}}</option>
                                             @endforeach
                                         </select>
 
@@ -187,14 +198,6 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label for="" class="col-md-4 col-lg-2 col-form-label">ADDM
-                                    </label>
-                                    <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="addm" id="addm" class="form-control" value="{{ old('addm') }}">
-                                        @error('addm')
-                                        <span class="text-danger">{{$message}}</span>
-                                        @enderror
-                                    </div>
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Approx Weekly Rent
                                     </label>
                                     <div class="col-md-8 col-lg-4">
@@ -203,16 +206,37 @@
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Property Image
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="file" name="property_image[]" id="property_image" class="form-control" multiple>
+                                        @error('property_image')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
                                 </div>
+                            </div>
+                            <!------------------Prices Details----------------->
+                            <div class="tab-pane fade" id="bordered-justified-prices" role="tabpanel" aria-labelledby="prices-tab">
                                 <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Property Price
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="property_price" placeholder="$0.00" id="property_price" class="form-control" value="{{ old('property_price') }}">
+                                        @error('property_price')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Vacancy Rate
                                     </label>
                                     <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="vacancy_rate" placeholder="0.00" id="vacancy_rate" class="form-control" value="{{ old('vacancy_rate') }}">
+                                        <input type="text" name="vacancy_rate" placeholder="$0.00" id="vacancy_rate" class="form-control" value="{{ old('vacancy_rate') }}">
                                         @error('vacancy_rate')
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="row mb-3">
                                     <label class="col-sm-4 col-lg-2 col-form-label">Land Area
                                     </label>
                                     <div class="col-md-8 col-lg-4">
@@ -224,8 +248,7 @@
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                </div>
-                                <div class="row mb-3">
+
                                     <label class="col-sm-4 col-lg-2 col-form-label">House Area
                                     </label>
                                     <div class="col-md-8 col-lg-4">
@@ -237,11 +260,26 @@
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="row mb-3">
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Design
                                     </label>
                                     <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="design" placeholder="design" id="design" class="form-control" value="{{ old('design') }}">
+                                        <select name="design" id="" class="form-select">
+                                            <option value="">--Select Design--</option>
+                                            @foreach ($designs as $design)
+                                            <option value="{{$design->id}}"{{ old('design') == $design->id ? 'selected' : '' }}>{{$design->design_name}}</option>
+                                            @endforeach
+                                        </select>
                                         @error('design')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Council Rate
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="text" name="council_rate" id="council_rate" class="form-control" placeholder="$0.00" value="{{ old('council_rate') }}">
+                                        @error('council_rate')
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>
@@ -250,7 +288,7 @@
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Land Price
                                     </label>
                                     <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="land_price" placeholder="0.00" id="landPrice" class="form-control" value="{{ old('land_price') }}">
+                                        <input type="text" name="land_price" placeholder="$0.00" id="landPrice" class="form-control" value="{{ old('land_price') }}">
                                         @error('land_price')
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
@@ -258,7 +296,7 @@
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">House Price
                                     </label>
                                     <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="house_price" placeholder="0.00" id="housePrice" class="form-control" value="{{ old('house_price') }}">
+                                        <input type="text" name="house_price" placeholder="$0.00" id="housePrice" class="form-control" value="{{ old('house_price') }}">
                                         @error('house_price')
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
@@ -268,7 +306,7 @@
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Total Price
                                     </label>
                                     <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="total_price" placeholder="0.00" id="totalPrice" class="form-control" value="{{ old('total_price') }}">
+                                        <input type="text" name="total_price" placeholder="$0.00" id="totalPrice" class="form-control" value="{{ old('total_price') }}">
                                         @error('total_price')
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
@@ -294,7 +332,7 @@
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Gov. Transfer Fee
                                     </label>
                                     <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="gov_transfer_fee" id="gov_transfer_fee" class="form-control" placeholder="0.00" value="{{ old('stamp_duty_est') }}">
+                                        <input type="text" name="gov_transfer_fee" id="gov_transfer_fee" class="form-control" placeholder="$0.00" value="{{ old('stamp_duty_est') }}">
                                         @error('gov_transfer_fee')
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
@@ -304,7 +342,7 @@
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Owners Corp Fee
                                     </label>
                                     <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="owners_corp_fee" id="owners_corp_fee" class="form-control" placeholder="0.00" value="{{ old('owners_corp_fee') }}">
+                                        <input type="text" name="owners_corp_fee" id="owners_corp_fee" class="form-control" placeholder="$0.00" value="{{ old('owners_corp_fee') }}">
                                         @error('owners_corp_fee')
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
@@ -321,18 +359,8 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Council Rate
-                                    </label>
-                                    <div class="col-md-8 col-lg-4">
-                                        <input type="text" name="council_rate" id="council_rate" class="form-control" placeholder="0.00" value="{{ old('council_rate') }}">
-                                        @error('council_rate')
-                                        <span class="text-danger">{{$message}}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
 
+                            </div>
                             <!------------------Project Details----------------->
                             <div class="tab-pane fade" id="bordered-justified-project" role="tabpanel" aria-labelledby="project-tab">
                                 <div class="row mb-3">
@@ -412,6 +440,39 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!--------------Attachments----------------->
+                            <div class="tab-pane fade" id="bordered-justified-attachments" role="tabpanel" aria-labelledby="attachments-tab">
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Floor Plan Images
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="file" name="floor_plan_image[]" id="floor_plan" class="form-control" multiple>
+                                        @error('floor_plan_image')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Feature Images
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="file" name="feature_image" id="feature_image" class="form-control">
+                                        @error('feature_image')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Gallery Images
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="file" name="gallery_image[]" id="gallery_image" class="form-control" multiple>
+                                        @error('gallery_image')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
 
                         </div>
                         <input type="hidden" name="submission_type" id="submission_type" value="">

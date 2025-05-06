@@ -14,18 +14,38 @@ use App\Models\QuotationPaymentTable;
 use Yajra\DataTables\Facades\DataTables;
 use Str;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Modules\MasterSetting\App\Models\Contract;
+use App\Models\Property;
 
 class QuotationManagementController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $quotations = Quotation::with('enquiry')->orderBy('created_at', 'desc');
+            $quotations = Quotation::with('enquiry', 'properties', 'contractType')->orderBy('created_at', 'desc');
 
             return DataTables::eloquent($quotations)
                 ->addIndexColumn()
                 ->addColumn('report_name', function($quotation) {
                     return $quotation->enquiry->report_name ?? '-';
+                })
+                ->addColumn('property_name', function($quotation) {
+                    return $quotation->properties->property_name ?? '-';
+                })
+                // Filter by properties name
+                ->filterColumn('property_name', function($query, $keyword) {
+                    $query->whereHas('properties', function($q) use ($keyword) {
+                        $q->where('property_name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->addColumn('contract_type_name', function($quotation) {
+                    return $quotation->contractType->contract_type_name ?? '-';
+                })
+                // Filter by contractType name
+                ->filterColumn('contract_type_name', function($query, $keyword) {
+                    $query->whereHas('contractType', function($q) use ($keyword) {
+                        $q->where('contract_type_name', 'like', "%{$keyword}%");
+                    });
                 })
                 ->addColumn('action', function($quotation){
                     return '
@@ -54,9 +74,11 @@ class QuotationManagementController extends Controller
     public function create(Request $request)
     {
         $enquiries = Enquiry::all();
+        $contracts = Contract::where('status', 'active')->get();
+        $properties = Property::where('status', 'available')->get();
         $countries = Country::get(["name", "id"]);
         $states = State::where('country_id',14)->get(["name", "id"]);
-        return view('admin.quotation.create', compact('enquiries', 'countries','states'));
+        return view('admin.quotation.create', compact('enquiries', 'countries','states', 'contracts', 'properties'));
     }
 
 
@@ -187,10 +209,12 @@ class QuotationManagementController extends Controller
         $quotation->other_one_input = json_decode($quotation->other_one_input, true);
 
         $enquiries = Enquiry::all();
+        $contracts = Contract::where('status', 'active')->get();
+        $properties = Property::where('status', 'available')->get();
         $countries = Country::get(["name", "id"]);
         $states = State::where('country_id', 14)->get(["name", "id"]);
         $paymentTables = QuotationPaymentTable::where('quotation_id', $quotation->id)->get();
-        return view('admin.quotation.edit', compact('quotation', 'enquiries', 'countries', 'states', 'paymentTables'));
+        return view('admin.quotation.edit', compact('quotation', 'enquiries', 'countries', 'states', 'paymentTables','contracts', 'properties'));
     }
 
 

@@ -19,8 +19,8 @@
                             <label class="col-md-4 col-lg-2 col-form-label">
                                 Assign To Enquiry <span class="text-danger">*</span>
                             </label>
-                            <div class="col-md-8 col-lg-6">
-                                <select name="assign_to[]" id="assign_to" class="form-control select2" multiple required>
+                            <div class="col-md-8 col-lg-4">
+                                <select name="assign_to[]" id="assign_to" class="form-control select2" multiple>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
                                             @if(in_array($user->id, old('assign_to', [auth()->id()]))) selected @endif>
@@ -37,7 +37,7 @@
                         <div class="row mb-3">
                             <label for="" class="col-md-4 col-lg-2 col-form-label">Client Name<span class="text-danger">*</span></label>
                             <div class="col-md-8 col-lg-4">
-                                <input type="text" name="customer_name" id="name" class="form-control" value="{{ old('customer_name', auth()->user()->name ?? '') }}" readonly>
+                                <input type="text" name="customer_name" id="name" class="form-control" value="{{ old('customer_name') }}" readonly>
                                 @error('customer_name')
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
@@ -54,8 +54,13 @@
 
                         <div class="row mb-3">
                             <label for="" class="col-md-4 col-lg-2 col-form-label">Project Name <span class="text-danger">*</span></label>
-                            <div class="col-md-8 col-lg-10">
-                                <input type="text" name="project_name" id="project_name" class="form-control" value="{{ old('project_name')}}">
+                            <div class="col-md-8 col-lg-4">
+                                <select name="project_name" id="project_name" class="form-select">
+                                    <option value="">--Select Project Name--</option>
+                                    @foreach($properties as $property)
+                                    <option value="{{$property->id}}">{{ old('project_name') == $property->id ? 'selected' : '' }} {{$property->project_name}} </option>
+                                    @endforeach
+                                </select>
                                 @error('project_name')
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
@@ -67,23 +72,6 @@
                             <div class="col-md-8 col-lg-10">
                                 <input type="text" name="project_location" id="project_location" class="form-control" value="{{ old('project_location')}}">
                                 @error('project_location')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Estimated Budget<span class="text-danger">*</span></label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="text" name="estimated_budget" id="estimated_budget" class="form-control" value="{{ old('estimated_budget')}}">
-                                @error('estimated_budget')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <label for="" class="col-md-4 col-lg-2 col-form-label">Estimated Time <span class="text-danger">*</span></label>
-                            <div class="col-md-8 col-lg-4">
-                                <input type="text" name="estimated_timeline" id="estimated_timeline" class="form-control" value="{{ old('estimated_timeline')}}">
-                                @error('estimated_timeline')
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
                             </div>
