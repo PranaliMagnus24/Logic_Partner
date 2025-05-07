@@ -8,6 +8,7 @@ use App\Models\Property;
 use App\Models\PropertyImage;
 use Yajra\DataTables\Facades\DataTables;
 use Str;
+use File;
 use Illuminate\Support\Facades\DB;
 use Modules\MasterSetting\App\Models\Category;
 use Modules\MasterSetting\App\Models\Contract;
@@ -72,6 +73,7 @@ class PropertyManagementController extends Controller
       ////Store Property form
 public function storeProperty(Request $request)
 {
+//dd($request->all());
     $request->validate([
        'property_name' => 'required|string',
         'property_address' => 'required|string',
@@ -108,12 +110,12 @@ public function storeProperty(Request $request)
         'total_price' => 'nullable',
         'council_rate' => 'nullable',
         'property_type' => 'required|string',
-        'project_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'area_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'property_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'floor_plan_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,pdf,ppt|max:2048',
-        'feature_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,ppt|max:2048',
-        'gallery_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,pdf,ppt|max:2048',
+        'property_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'area_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'project_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'floor_plan_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'gallery_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'feature_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
 
     DB::beginTransaction();
@@ -159,75 +161,42 @@ public function storeProperty(Request $request)
             'is_draft' => $isDraft,
         ]);
 
-        // Upload property images
-        if ($request->hasFile('property_image')) {
-            foreach ($request->file('property_image') as $file) {
-                $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('upload/property_images/'), $filename);
+        $multiImageTypes = [
+            'property_image' => 'property',
+            'area_image' => 'area',
+            'project_image' => 'project',
+            'floor_plan_image' => 'floor_plan',
+            'gallery_image' => 'gallery'
+        ];
 
-                PropertyImage::create([
-                    'properties_id' => $property->id,
-                    'property_image' => $filename,
-                ]);
+        foreach ($multiImageTypes as $inputName => $type) {
+            if ($request->hasFile($inputName)) {
+                foreach ($request->file($inputName) as $image) {
+                    $imageName = time().'_'.$type.'_'.uniqid().'.'.$image->getClientOriginalExtension();
+                    $image->move(public_path('upload/propertyImg/'), $imageName);
+
+                    PropertyImage::create([
+                        'properties_id' => $property->id,
+                        'image_name' => $imageName,
+                        'image_type' => $type,
+                        'is_featured' => 0,
+                    ]);
+                }
             }
         }
 
-        // Upload project images
-        if ($request->hasFile('project_image')) {
-            foreach ($request->file('project_image') as $file) {
-                $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('upload/project_images/'), $filename);
-
-                PropertyImage::create([
-                    'properties_id' => $property->id,
-                    'project_image' => $filename,
-                ]);
-            }
-        }
-
-        // Upload area images
-        if ($request->hasFile('area_image')) {
-            foreach ($request->file('area_image') as $file) {
-                $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('upload/area_images/'), $filename);
-
-                PropertyImage::create([
-                    'properties_id' => $property->id,
-                    'area_image' => $filename,
-                ]);
-            }
-        }
-
-        // Upload floor plan images
-        if ($request->hasFile('floor_plan_image')){
-            foreach ($request->file('floor_plan_image') as $file){
-                $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('upload/property_attachements/floorPlan/'), $filename);
-                PropertyImage::create([
-                    'properties_id' => $property->id,
-                    'floor_plan_image' => $filename,
-                ]);
-            }
-        }
-
-        //Upload Feature Image
+        // Handle single feature image
         if ($request->hasFile('feature_image')) {
-            $file = $request->file('feature_image');
-            $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('upload/property_attachements/FeatureImg/'), $filename);
-            $property->update(['feature_image' => $filename]);
-        }
+            $image = $request->file('feature_image');
+            $imageName = time().'_feature_'.uniqid().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('upload/propertyImg/'), $imageName);
 
-        //Upload Gallery Images
-        if ($request->hasFile('gallery_image')) {
-            foreach ($request->file('gallery_image') as $file) {
-                $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('upload/property_attachements/GalleryImg/'), $filename);
-                PropertyImage::create([
-                    'properties_id' => $property->id,
-                    'gallery_image' => $filename,
-                ]);
-            }
+            PropertyImage::create([
+                'properties_id' => $property->id,
+                'image_name' => $imageName,
+                'image_type' => 'feature',
+                'is_featured' => 1,
+            ]);
         }
 
         DB::commit();
@@ -260,41 +229,41 @@ public function storeProperty(Request $request)
         'available_rooms' => 'nullable|integer',
         'available_bathrooms' => 'nullable|integer',
         'available_parking' => 'nullable|integer',
-        'property_price' => 'required|numeric',
+        'property_price' => 'required',
         'status' => 'required|string',
         'contract_type' => 'required|string',
         'title_type' => 'nullable|string',
         'titled' => 'nullable|string',
         'indicative_package' => 'nullable|string',
         'estimated_date' => 'nullable|date',
-        'rent_yield' => 'nullable|numeric',
+        'rent_yield' => 'nullable',
         'smsf' => 'nullable|string',
-        'approx_weekly_rent' => 'nullable|numeric',
-        'vacancy_rate' => 'nullable|numeric',
-        'land_area' => 'nullable|numeric',
-        'house_area' => 'nullable|numeric',
+        'approx_weekly_rent' => 'nullable',
+        'vacancy_rate' => 'nullable',
+        'land_area' => 'nullable',
+        'house_area' => 'nullable',
         'design' => 'nullable|string',
-        'stamp_duty_est' => 'nullable|numeric',
-        'gov_transfer_fee' => 'nullable|numeric',
-        'owners_corp_fee' => 'nullable|numeric',
+        'stamp_duty_est' => 'nullable',
+        'gov_transfer_fee' => 'nullable',
+        'owners_corp_fee' => 'nullable',
         'stage' => 'nullable|string',
         'project_name' => 'required|string',
-        'prices_from' => 'nullable|numeric',
+        'prices_from' => 'nullable',
         'number_available' => 'nullable|integer',
         'area_name' => 'required|string',
         'total_population' => 'nullable|integer',
-        'distance_to_cbd' => 'nullable|numeric',
-        'land_price' => 'nullable|numeric',
-        'house_price' => 'nullable|numeric',
-        'total_price' => 'nullable|numeric',
-        'council_rate' => 'nullable|numeric',
+        'distance_to_cbd' => 'nullable',
+        'land_price' => 'nullable',
+        'house_price' => 'nullable',
+        'total_price' => 'nullable',
+        'council_rate' => 'nullable',
         'property_type' => 'required|string',
-        'project_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'area_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'property_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'floor_plan_image.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,ppt|max:2048',
-        'feature_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,ppt|max:2048',
-        'gallery_image.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,ppt|max:2048',
+        'property_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'area_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'project_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'floor_plan_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'gallery_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'feature_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
 
     DB::beginTransaction();
@@ -342,112 +311,64 @@ public function storeProperty(Request $request)
             'is_draft' => $isDraft,
         ]);
 
-        // Delete old property images
-        if ($request->hasFile('property_image')) {
-            $oldPropertyImages = PropertyImage::where('properties_id', $property->id)->whereNotNull('project_image')->get();
-            foreach ($oldPropertyImages as $image) {
-                $imagePath = public_path('upload/property_images/' . $image->property_image);
-                if (file_exists($imagePath)) {
-                    unlink($imagePath);
+        $multiImageTypes = [
+            'property_image' => 'property',
+            'area_image' => 'area',
+            'project_image' => 'project',
+            'floor_plan_image' => 'floor_plan',
+            'gallery_image' => 'gallery',
+        ];
+
+        foreach ($multiImageTypes as $input => $type) {
+            if ($request->hasFile($input)) {
+                $oldImages = PropertyImage::where('properties_id', $property->id)
+                    ->where('image_type', $type)
+                    ->get();
+
+                foreach ($oldImages as $old) {
+                    $path = public_path('upload/propertyImg/' . $old->image_name);
+                    if (file_exists($path)) unlink($path);
+                    $old->delete();
                 }
-                $image->delete();
+
+                // Save new uploaded images
+                foreach ($request->file($input) as $image) {
+                    $imageName = time() . '_' . $type . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                    $image->move(public_path('upload/propertyImg/'), $imageName);
+
+                    PropertyImage::create([
+                        'properties_id' => $property->id,
+                        'image_name' => $imageName,
+                        'image_type' => $type,
+                        'is_featured' => 0,
+                    ]);
+                }
             }
-            foreach ($request->file('property_image') as $file) {
-                $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('upload/property_images/'), $filename);
-                PropertyImage::create([
-                    'properties_id' => $property->id,
-                    'property_image' => $filename,
-                ]);
+        }
+
+        // Handle single feature image (replace if exists)
+        if ($request->hasFile('feature_image')) {
+            $oldFeature = PropertyImage::where('properties_id', $property->id)
+                ->where('image_type', 'feature')
+                ->first();
+
+            if ($oldFeature) {
+                $path = public_path('upload/propertyImg/' . $oldFeature->image_name);
+                if (file_exists($path)) unlink($path);
+                $oldFeature->delete();
             }
-        }
-        // Delete old project images
-        if ($request->hasFile('project_image')) {
-            $oldProjectImages = PropertyImage::where('properties_id', $property->id)->whereNotNull('project_image')->get();
-            foreach ($oldProjectImages as $image) {
-                $imagePath = public_path('upload/project_images/' . $image->project_image);
-                if (file_exists($imagePath)) {
-            unlink($imagePath);
-        }
-        $image->delete();
-    }
-    foreach ($request->file('project_image') as $file) {
-        $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('upload/project_images/'), $filename);
-        PropertyImage::create([
-            'properties_id' => $property->id,
-            'project_image' => $filename,
-        ]);
-    }
-}
 
-// Delete old area images
-if ($request->hasFile('area_image')) {
-    $oldAreaImages = PropertyImage::where('properties_id', $property->id)->whereNotNull('area_image')->get();
-    foreach ($oldAreaImages as $image) {
-        $imagePath = public_path('upload/area_images/' . $image->area_image);
-        if (file_exists($imagePath)) {
-            unlink($imagePath);
+            $image = $request->file('feature_image');
+            $imageName = time() . '_feature_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('upload/propertyImg/'), $imageName);
+
+            PropertyImage::create([
+                'properties_id' => $property->id,
+                'image_name' => $imageName,
+                'image_type' => 'feature',
+                'is_featured' => 1,
+            ]);
         }
-        $image->delete();
-    }
-
-    foreach ($request->file('area_image') as $file) {
-        $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('upload/area_images/'), $filename);
-
-        PropertyImage::create([
-            'properties_id' => $property->id,
-            'area_image' => $filename,
-        ]);
-    }
-}
-// Delete old floor plan images
-if ($request->hasFile('floor_plan_image')) {
-    $oldFloorPlanImages = PropertyImage::where('properties_id', $property->id)->whereNotNull('floor_plan_image')->get();
-    foreach ($oldFloorPlanImages as $image){
-        $imagePath = public_path('upload/property_attachements/floorPlan/'. $image->floor_plan_image);
-        if (file_exists($imagePath)){
-            unlink($imagePath);
-        }
-        $image->delete();
-    }
-    foreach ($request->file('floor_plan_image') as $file) {
-        $filename = Str::random(30) .'.'. $file->getClientOriginalExtension();
-        $file->move(public_path('upload/property_attachements/floorPlan/'), $filename);
-
-        PropertyImage::create([
-            'properties_id' => $property->id,
-            'floor_plan_image' => $filename,
-        ]);
-    }
-}
-if ($request->hasFile('feature_image')) {
-    $file = $request->file('feature_image');
-    $filename = Str::random(30) . '.' . $file->getClientOriginalExtension();
-    $file->move(public_path('upload/property_attachements/FeatureImg/'), $filename);
-    $property->update(['feature_image' => $filename]);
-}
-// Delete Gallery images
-if ($request->hasFile('gallery_image')) {
-    $oldGalleryImages = PropertyImage::where('properties_id', $property->id)->whereNotNull('gallery_image')->get();
-    foreach ($oldGalleryImages as $image){
-        $imagePath = public_path('upload/property_attachements/GalleryImg/'. $image->gallery_image);
-        if (file_exists($imagePath)){
-            unlink($imagePath);
-        }
-        $image->delete();
-    }
-    foreach ($request->file('gallery_image') as $file) {
-        $filename = Str::random(30) .'.'. $file->getClientOriginalExtension();
-        $file->move(public_path('upload/property_attachements/GalleryImg/'), $filename);
-
-        PropertyImage::create([
-            'properties_id' => $property->id,
-            'gallery_image' => $filename,
-        ]);
-    }
-}
 
         DB::commit();
         return redirect()->route('list.property')->with('success', 'Property Updated Successfully!');
@@ -460,14 +381,31 @@ if ($request->hasFile('gallery_image')) {
 
       /////Delete Property
       public function destroyProperty($id)
-      {
-        $property = Property::findOrFail($id);
+{
+    DB::beginTransaction();
+
+    try {
+        $property = Property::with('propertyImage')->findOrFail($id);
+        foreach ($property->propertyImage as $image) {
+            $imagePath = public_path('upload/propertyImg/' . $image->image_name);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $image->delete();
+        }
+
         $property->delete();
-        return redirect()->route('list.property')->with('success','Property Deleted Successfully!');
+        DB::commit();
 
-      }
+        return redirect()->route('list.property')->with('success', 'Property and its images deleted successfully!');
+    } catch (\Exception $e) {
+        DB::rollback();
+        return back()->withErrors(['error' => $e->getMessage()]);
+    }
+}
 
-/////Preview Property
+
+    /////Preview Property
       public function preview(Request $request)
       {
           $preview = $request->all();
@@ -482,18 +420,18 @@ if ($request->hasFile('gallery_image')) {
       }
 
 
+      /////Comapre selected entries
       public function compare(Request $request)
-{
-    $ids = explode(',', $request->query('ids'));
-
-    $properties = Property::with(['category', 'contract'])
+      {
+        $ids = explode(',', $request->query('ids'));
+        $properties = Property::with(['category', 'contract'])
                     ->whereIn('id', $ids)
                     ->get();
+        return view('admin.property_management.property_compare', compact('properties'));
+    }
 
-    return view('admin.property_management.property_compare', compact('properties'));
-}
-
-public function bulkDelete(Request $request)
+    //////////Delete multiple selected entries
+    public function bulkDelete(Request $request)
 {
     $ids = $request->ids;
 
@@ -502,10 +440,28 @@ public function bulkDelete(Request $request)
     }
 
     try {
-        Property::whereIn('id', $ids)->delete();
-        return response()->json(['message' => 'Selected properties deleted successfully.']);
+        $properties = Property::with('propertyImage')->whereIn('id', $ids)->get();
+
+        foreach ($properties as $property) {
+            foreach ($property->propertyImage as $image) {
+                $imagePath = public_path('upload/propertyImg/' . $image->image_name);
+
+                if (File::exists($imagePath)) {
+                    File::delete($imagePath);
+                }
+
+                $image->delete();
+            }
+
+            $property->delete();
+        }
+
+        return response()->json(['message' => 'Selected properties and their images deleted successfully.']);
     } catch (\Exception $e) {
-        return response()->json(['message' => 'An error occurred while deleting.'], 500);
+        return response()->json([
+            'message' => 'An error occurred while deleting.',
+            'error' => $e->getMessage()
+        ], 500);
     }
 }
 

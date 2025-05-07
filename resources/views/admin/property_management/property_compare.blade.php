@@ -18,13 +18,15 @@
                     </div>
 
                     @php
-                    $firstImage = $property->propertyImage->first()->property_image ?? null;
-                    $imagePath = $firstImage
-                        ? asset('upload/property_images/' . $firstImage)
+                    $propertyImage = $property->propertyImage->where('image_type', 'property')->first();
+                    $imagePath = $propertyImage
+                        ? asset('upload/propertyImg/' . $propertyImage->image_name)
                         : asset('upload/no_img.png');
                 @endphp
+
                 <img src="{{ $imagePath }}" class="card-img-top" alt="Property Image"
-                style="height: 220px; width: 100%; object-fit: contain;">
+                     style="height: 220px; width: 100%; object-fit: contain;">
+
 
                     <div class="card-body">
                         <p><span>🛏️</span> {{ $property->available_rooms ?? 0 }} &nbsp;

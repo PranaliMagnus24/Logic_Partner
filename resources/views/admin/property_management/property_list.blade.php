@@ -15,10 +15,7 @@
                     </div>
                 </div>
                 <div class="card-body mt-3">
-                    <div class="d-flex mb-3 justify-content-between align-items-center">
-                        <div class="actionDropdown"></div>
-                    </div>
-                    <table class="table table-bordered table-striped propertyList nowrap">
+                    <table class="table table-bordered table-striped propertyList nowrap" id="propertyTable">
                         <thead>
                             <tr>
                                 <th>

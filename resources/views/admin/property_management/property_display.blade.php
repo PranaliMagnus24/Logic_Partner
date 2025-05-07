@@ -14,48 +14,42 @@
       <!-- Left Section -->
       <div class="col-md-4">
         <div class="property-card">
-            @if($property->propertyImage->count())
+            <!-----------------Property Image----------------->
+            @if($property->propertyImage->where('image_type', 'property')->count())
             <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
-              <div class="carousel-inner">
-                @foreach ($property->propertyImage as $key => $Propertyimage)
-                  @if ($Propertyimage->property_image)
-                  <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                    <img src="{{ asset('upload/property_images/' . $Propertyimage->property_image) }}" class="d-block w-100" alt="Project Image" style="height: 250px; object-fit: cover;">
-                  </div>
-                  @endif
-                @endforeach
-              </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-              </button>
+                <div class="carousel-inner">
+                    @foreach ($property->propertyImage->where('image_type', 'property')->values() as $key => $image)
+                    <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                        <img src="{{ asset('upload/propertyImg/' . $image->image_name) }}" class="d-block w-100" style="height: 250px; object-fit: cover;" alt="Property Image">
+                    </div>
+                    @endforeach
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
             </div>
-            @endif
+            @endif <!-------end of property image-------->
 
-
-          <div class="p-3">
-            <h5 class="text-primary">{{$property->project_name}}</h5>
-            <span class="badge bg-info text-white">INDICATIVE PACKAGE</span>
-            <h4 class="mt-2 text-success">${{ $property->property_price }}</h4>
-
-            <div class="d-flex justify-content-between mt-3">
-              <div class="icon-text"><span>🛏️</span>{{ $property->available_rooms }}</div>
-              <div class="icon-text"><span>🛁</span>{{ $property->available_bathrooms }}</div>
-              <div class="icon-text"><span>🚗</span>{{ $property->available_parking }}</div>
+            <div class="p-3">
+                <h5 class="text-primary">{{$property->project_name}}</h5>
+                <span class="badge bg-info text-white">INDICATIVE PACKAGE</span>
+                <h4 class="mt-2 text-success">${{ $property->property_price }}</h4>
+                <div class="d-flex justify-content-between mt-3">
+                    <div class="icon-text"><span>🛏️</span>{{ $property->available_rooms }}</div>
+                    <div class="icon-text"><span>🛁</span>{{ $property->available_bathrooms }}</div>
+                    <div class="icon-text"><span>🚗</span>{{ $property->available_parking }}</div>
+                </div>
+                <p class="mt-3 mb-1 fw-semibold">{{ $property->property_address }}</p>
+                <p class="mb-1">Stage: {{ $property->stage }} <span class="badge bg-success">{{ $property->property_type}}</span></p>
             </div>
-
-            <p class="mt-3 mb-1 fw-semibold">{{ $property->property_address }}</p>
-            <p class="mb-1">Stage: {{ $property->stage }} <span class="badge bg-success">{{ $property->property_type}}</span> </p>
-
-          </div>
         </div>
-      </div>
-
-      <!-- Right Section -->
-       @if(!empty($property->property_address))
-      <div class="col-md-8 border rounded bg-white p-4">
+    </div>
+    <!-- Right Section -->
+    @if(!empty($property->property_address))
+    <div class="col-md-8 border rounded bg-white p-4">
         <h5 class="fw-bold mb-3">{{ $property->property_address }}</h5>
         <div class="text-muted">{!! $property->property_description !!}</div>
       </div>
@@ -67,26 +61,25 @@
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    @if($property->propertyImage->count())
-                    <div id="propertyCarouselCard" class="carousel slide" data-bs-ride="carousel">
-                      <div class="carousel-inner">
-                        @foreach ($property->propertyImage as $key => $image)
-                          @if ($image->project_image)
-                          <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                            <img src="{{ asset('upload/project_images/' . $image->project_image) }}" class="d-block w-100" alt="Project Image" style="height: 250px; object-fit: cover;">
-                          </div>
-                          @endif
-                        @endforeach
-                      </div>
-                      <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarouselCard" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                      </button>
-                      <button class="carousel-control-next" type="button" data-bs-target="#propertyCarouselCard" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                      </button>
+                    <!-----------------Project Image----------------->
+                    @if($property->propertyImage->where('image_type', 'project')->count())
+                    <div id="projectCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @foreach ($property->propertyImage->where('image_type', 'project')->values() as $key => $image)
+                            <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                <img src="{{ asset('upload/propertyImg/' . $image->image_name) }}" class="d-block w-100" style="height: 250px; object-fit: cover;" alt="Project Image">
+                            </div>
+                            @endforeach
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
                     </div>
-                    @endif
-                    <table class="table table-sm table-bordered mb-2 nowrap">
+                    @endif <!-------end of project image-------->
+                    <table class="table table-sm table-bordered mt-3 nowrap">
                         <tr><th>Project Name</th><td>{{ $property->project_name }}</td></tr>
                         <tr><th>Prices From</th><td>${{ number_format($property->price_from) }}</td></tr>
                         <tr><th>Number Available</th><td>{{ $property->number_available }}</td></tr>
@@ -99,15 +92,25 @@
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    @foreach ($property->propertyImage as $image)
-              @if ($image->area_image)
-                <div class="property-image mt-3">
-                  <img src="{{ asset('upload/area_images/' . $image->area_image) }}" alt="Project Image">
-                </div>
-              @endif
-            @endforeach
-
-                    <table class="table table-sm table-bordered mb-2 nowrap">
+                    <!-----------------Area Image----------------->
+                    @if($property->propertyImage->where('image_type', 'area')->count())
+                    <div id="areaCarousel" class="carousel slide" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        @foreach ($property->propertyImage->where('image_type', 'area')->values() as $key => $image)
+                          <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                            <img src="{{ asset('upload/propertyImg/' . $image->image_name) }}" class="d-block w-100" style="height: 250px; object-fit: cover;" alt="Area Image">
+                          </div>
+                        @endforeach
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#areaCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#areaCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                      </button>
+                    </div>
+                  @endif <!-------end of area image-------->
+                    <table class="table table-sm table-bordered mt-3 nowrap">
                         <tr><th>Area Name</th><td>{{ $property->area_name }}</td></tr>
                         <tr><th>Total Population</th><td>{{ $property->total_population }}</td></tr>
                         <tr><th>Distance to CBD</th><td>{{ $property->distance_to_cbd }}</td></tr>

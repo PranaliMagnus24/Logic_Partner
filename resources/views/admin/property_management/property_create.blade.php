@@ -42,8 +42,7 @@
                             <!-----------------------Property Details---------------->
                             <div class="tab-pane fade show active" id="bordered-justified-property" role="tabpanel" aria-labelledby="property-tab">
                                 <div class="row mb-3">
-                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Property Name
-                                    </label>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Property Name <span class="text-danger">*</span></label>
                                     <div class="col-md-8 col-lg-10">
                                         <input type="text" name="property_name" id="property_name" class="form-control" placeholder="property name" value="{{ old('property_name') }}">
                                         @error('property_name')
@@ -53,7 +52,7 @@
                                 </div>
                                 <div class="row mb-3">
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Property Address
-                                    </label>
+                                        <span class="text-danger">*</span></label>
                                     <div class="col-md-8 col-lg-10">
                                         <input type="text" name="property_address" id="property_address" class="form-control" placeholder="property address" value="{{ old('property_address') }}">
                                         @error('property_address')
@@ -105,7 +104,7 @@
                                 </div>
                                 <div class="row mb-3">
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Property Type
-                                    </label>
+                                        <span class="text-danger">*</span></label>
                                     <div class="col-md-8 col-lg-4">
                                         <select name="property_type" id="" class="form-select">
                                             <option value="">--Select Property Type--</option>
@@ -117,7 +116,7 @@
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>
-                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Contract Type</label>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Contract Type <span class="text-danger">*</span></label>
                                     <div class="col-md-8 col-lg-4">
                                         <select name="contract_type" id="contract_type" class="form-select">
                                             <option value="">--Select Contract Type--</option>
@@ -220,7 +219,7 @@
                             <div class="tab-pane fade" id="bordered-justified-prices" role="tabpanel" aria-labelledby="prices-tab">
                                 <div class="row mb-3">
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Property Price
-                                    </label>
+                                        <span class="text-danger">*</span></label>
                                     <div class="col-md-8 col-lg-4">
                                         <input type="text" name="property_price" placeholder="$0.00" id="property_price" class="form-control" value="{{ old('property_price') }}">
                                         @error('property_price')
@@ -347,7 +346,7 @@
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>
-                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Status</label>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Status <span class="text-danger">*</span></label>
                                     <div class="col-md-8 col-lg-4">
                                         <select name="status" id="status" class="form-select">
                                             <option value="">--Select Status--</option>
@@ -365,7 +364,7 @@
                             <div class="tab-pane fade" id="bordered-justified-project" role="tabpanel" aria-labelledby="project-tab">
                                 <div class="row mb-3">
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Project Name
-                                    </label>
+                                        <span class="text-danger">*</span></label>
                                     <div class="col-md-8 col-lg-4">
                                         <input type="text" name="project_name" id="project_name" class="form-control" placeholder="project name" value="{{ old('project_name') }}">
                                         @error('project_name')
@@ -400,12 +399,11 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!---------------------------Area Details----------------->
                             <div class="tab-pane fade" id="bordered-justified-area" role="tabpanel" aria-labelledby="area-tab">
                                 <div class="row mb-3">
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Area Name
-                                    </label>
+                                        <span class="text-danger">*</span></label>
                                     <div class="col-md-8 col-lg-4">
                                         <input type="text" name="area_name" placeholder="area name" id="area_name" class="form-control" value="{{ old('area_name') }}">
                                         @error('area_name')
@@ -472,7 +470,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                         </div>
                         <input type="hidden" name="submission_type" id="submission_type" value="">

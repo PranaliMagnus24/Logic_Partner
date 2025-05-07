@@ -88,6 +88,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /////Property compare all and delete all logic
 $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    let table = $('#propertyTable').DataTable();
     // Handle Select All
     $(document).on('change', '#selectAll', function () {
         $('.property-checkbox').prop('checked', this.checked).trigger('change');
@@ -145,13 +151,14 @@ $(document).ready(function () {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.post(bulkDeleteUrl, { ids: selected })
-                            .done(function (res) {
-                                Swal.fire('Deleted!', res.message, 'success');
-                                table.ajax.reload();
-                            })
-                            .fail(function (xhr) {
-                                Swal.fire('Error!', xhr.responseJSON.message, 'error');
-                            });
+                        .done(function (res) {
+                            Swal.fire('Deleted!', res.message, 'success');
+                            table.ajax.reload();
+                        })
+                        .fail(function (xhr) {
+                            Swal.fire('Error!', xhr.responseJSON.message, 'error');
+                        });
+
                     }
                 });
             }

@@ -16,17 +16,25 @@
                     <form action="{{ route('update.property', $property->id)}}" method="POST" id="propertyForm" target="_self" enctype="multipart/form-data">
                         @csrf
                         <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+                              <!------------------Property Details----------------->
                             <li class="nav-item flex-fill" role="presentation">
                                 <button class="nav-link w-100 active" id="property-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-property" type="button" role="tab" aria-controls="property" aria-selected="true">Property Details</button>
                             </li>
+                             <!------------------Prices Details----------------->
                             <li class="nav-item flex-fill" role="presentation">
                                 <button class="nav-link w-100" id="prices-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-prices" type="button" role="tab" aria-controls="prices" aria-selected="false">Prices Details</button>
                             </li>
+                            <!------------------Project Details----------------->
                             <li class="nav-item flex-fill" role="presentation">
                                 <button class="nav-link w-100" id="project-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-project" type="button" role="tab" aria-controls="project" aria-selected="false">Project Details</button>
                             </li>
+                             <!------------------Area Details----------------->
                             <li class="nav-item flex-fill" role="presentation">
                                 <button class="nav-link w-100" id="area-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-area" type="button" role="tab" aria-controls="area" aria-selected="false">Area Details</button>
+                            </li>
+                             <!------------------Attachments----------------->
+                             <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link w-100" id="attachments-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-attachments" type="button" role="tab" aria-controls="attachments" aria-selected="false">Attachments</button>
                             </li>
                         </ul>
                         <div class="tab-content pt-2" id="borderedTabJustifiedContent">
@@ -201,16 +209,15 @@
                                     </div>
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Property Images
                                     </label>
-                                    {{-- Property Images --}}
                                     <div class="col-md-8 col-lg-4">
                                         <input type="file" name="property_image[]" id="property_image" class="form-control" multiple>
-                                        @if($property->propertyImage->whereNotNull('property_image')->count())
-                                        <div class="row mb-3">
+                                        @if($property->propertyImage->where('image_type', 'property')->count())
+                                        <div class="row mt-2">
                                             <div class="col-md-8 col-lg-10 d-flex flex-wrap">
-                                                @foreach($property->propertyImage->whereNotNull('property_image') as $image)
-                                                <div class="me-2 mb-2">
-                                                    <img src="{{ asset('upload/property_images/' . $image->property_image) }}" width="100" class="img-thumbnail">
-                                                </div>
+                                                @foreach($property->propertyImage->where('image_type', 'property') as $image)
+                                                    <div class="me-2 mb-2">
+                                                        <img src="{{ asset('upload/propertyImg/' . $image->image_name) }}" width="100" class="img-thumbnail">
+                                                    </div>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -400,12 +407,12 @@
                                     </label>
                                     <div class="col-md-8 col-lg-4">
                                         <input type="file" name="project_image[]" id="project_image" class="form-control" multiple>
-                                        @if($property->propertyImage->whereNotNull('project_image')->count())
+                                        @if($property->propertyImage->where('image_type', 'project')->count())
                                         <div class="row mb-3">
                                             <div class="col-md-8 col-lg-10 d-flex flex-wrap">
-                                                @foreach($property->propertyImage->whereNotNull('project_image') as $image)
+                                                @foreach($property->propertyImage->where('image_type', 'project') as $image)
                                                 <div class="me-2 mb-2">
-                                                    <img src="{{ asset('upload/project_images/' . $image->project_image) }}" width="100" class="img-thumbnail">
+                                                    <img src="{{ asset('upload/propertyImg/' . $image->image_name) }}" width="100" class="img-thumbnail">
                                                 </div>
                                                 @endforeach
                                             </div>
@@ -448,21 +455,84 @@
                                     </div>
                                     <label for="" class="col-md-4 col-lg-2 col-form-label">Area Images
                                     </label>
-                                    {{-- Area Images --}}
                                     <div class="col-md-8 col-lg-4">
                                         <input type="file" name="area_image[]" id="area_image" class="form-control" multiple>
-                                        @if($property->propertyImage->whereNotNull('area_image')->count())
-                                        <div class="row mb-3">
+                                        @if($property->propertyImage->where('image_type', 'area')->count())
+                                        <div class="row mt-2">
                                             <div class="col-md-8 col-lg-10 d-flex flex-wrap">
-                                                @foreach($property->propertyImage->whereNotNull('area_image') as $image)
+                                                @foreach($property->propertyImage->where('image_type', 'area') as $image)
                                                 <div class="me-2 mb-2">
-                                                    <img src="{{ asset('upload/area_images/' . $image->area_image) }}" width="100" class="img-thumbnail">
+                                                    <img src="{{ asset('upload/propertyImg/' . $image->image_name) }}" width="100" class="img-thumbnail">
                                                 </div>
                                                 @endforeach
                                             </div>
                                         </div>
                                         @endif
                                         @error('area_image')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <!--------------Attachments----------------->
+                            <div class="tab-pane fade" id="bordered-justified-attachments" role="tabpanel" aria-labelledby="attachments-tab">
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Floor Plan Images
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="file" name="floor_plan_image[]" id="floor_plan" class="form-control" multiple>
+                                        @if($property->propertyImage->where('image_type', 'floor_plan')->count())
+                                        <div class="row mt-2">
+                                            <div class="col-md-8 col-lg-10 d-flex flex-wrap">
+                                                @foreach($property->propertyImage->where('image_type', 'floor_plan') as $image)
+                                                <div class="me-2 mb-2">
+                                                    <img src="{{ asset('upload/propertyImg/' . $image->image_name) }}" width="100" class="img-thumbnail">
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @error('floor_plan_image')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Feature Images
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="file" name="feature_image" id="feature_image" class="form-control">
+                                        @if($property->propertyImage->where('image_type', 'feature')->count())
+                                        <div class="row mt-2">
+                                            <div class="col-md-8 col-lg-10 d-flex flex-wrap">
+                                                @foreach($property->propertyImage->where('image_type', 'feature') as $image)
+                                                <div class="me-2 mb-2">
+                                                    <img src="{{ asset('upload/propertyImg/' . $image->image_name) }}" width="100" class="img-thumbnail">
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @error('feature_image')
+                                        <span class="text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="" class="col-md-4 col-lg-2 col-form-label">Gallery Images
+                                    </label>
+                                    <div class="col-md-8 col-lg-4">
+                                        <input type="file" name="gallery_image[]" id="gallery_image" class="form-control" multiple>
+                                        @if($property->propertyImage->where('image_type', 'gallery')->count())
+                                        <div class="row mt-2">
+                                            <div class="col-md-8 col-lg-10 d-flex flex-wrap">
+                                                @foreach($property->propertyImage->where('image_type', 'gallery') as $image)
+                                                <div class="me-2 mb-2">
+                                                    <img src="{{ asset('upload/propertyImg/' . $image->image_name) }}" width="100" class="img-thumbnail">
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @error('gallery_image')
                                         <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>

@@ -524,9 +524,9 @@ if ($('.propertyList').length) {
         processing: true,
         responsive: true,
         rowReorder: { selector: 'td:nth-child(3)' },
-        dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 d-flex justify-content-end align-items-center gap-2'fB>>" +
-             "<'row'<'col-sm-12'tr>>" +
-             "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
+        dom: "<'row mb-3'<'col-sm-6 d-flex align-items-center gap-3'<'#actionWrapper.actionDropdown'><'dt-length'l>><'col-sm-6 d-flex justify-content-end align-items-center gap-2'fB>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row mt-2'<'col-sm-6'i><'col-sm-6 d-flex justify-content-end'p>>",
         language: {
             lengthMenu: '<select class="form-select">' +
                 '<option value="10">10</option>' +
@@ -580,6 +580,7 @@ if ($('.propertyList').length) {
                 </select>
             `);
         }
+
     });
 }
 
