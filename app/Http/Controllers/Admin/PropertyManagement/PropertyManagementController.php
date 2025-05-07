@@ -112,7 +112,7 @@ public function storeProperty(Request $request)
         'area_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'property_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'floor_plan_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,pdf,ppt|max:2048',
-        'feature_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,pdf,ppt|max:2048',
+        'feature_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,ppt|max:2048',
         'gallery_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,pdf,ppt|max:2048',
     ]);
 
