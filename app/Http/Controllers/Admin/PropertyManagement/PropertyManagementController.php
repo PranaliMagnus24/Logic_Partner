@@ -72,7 +72,6 @@ class PropertyManagementController extends Controller
       ////Store Property form
 public function storeProperty(Request $request)
 {
-
     $request->validate([
        'property_name' => 'required|string',
         'property_address' => 'required|string',
@@ -241,6 +240,7 @@ public function storeProperty(Request $request)
 
 
       /////Edit Property form
+
       public function editProperty($id)
       {
         $property = Property::with('propertyImage')->findOrFail($id);
