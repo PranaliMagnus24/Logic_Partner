@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Admin\EnquiryManagement\EnquiryManagementController;
 use App\Http\Controllers\Admin\EnquiryManagement\QuotationManagementController;
 use App\Http\Controllers\Admin\PropertyManagement\PropertyManagementController;
+use App\Http\Controllers\Admin\PropertyManagement\PDFExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,10 +77,17 @@ Route::post('/property/preview', [PropertyManagementController::class, 'preview'
 Route::get('/property/compare', [PropertyManagementController::class, 'compare'])->name('property.compare');
 Route::post('/property/bulk-delete', [PropertyManagementController::class, 'bulkDelete'])->name('property.bulkDelete');
 
+
+/////////PDF Export Controller
+Route::get('/pdf-export', [PDFExportController::class, 'pdfExport'])->name('pdf.export');
+Route::post('/pdf-export', [PDFExportController::class, 'storePdfExport'])->name('pdf.export.store');
+
 });
 Route::get('/generate-pdf/{id}', [QuotationManagementController::class, 'generatePDF'])->name('generate.pdf');
-Route::get('/enquiry-pdf/{id}', [EnquiryManagementController::class, 'generatePDF'])->name('enquiry.pdf');
 Route::get('/get-stamp-duty/{state}', [QuotationManagementController::class, 'getStampDuty']);
+Route::get('/enquiry-pdf/{id}', [EnquiryManagementController::class, 'generatePDF'])->name('enquiry.pdf');
+Route::get('/property-pdf/{id}', [PropertyManagementController::class, 'generatePropertyPDF'])->name('property.pdf');
+
 // Route::get('/index', [AdminController::class, 'admin'])->name('admin.index');
 
 // Route::get('/', [AdminController::class, 'index'])->name('index.dashboard');

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\MasterSetting\App\Models\Category;
 use Modules\MasterSetting\App\Models\Contract;
 use Modules\MasterSetting\App\Models\Design;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PropertyManagementController extends Controller
 {
@@ -50,6 +51,8 @@ class PropertyManagementController extends Controller
                             <a href="'.route('edit.property', $property->id).'" class="btn btn-primary me-1"><i class="bi bi-pencil-square"></i></a>
                             <a href="'.route('delete.property', $property->id).'" class="btn btn-danger delete-confirm me-1"><i class="bi bi-trash3-fill"></i></a>
                             <a href="'.route('show.property', $property->id).'" class="btn btn-primary me-1"><i class="bi bi-eye"></i></a>
+                            <a href="'.route('property.pdf', $property->id).'" class="btn btn-warning me-1" target="_blank"> <i class="bi bi-file-earmark-pdf"></i></a>
+
                         </div>
                     ';
                 })
@@ -73,7 +76,7 @@ class PropertyManagementController extends Controller
       ////Store Property form
 public function storeProperty(Request $request)
 {
-//dd($request->all());
+
     $request->validate([
        'property_name' => 'required|string',
         'property_address' => 'required|string',
@@ -229,7 +232,7 @@ public function storeProperty(Request $request)
         'available_rooms' => 'nullable|integer',
         'available_bathrooms' => 'nullable|integer',
         'available_parking' => 'nullable|integer',
-        'property_price' => 'required',
+        'property_price' => ['required', 'numeric'],
         'status' => 'required|string',
         'contract_type' => 'required|string',
         'title_type' => 'nullable|string',
@@ -238,25 +241,25 @@ public function storeProperty(Request $request)
         'estimated_date' => 'nullable|date',
         'rent_yield' => 'nullable',
         'smsf' => 'nullable|string',
-        'approx_weekly_rent' => 'nullable',
+        'approx_weekly_rent' =>  ['nullable', 'numeric'],
         'vacancy_rate' => 'nullable',
         'land_area' => 'nullable',
         'house_area' => 'nullable',
         'design' => 'nullable|string',
-        'stamp_duty_est' => 'nullable',
-        'gov_transfer_fee' => 'nullable',
-        'owners_corp_fee' => 'nullable',
+        'stamp_duty_est' => ['nullable', 'numeric'],
+        'gov_transfer_fee' => ['nullable', 'numeric'],
+        'owners_corp_fee' => ['nullable', 'numeric'],
         'stage' => 'nullable|string',
         'project_name' => 'required|string',
-        'prices_from' => 'nullable',
+        'prices_from' => ['nullable', 'numeric'],
         'number_available' => 'nullable|integer',
         'area_name' => 'required|string',
         'total_population' => 'nullable|integer',
         'distance_to_cbd' => 'nullable',
-        'land_price' => 'nullable',
-        'house_price' => 'nullable',
-        'total_price' => 'nullable',
-        'council_rate' => 'nullable',
+        'land_price' => ['nullable', 'numeric'],
+        'house_price' => ['nullable', 'numeric'],
+        'total_price' => ['nullable', 'numeric'],
+        'council_rate' => ['nullable', 'numeric'],
         'property_type' => 'required|string',
         'property_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'area_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -424,7 +427,7 @@ public function storeProperty(Request $request)
       public function compare(Request $request)
       {
         $ids = explode(',', $request->query('ids'));
-        $properties = Property::with(['category', 'contract'])
+        $properties = Property::with(['category', 'contract','design'])
                     ->whereIn('id', $ids)
                     ->get();
         return view('admin.property_management.property_compare', compact('properties'));
@@ -465,5 +468,22 @@ public function storeProperty(Request $request)
     }
 }
 
+////Generate PDF
+public function generatePropertyPDF($id)
+{
+    $property = Property::with('propertyImage', 'category', 'contract', 'design')->findOrFail($id);
+
+    $pdf = Pdf::loadView('admin.pdf.property_pdf', compact('property'));
+
+    return $pdf->download('property_' . $property->id . '.pdf');
+}
+// public function generatePropertyPDF($id)
+// {
+//     $property = Property::with('propertyImage','category','contract','design')->findOrFail($id);
+
+//     $pdf = PDF::loadView('admin.pdf.property_pdf', compact('property'));
+
+//     return $pdf->stream('property_' . $property->id . '.pdf');
+// }
 
 }

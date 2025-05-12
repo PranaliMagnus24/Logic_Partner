@@ -17,9 +17,14 @@
         <ul id="property-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li>
                 <a href="{{ route('list.property')}}">
-                  <i class="bi bi-circle"></i><span>Property</span>
+                    <i class="bi bi-circle"></i><span>Property</span>
                 </a>
-              </li>
+            </li>
+            <li>
+                <a href="{{ route('pdf.export')}}">
+                    <i class="bi bi-circle"></i><span>PDF Extract</span>
+                </a>
+            </li>
         </ul>
       </li><!-- Enquiry Management -->
 

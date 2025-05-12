@@ -4,12 +4,13 @@
 @section('admin')
 @section('pagetitle', 'Property Management')
 
-<div class="container mt-4 print-container">
-    <div class="text-end mb-3 no-print">
+ <div class="text-end mb-3 no-print">
         <button class="btn btn-primary" onclick="window.print()">Print</button>
+        <button class="btn btn-primary" id="exportWordBtn">Export To Word</button>
         <a href="{{ route('list.property')}}" class="btn btn-primary">Back</a>
     </div>
 
+<div class="container mt-4 print-container" id="exportContent">
     <div class="row g-4">
       <!-- Left Section -->
       <div class="col-md-4">
@@ -35,7 +36,9 @@
 
             <div class="p-3">
                 <h5 class="text-primary">{{$property->project_name}}</h5>
-                <span class="badge bg-info text-white">INDICATIVE PACKAGE</span>
+                @if($property->indicative_package === 'yes')
+                <span class="badge bg-info text-white">Indicative Package</span>
+                @endif
                 <h4 class="mt-2 text-success">${{ $property->property_price }}</h4>
                 <div class="d-flex justify-content-between mt-3">
                     <div class="icon-text"><span>🛏️</span>{{ $property->available_rooms }}</div>
@@ -164,6 +167,7 @@
     </div>
 
   </div>
-@endsection
 
+  @include('admin.property_management.word_export')
+@endsection
 

@@ -164,3 +164,43 @@ $(document).ready(function () {
             }
         });
     });
+
+    /////Export to word
+document.addEventListener("DOMContentLoaded", function () {
+    const exportBtn = document.getElementById("exportWordBtn");
+
+    if (typeof window.htmlDocx === 'undefined') {
+        console.error("html-docx-js not loaded.");
+        return;
+    }
+
+    if (exportBtn) {
+        exportBtn.addEventListener("click", function () {
+            const exportTemplate = document.getElementById("wordExportTemplate");
+
+            if (!exportTemplate) return;
+
+            const styles = `
+                <style>
+                    body { font-family: Arial, sans-serif; font-size: 14px; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                    th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+                    h2, h3 { color: #2c3e50; }
+                    img { margin-top: 15px; }
+                </style>
+            `;
+
+            const converted = window.htmlDocx.asBlob(`
+                <html><head><meta charset="utf-8">${styles}</head><body>${exportTemplate.innerHTML}</body></html>
+            `);
+
+            const url = URL.createObjectURL(converted);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "property-details.docx";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
+});
